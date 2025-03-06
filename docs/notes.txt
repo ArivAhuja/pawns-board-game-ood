@@ -1,0 +1,45 @@
+project-root/
+├── src/
+│   └── cs3500/
+│       └── pawnsboard/
+│           ├── PawnsBoard.java             // Main class with the main() method
+│           ├── model/                      // Core game data and logic
+│           │   ├── Card.java               // Card details + influence grid
+│           │   ├── InfluenceEffect.java    // Interface for applying influence effects
+│           │   ├── Cell.java               // Represents each board cell
+│           │   ├── Board.java              // Represents the game grid
+│           │   ├── Position.java           // (Optional) Represents coordinates on the board
+│           │   ├── Player.java             // Represents a player (red or blue)
+│           │   ├── RulesKeeper.java        // Enforces move legality and game rules
+│           │   ├── GameState.java          // Maintains overall game state (e.g., turn, board, players)
+│           │   └── DeckReader.java         // Reads deck configuration files
+│           ├── view/                       // Display components
+│           │   └── TextualView.java        // Renders the board and scores textually
+│           └── controller/                 // (Future extension) Game control logic
+│               └── GameController.java     // Could mediate user inputs and model updates
+├── docs/
+│   ├── deck.config                       // Custom deck configuration file
+│   ├── README.md                         // Project overview, structure, and usage
+│   └── DESIGN.md                         // Detailed design decisions, including the rules-keeper and user-player interface ideas
+└── test/
+    └── cs3500/
+        └── pawnsboard/
+            ├── ModelTest.java            // Tests for model components
+            └── IntegrationTest.java      // Tests for interactions between components
+
+
+
+1.	Set Up the Core Model:
+•	Define your basic classes (Card, Cell, Board, Player, and Position if needed).
+•	Implement a basic RulesKeeper that enforces the current move rules. Initially, this could simply verify that the right cell is chosen and that the move meets pawn requirements.
+2.	Abstract Influence Effects:
+•	Define an InfluenceEffect interface with an apply(Cell, Player) method.
+•	Have your Card class delegate influence logic to one or more implementations of this interface. This makes it easier to extend influence effects later.
+3.	Separate Player Interfaces:
+•	Start with a simple Player class in the model.
+•	Document (or stub out) a separate “user-player” interface in your design document to explain how human or AI players will later interact with your model.
+4.	Build and Test Incrementally:
+•	Begin with reading the deck file (using DeckReader).
+•	Initialize a board and add the initial pawn placements.
+•	Test the rules enforcement using your RulesKeeper.
+•	Develop your textual view to print the board state after each move.
