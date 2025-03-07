@@ -1,4 +1,4 @@
-package cs3500.pawns.model;
+package cs3500.pawnsboard.model;
 
 /**
  * The Board class represents the game board as a 2D array of Cells.
@@ -62,5 +62,21 @@ public class Board {
     Cell cell = getCell(row, col);
     cell.setPawnCount(pawnCount);
     cell.setOwner(owner);
+  }
+  /**
+   *
+   * Returns the number of columns.
+   * @return The number of columns.
+   */
+  public int getColumns() {
+    return columns;
+  }
+
+  /**
+   * Returns the number of rows.
+   * @return The number of rows.
+   */
+  public int getRows() {
+    return rows;
   }
 }

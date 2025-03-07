@@ -1,4 +1,4 @@
-package cs3500.pawns;
+package cs3500.pawnsboard;
 
 public class PawnsBoardMain {
 

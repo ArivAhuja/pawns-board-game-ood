@@ -1,4 +1,4 @@
-package cs3500.pawns.model;
+package cs3500.pawnsboard.model;
 
 /**
  * A Cell represents a single square on the board.

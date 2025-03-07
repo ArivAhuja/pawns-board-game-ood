@@ -1,4 +1,4 @@
-package cs3500.pawns.model;
+package cs3500.pawnsboard.model;
 
 import java.util.List;
 
@@ -45,7 +45,5 @@ public class PawnsBoardModel {
     // red always starts
     this.isRedTurn = true;
   }
-
-
 
 }
