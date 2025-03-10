@@ -1,0 +1,2 @@
+toString method for Cell
+getBoard in PawnsPokerModel
