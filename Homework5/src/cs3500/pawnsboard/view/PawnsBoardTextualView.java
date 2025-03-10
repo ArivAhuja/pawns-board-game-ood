@@ -34,8 +34,10 @@ public class PawnsBoardTextualView {
     int cols = board.getColumns();
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
-
+        board.getCell(i, j).toString();
       }
+      sb.append("\n");
     }
+    return sb.toString();
   }
 }

@@ -1,0 +1,1 @@
+Class Invariant: Number of pawns is between 0 and 3 for every cell.

@@ -5,7 +5,6 @@ import java.util.List;
 /**
  * Represents the main model for the Pawns game.
  *
- *
  */
 public class PawnsBoardModel {
 

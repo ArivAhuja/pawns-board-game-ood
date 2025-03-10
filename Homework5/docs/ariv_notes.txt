@@ -1,2 +1,4 @@
 I think the isEmpty the hasPawns could be removed I also think you only need either increment pawns
 or set pawns.
+
+Class Invariant: Cell has to have between 0-3 pawns

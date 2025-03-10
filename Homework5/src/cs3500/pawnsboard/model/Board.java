@@ -63,6 +63,7 @@ public class Board {
     cell.setPawnCount(pawnCount);
     cell.setOwner(owner);
   }
+
   /**
    *
    * Returns the number of columns.
