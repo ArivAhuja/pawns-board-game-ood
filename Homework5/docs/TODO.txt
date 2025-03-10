@@ -1,2 +1,9 @@
-toString method for Cell
-getBoard in PawnsPokerModel
+TODO Items
+==========
+
+- Do you read in duplicate cards? If a 'guard' is in twice, do you read it twice or just the first time?
+- Confirm that Player A placing a card with influence deosn't affect Player B's influence. E.g. make sure player
+A card influence doesn't add to player B card influence baord.
+- BUG: When a hand is empty, make sure to pass automatically for the player and not ask them to play a move.
+- At the end: Create interfaces for all files (append "I" to file name for simplicity) and make sure all classes implement them.
+- TESTING!!!

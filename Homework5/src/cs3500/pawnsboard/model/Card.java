@@ -61,12 +61,24 @@ public class Card {
     this.influenceGrid = influenceGrid;
   }
 
-  /**
-   * Converts card to a string.
-   * @return the card as a String
-   */
+  public String getName() {
+    return name;
+  }
+
+  public int getCost() {
+    return cost;
+  }
+
+  public int getValue() {
+    return value;
+  }
+
+  public char[][] getInfluenceGrid() {
+    return influenceGrid;
+  }
+
   @Override
   public String toString() {
-    return null;
+    return name + " (Cost: " + cost + ", Value: " + value + ")";
   }
 }
