@@ -1,43 +1,69 @@
 package cs3500.pawnsboard.model;
 
-import java.util.List;
-
 /**
- * Represents a Card that has a name, cost, value and influence grid for the game.
+ * Represents a card in the game.
  */
 public class Card {
-  String name;
-  int cost;
-  int value;
-  CardBoard influenceBoard;
+  private String name;
+  private int cost;
+  private int value;
+  private char[][] influenceGrid;
 
   /**
    * Constructs a new Card.
    *
-   * @param name           The name of the card (no spaces).
-   * @param cost           The cost of the card (must be 1, 2, or 3).
-   * @param value          The value score of the card (must be > 0).
-   * @param influenceBoard The board representing the card’s influence grid.
+   * @param name The card's name (no spaces).
+   * @param cost The cost of the card (must be 1, 2, or 3).
+   * @param value The value score of the card (must be > 0).
+   * @param influenceGrid The card's influence grid represented as a 2D char array.
+   *                      It must be 5x5 and follow the rules:
+   *                      - Only 'X' (no influence), 'I' (influence), or 'C' (center) are allowed.
+   *                      - The center cell (row 2, column 2 using 0-indexing) must be 'C'.
+   *                      - 'C' must not appear in any other cell.
    */
-  public Card(String name, int cost, int value, CardBoard influenceBoard) {
+  public Card(String name, int cost, int value, char[][] influenceGrid) {
     if (name == null) {
       throw new IllegalArgumentException("Name cannot be null");
     }
-    if (cost != 1 && value != 2 && value != 3) {
-      throw new IllegalArgumentException("Cost must be 1, 2 or 3");
+    if (cost < 1 || cost > 3) {
+      throw new IllegalArgumentException("Cost must be 1, 2, or 3");
     }
     if (value <= 0) {
       throw new IllegalArgumentException("Value must be positive");
     }
+    if (influenceGrid == null || influenceGrid.length != 5 || influenceGrid[0].length != 5) {
+      throw new IllegalArgumentException("Influence grid must be a 5x5 array");
+    }
+    // Validate grid: center cell and allowed characters.
+    for (int i = 0; i < 5; i++) {
+      if (influenceGrid[i].length != 5) {
+        throw new IllegalArgumentException("Each row in the influence grid must have exactly 5 characters");
+      }
+      for (int j = 0; j < 5; j++) {
+        char ch = influenceGrid[i][j];
+        if (i == 2 && j == 2) {
+          if (ch != 'C') {
+            throw new IllegalArgumentException("Center cell must be 'C'");
+          }
+        } else {
+          if (ch == 'C') {
+            throw new IllegalArgumentException("Only the center cell can be 'C'");
+          }
+          if (ch != 'X' && ch != 'I') {
+            throw new IllegalArgumentException("Invalid character in grid: " + ch);
+          }
+        }
+      }
+    }
     this.name = name;
     this.cost = cost;
     this.value = value;
-    this.influenceBoard = influenceBoard;
+    this.influenceGrid = influenceGrid;
   }
 
   /**
-   * Converts the card to a string.
-   * @return the card as a string.
+   * Converts card to a string.
+   * @return the card as a String
    */
   @Override
   public String toString() {

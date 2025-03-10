@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Class that has methods that parse the deck file.
+ */
 public class DeckFileParser {
 
   /**
-   * Parses a single card block into a Card object.
-   * The card block consists of a header line (card name, cost, value)
-   * followed by one or more grid lines.
+   * Converts a block of text representing a single card into a Card object.
+   * The card block consists of a header line followed by 5 grid lines.
    *
-   * @param cardBlock The block of text representing one card.
+   * @param cardBlock A block of text for one card.
    * @return The parsed Card object.
    */
   public Card toCard(String cardBlock) {
     Scanner scanner = new Scanner(cardBlock);
+
+    // Parse header line.
     if (!scanner.hasNextLine()) {
       throw new IllegalArgumentException("Card block is empty");
     }
@@ -28,70 +32,35 @@ public class DeckFileParser {
     int cost = Integer.parseInt(headerParts[1]);
     int value = Integer.parseInt(headerParts[2]);
 
-    List<String> gridLines = new ArrayList<>();
-    while (scanner.hasNextLine()) {
-      String line = scanner.nextLine().trim();
-      if (!line.isEmpty()) {
-        gridLines.add(line);
+    // Read exactly 5 grid lines.
+    char[][] grid = new char[5][5];
+    for (int i = 0; i < 5; i++) {
+      if (!scanner.hasNextLine()) {
+        throw new IllegalArgumentException("Incomplete grid for card " + name);
       }
-    }
-    if (gridLines.isEmpty()) {
-      throw new IllegalArgumentException("No grid lines provided for card " + name);
+      String row = scanner.nextLine().trim();
+      if (row.length() != 5) {
+        throw new IllegalArgumentException("Grid row must have exactly 5 characters for card " + name);
+      }
+      grid[i] = row.toCharArray();
     }
 
-    int rowCount = gridLines.size();
-    int colCount = gridLines.get(0).length();
-    // Ensure all rows have the same length.
-    for (String row : gridLines) {
-      if (row.length() != colCount) {
-        throw new IllegalArgumentException("Inconsistent row lengths for card " + name);
-      }
-    }
-    // Validate that both dimensions are odd (to ensure a unique center cell).
-    if (rowCount % 2 == 0 || colCount % 2 == 0) {
-      throw new IllegalArgumentException("Grid dimensions must be odd for card " + name);
-    }
-
-    // Create a Board with the grid dimensions.
-    CardBoard board = new Board(rowCount, colCount);
-    int centerRow = rowCount / 2;
-    int centerCol = colCount / 2;
-    for (int r = 0; r < rowCount; r++) {
-      String row = gridLines.get(r);
-      for (int c = 0; c < colCount; c++) {
-        char ch = row.charAt(c);
-        if (r == centerRow && c == centerCol) {
-          if (ch != 'C') {
-            throw new IllegalArgumentException("Center cell must be 'C' for card " + name);
-          }
-        } else {
-          if (ch == 'C') {
-            throw new IllegalArgumentException("Only center cell can be 'C' for card " + name);
-          }
-          if (ch != 'X' && ch != 'I') {
-            throw new IllegalArgumentException("Invalid character '" + ch + "' in grid for card " + name);
-          }
-        }
-        // Set the cell's type in the Board.
-        board.getCell(r, c).setType(ch);
-      }
-    }
-
-    return new Card(name, cost, value, board);
+    return new Card(name, cost, value, grid);
   }
 
   /**
-   * Parses an entire deck file string into a list of Card objects.
-   * The file is expected to be a series of card blocks, where each card block
-   * starts with a header line (three tokens) followed by one or more grid lines.
+   * Converts a full deck file (as a String) into a list of Card objects.
+   * Assumes the deck file contains a multiple of 6 non-empty lines.
    *
-   * @param deckString The complete content of the deck file.
-   * @return A list of Card objects.
+   * @param deckString The entire deck file as a string.
+   * @return A list of Card objects parsed from the file.
    */
   public List<Card> toDeck(String deckString) {
     List<Card> deck = new ArrayList<>();
     Scanner scanner = new Scanner(deckString);
     List<String> lines = new ArrayList<>();
+
+    // Read all non-empty lines.
     while (scanner.hasNextLine()) {
       String line = scanner.nextLine().trim();
       if (!line.isEmpty()) {
@@ -99,27 +68,20 @@ public class DeckFileParser {
       }
     }
 
-    int i = 0;
-    while (i < lines.size()) {
-      // The current line should be a header line (three tokens).
-      String headerLine = lines.get(i);
-      String[] headerParts = headerLine.split("\\s+");
-      if (headerParts.length != 3) {
-        throw new IllegalArgumentException("Expected header line at line " + (i + 1) + ": " + headerLine);
-      }
-      // Build the card block (header + subsequent grid lines) until the next header or end-of-file.
+    // Each card is represented by 6 consecutive lines.
+    if (lines.size() % 6 != 0) {
+      throw new IllegalArgumentException("Deck file does not have a multiple of 6 lines.");
+    }
+    for (int i = 0; i < lines.size(); i += 6) {
       StringBuilder cardBlockBuilder = new StringBuilder();
-      cardBlockBuilder.append(headerLine).append("\n");
-      i++;
-      while (i < lines.size() && lines.get(i).split("\\s+").length != 3) {
-        cardBlockBuilder.append(lines.get(i)).append("\n");
-        i++;
+      for (int j = 0; j < 6; j++) {
+        cardBlockBuilder.append(lines.get(i + j)).append("\n");
       }
-      String cardBlock = cardBlockBuilder.toString().trim();
-      Card card = toCard(cardBlock);
+      Card card = toCard(cardBlockBuilder.toString());
       deck.add(card);
     }
     return deck;
   }
 }
+
 
