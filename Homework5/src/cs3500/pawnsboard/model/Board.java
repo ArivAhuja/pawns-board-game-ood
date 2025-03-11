@@ -3,9 +3,9 @@ package cs3500.pawnsboard.model;
 /**
  * The Board class represents the game board as a 2D array of Cells.
  */
-public class Board {
-  private int rows;
-  private int columns;
+public class Board implements BoardI {
+  private final int rows;
+  private final int columns;
   private Cell[][] cells;
 
   /**
@@ -29,13 +29,6 @@ public class Board {
     }
   }
 
-  /**
-   * Returns the cell at the specified position.
-   *
-   * @param row Row index.
-   * @param col Column index.
-   * @return The Cell object at that position.
-   */
   public Cell getCell(int row, int col) {
     if (!isValidPosition(row, col)) {
       throw new IndexOutOfBoundsException("Invalid cell position: " + row + ", " + col);
@@ -43,40 +36,20 @@ public class Board {
     return cells[row][col];
   }
 
-  /**
-   * Checks whether the given position is within board bounds.
-   */
   public boolean isValidPosition(int row, int col) {
     return row >= 0 && row < rows && col >= 0 && col < columns;
   }
 
-  /**
-   * Utility method to set a cell's pawn count and owner.
-   *
-   * @param row Row index.
-   * @param col Column index.
-   * @param pawnCount Number of pawns to set.
-   * @param owner The owner of the pawns.
-   */
   public void setCellPawns(int row, int col, int pawnCount, String owner) {
     Cell cell = getCell(row, col);
     cell.setPawnCount(pawnCount);
     cell.setOwner(owner);
   }
 
-  /**
-   *
-   * Returns the number of columns.
-   * @return The number of columns.
-   */
   public int getColumns() {
     return columns;
   }
 
-  /**
-   * Returns the number of rows.
-   * @return The number of rows.
-   */
   public int getRows() {
     return rows;
   }

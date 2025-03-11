@@ -1,9 +1,25 @@
-TODO Items
-==========
 
-- Do you read in duplicate cards? If a 'guard' is in twice, do you read it twice or just the first time?
-- Confirm that Player A placing a card with influence deosn't affect Player B's influence. E.g. make sure player
-A card influence doesn't add to player B card influence baord.
-- BUG: When a hand is empty, make sure to pass automatically for the player and not ask them to play a move.
-- At the end: Create interfaces for all files (append "I" to file name for simplicity) and make sure all classes implement them.
-- TESTING!!!
+DO NOT SUBMIT UNTIL EVERYTHING HERE IS CHECKED OFF AND WE HAVE BOTH DONE ONE LAST FINAL CODE CHECK.
+
+
+QUESTIONS
+
+- Do you need to override functions when you implement an interface? Do we need the @Override
+    annotation? Make sure everything is consistent.
+- If a card of the same name (but maybe different values) is read in, do we store it as a new card
+    or do we update the existing card, or do we ignore it?
+- Should logic like autopass be in the Controller or Model? What about command line interpretation?
+    I am pretty sure that goes in the Controller, but I am not sure about autopass and other things
+    like that.
+
+
+TODO
+
+- Confirm that Player A placing a card with influence deosn't affect Player B's influence.
+    E.g. make sure player A card influence doesn't add to player B card influence board.
+    Maybe store influence with the player letter to make sure we can differentiate.
+- Make sure we have interfaces for everything.
+- Document the class invarient that is mentioned in the HW.
+- Cleanup all code, comments, indentation, etc before initial submission.
+- Write tests for everywhere, mainly MODEL, but also CONTROLLER and VIEW.
+- Create the official README.md file.

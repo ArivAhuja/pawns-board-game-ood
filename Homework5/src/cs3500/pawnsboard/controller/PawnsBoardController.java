@@ -1,9 +1,9 @@
 package cs3500.pawnsboard.controller;
 
 import cs3500.pawnsboard.model.PawnsBoardModel;
-import cs3500.pawnsboard.model.PawnsBoardModel.Move;
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.view.PawnsBoardTextualView;
+import cs3500.pawnsboard.model.Move;
 
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +19,10 @@ public class PawnsBoardController {
 
   /**
    * Starts the interactive game loop.
-   * Each turn, the controller prompts the current player for input.
+   * Each turn, the controller:
+   *  - Checks if the current player's hand is empty and auto-passes if so.
+   *  - Checks if there are no legal moves available and auto-passes if so.
+   *  - Otherwise, prompts the player for input.
    * Valid commands are:
    *   - "pass" (to pass the turn)
    *   - "place cardIndex row col" (to attempt a move)
@@ -31,6 +34,21 @@ public class PawnsBoardController {
     view.render(model.getBoard());
 
     while (!model.isGameOver()) {
+      // Auto-pass if the current player's hand is empty.
+      if (model.autoPassIfHandEmpty()) {
+        view.render(model.getBoard());
+        continue;
+      }
+
+      // Auto-pass if there are no legal moves available.
+      List<Move> legalMoves = model.getLegalMoves();
+      if (legalMoves.isEmpty()) {
+        System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available. Auto-passing.");
+        model.pass();
+        view.render(model.getBoard());
+        continue;
+      }
+
       Player current = model.getCurrentPlayer();
       System.out.println(current.getColor() + "'s turn.");
 
@@ -57,7 +75,6 @@ public class PawnsBoardController {
           int col = Integer.parseInt(tokens[3]);
 
           // Check if the attempted move is legal.
-          List<Move> legalMoves = model.getLegalMoves();
           Move attemptedMove = new Move(row, col, cardIndex);
           if (!legalMoves.contains(attemptedMove)) {
             System.out.println("Illegal move. Legal moves are:");
@@ -81,7 +98,7 @@ public class PawnsBoardController {
         continue;
       }
 
-      // Render the updated board after the move.
+      // Render the updated board.
       view.render(model.getBoard());
     }
 

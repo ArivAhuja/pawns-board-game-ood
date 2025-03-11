@@ -2,17 +2,16 @@ package cs3500.pawnsboard.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Represents the main model for the Pawns game.
  *
  */
-public class PawnsBoardModel {
+public class PawnsBoardModel implements PawnsBoardModelI {
 
   private Board board;
-  private Player redPlayer;
-  private Player bluePlayer;
+  private final Player redPlayer;
+  private final Player bluePlayer;
   private boolean isRedTurn;
   private int consecutivePasses;
 
@@ -49,10 +48,6 @@ public class PawnsBoardModel {
     this.consecutivePasses = 0;
   }
 
-  /**
-   * Returns the board.
-   * @return The board.
-   */
   public Board getBoard() {
     return board;
   }
@@ -61,31 +56,25 @@ public class PawnsBoardModel {
     return consecutivePasses >= 2;
   }
 
-  /**
-   * Returns the current player.
-   */
   public Player getCurrentPlayer() {
     return isRedTurn ? redPlayer : bluePlayer;
   }
 
-  /**
-   * Processes a pass move by the current player.
-   * Increments consecutive passes and switches turn.
-   */
   public void pass() {
     System.out.println(getCurrentPlayer().getColor() + " passes.");
     consecutivePasses++;
     isRedTurn = !isRedTurn;
   }
 
-  /**
-   * Attempts to place a card from the current player's hand on the specified cell.
-   *
-   * @param row       The row of the target cell.
-   * @param col       The column of the target cell.
-   * @param cardIndex The index of the card in the player's hand.
-   * @return true if the move was successful, false otherwise.
-   */
+  public boolean autoPassIfHandEmpty() {
+    if (getCurrentPlayer().getHand().isEmpty()) {
+      System.out.println(getCurrentPlayer().getColor() + " has no cards left. Automatically passing.");
+      pass();
+      return true;
+    }
+    return false;
+  }
+
   public boolean placeCard(int row, int col, int cardIndex) {
     Player current = getCurrentPlayer();
 
@@ -185,14 +174,6 @@ public class PawnsBoardModel {
     }
   }
 
-  /**
-   * Enumerates all legal moves for the current player.
-   * A legal move is defined as placing any card from the player's hand onto any cell
-   * that contains the player's pawns, has no card, and where the pawn count is at least
-   * the cost of the card.
-   *
-   * @return A list of legal moves available to the current player.
-   */
   public List<Move> getLegalMoves() {
     List<Move> moves = new ArrayList<>();
     Player current = getCurrentPlayer();
@@ -215,45 +196,44 @@ public class PawnsBoardModel {
     return moves;
   }
 
-  /**
-   * Computes the scores for both players.
-   * For each row:
-   *   - Sum the value scores of the cards owned by Red and Blue.
-   *   - If one player's sum is higher, add that sum to their total score.
-   *   - If the sums are equal, neither player gets points for that row.
-   *
-   * @return An int array of length 2 where index 0 is Red's score and index 1 is Blue's score.
-   */
   public int[] computeScores() {
     int redTotal = 0;
     int blueTotal = 0;
-    for (int row = 0; row < board.getRows(); row++) {
-      int rowRed = 0;
-      int rowBlue = 0;
-      for (int col = 0; col < board.getColumns(); col++) {
+    int[][] rowScores = computeRowScores();
+    for (int[] rowScore : rowScores) {
+      if (rowScore[0] > rowScore[1]) {
+        redTotal += rowScore[0];
+      }
+      else if (rowScore[1] > rowScore[0]) {
+        blueTotal += rowScore[1];
+      }
+    }
+    return new int[] { redTotal, blueTotal };
+  }
+
+  public int[][] computeRowScores() {
+    int rows = board.getRows();
+    int cols = board.getColumns();
+    int[][] rowScores = new int[rows][2];
+    for (int row = 0; row < rows; row++) {
+      int redScore = 0;
+      int blueScore = 0;
+      for (int col = 0; col < cols; col++) {
         Cell cell = board.getCell(row, col);
         if (cell.getCard() != null) {
           if (cell.getOwner().equals("Red")) {
-            rowRed += cell.getCard().getValue();
+            redScore += cell.getCard().getValue();
           } else if (cell.getOwner().equals("Blue")) {
-            rowBlue += cell.getCard().getValue();
+            blueScore += cell.getCard().getValue();
           }
         }
       }
-      if (rowRed > rowBlue) {
-        redTotal += rowRed;
-      } else if (rowBlue > rowRed) {
-        blueTotal += rowBlue;
-      }
+      rowScores[row][0] = redScore;
+      rowScores[row][1] = blueScore;
     }
-    return new int[]{redTotal, blueTotal};
+    return rowScores;
   }
 
-  /**
-   * Determines the winner based on the computed scores.
-   *
-   * @return "Red wins!", "Blue wins!", or "It's a tie!".
-   */
   public String getWinner() {
     int[] scores = computeScores();
     if (scores[0] > scores[1]) {
@@ -265,39 +245,5 @@ public class PawnsBoardModel {
     }
   }
 
-  /**
-   * A move represents a possible placement:
-   * placing the card at index cardIndex from the current player's hand
-   * onto cell (row, col).
-   */
-  public static class Move {
-    public final int row;
-    public final int col;
-    public final int cardIndex;
-
-    public Move(int row, int col, int cardIndex) {
-      this.row = row;
-      this.col = col;
-      this.cardIndex = cardIndex;
-    }
-
-    @Override
-    public String toString() {
-      return "Place card index " + cardIndex + " at (" + row + ", " + col + ")";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      Move move = (Move) o;
-      return row == move.row && col == move.col && cardIndex == move.cardIndex;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(row, col, cardIndex);
-    }
-  }
 
 }

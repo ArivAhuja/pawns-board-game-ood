@@ -3,11 +3,11 @@ package cs3500.pawnsboard.model;
 /**
  * Represents a card in the game.
  */
-public class Card {
-  private String name;
-  private int cost;
-  private int value;
-  private char[][] influenceGrid;
+public class Card implements CardI {
+  private final String name;
+  private final int cost;
+  private final int value;
+  private final char[][] influenceGrid;
 
   /**
    * Constructs a new Card.

@@ -23,10 +23,24 @@ public class PawnsBoardTextualView {
     this.model = model;
   }
 
+  /**
+   * Renders the board state along with the row scores.
+   * Each row is printed as:
+   *    <red row score> <cell representations> <blue row score>
+   *
+   * The cell representation is:
+   *   - "R" or "B" if a card is present (depending on owner),
+   *   - a number (1, 2, or 3) if only pawns are present,
+   *   - "_" if the cell is empty.
+   */
   public void render(Board board) {
-    System.out.println("Board state:");
+    int[][] rowScores = model.computeRowScores();
+    System.out.println("Board state with row scores:");
     for (int i = 0; i < board.getRows(); i++) {
       StringBuilder sb = new StringBuilder();
+      // Left score (Red's row score)
+      sb.append(rowScores[i][0]).append(" ");
+      // Board cells for the row.
       for (int j = 0; j < board.getColumns(); j++) {
         Cell cell = board.getCell(i, j);
         if (cell.getCard() != null) {
@@ -36,8 +50,9 @@ public class PawnsBoardTextualView {
         } else {
           sb.append("_");
         }
-        sb.append(" ");
       }
+      // Right score (Blue's row score)
+      sb.append(" ").append(rowScores[i][1]);
       System.out.println(sb.toString());
     }
     System.out.println();

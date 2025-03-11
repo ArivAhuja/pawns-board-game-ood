@@ -7,15 +7,8 @@ import java.util.Scanner;
 /**
  * Class that has methods that parse the deck file.
  */
-public class DeckFileParser {
+public class DeckFileParser implements DeckFileParserI {
 
-  /**
-   * Converts a block of text representing a single card into a Card object.
-   * The card block consists of a header line followed by 5 grid lines.
-   *
-   * @param cardBlock A block of text for one card.
-   * @return The parsed Card object.
-   */
   public Card toCard(String cardBlock) {
     Scanner scanner = new Scanner(cardBlock);
 
@@ -48,13 +41,6 @@ public class DeckFileParser {
     return new Card(name, cost, value, grid);
   }
 
-  /**
-   * Converts a full deck file (as a String) into a list of Card objects.
-   * Assumes the deck file contains a multiple of 6 non-empty lines.
-   *
-   * @param deckString The entire deck file as a string.
-   * @return A list of Card objects parsed from the file.
-   */
   public List<Card> toDeck(String deckString) {
     List<Card> deck = new ArrayList<>();
     Scanner scanner = new Scanner(deckString);
