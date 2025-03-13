@@ -627,6 +627,4 @@ public class PawnsBoardModelTest {
     // Check result is a tie
     assertEquals("It's a tie!", model.getWinner());
   }
-
-
 }
