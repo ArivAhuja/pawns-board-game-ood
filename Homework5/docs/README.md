@@ -82,16 +82,20 @@ XXXXX
 
 - **src/**
 
-  - **cs3500.pawnsboard**: Contains the main application class
+  - **cs3500.pawnsboard/**: Contains the main application class
 
-    - **cs3500.pawnsboard.model**: Game data and logic components
-    - **cs3500.pawnsboard.view**: Display components
-    - **cs3500.pawnsboard.controller**: Input handling and game flow
+    - **model**: Game data and logic components
+    - **view**: Display components
+    - **controller**: Input handling and game flow
 - **test/**
 
-  - **cs3500.pawnsboard**: Contains the test suite for the project
-    - **cs3500.pawnsboard.model**: Tests for the model components
-    - **cs3500.pawnsboard.view**: Tests for the view components
-    - **cs3500.pawnsboard.controller**: Tests for the controller component
+  - **cs3500.pawnsboard/**: Contains the test suite for the project
+    - **model**: Tests for the model components
+    - **view**: Tests for the view components
+    - **controller**: Tests for the controller component
+- **docs/**
+
+  - **deck.config**: Contains the deck for the game
+  - **README.md**: Gives overview of the project
 
 **Sample Class Invariant:** The board is a rectangle with an odd number of columns.
