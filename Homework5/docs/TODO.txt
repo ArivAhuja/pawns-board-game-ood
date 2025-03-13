@@ -23,3 +23,4 @@ TODO
 - Cleanup all code, comments, indentation, etc before initial submission.
 - Write tests for everywhere, mainly MODEL, but also CONTROLLER and VIEW.
 - Create the official README.md file.
+- Add more cards to deck.config so that full game can be completed.
