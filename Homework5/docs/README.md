@@ -54,7 +54,7 @@ PawnsBoardController controller = new PawnsBoardController(model, view);
 controller.startGame();
 ```
 
-#### Deck File Format:
+### Deck File Format:
 
 Cards are defined in a configuration file with:
 
@@ -78,7 +78,7 @@ XXXXX
 
 XXXXX
 
-#### Source Orginization:
+### Source Orginization:
 
 - **src/**
 
