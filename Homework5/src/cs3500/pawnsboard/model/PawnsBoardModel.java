@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class PawnsBoardModel implements PawnsBoardModelI {
 
-  private Board board;
+  private final Board board;
   private final Player redPlayer;
   private final Player bluePlayer;
   private boolean isRedTurn;
@@ -18,7 +18,6 @@ public class PawnsBoardModel implements PawnsBoardModelI {
 
   /**
    * Constructs a new PawnsBoardModel.
-   *
    * @param rows Number of rows on the board.
    * @param columns Number of columns on the board.
    * @param deck The list of cards (from the deck configuration file) to use for both players.
@@ -223,7 +222,8 @@ public class PawnsBoardModel implements PawnsBoardModelI {
         if (cell.getCard() != null) {
           if (cell.getOwner().equals("Red")) {
             redScore += cell.getCard().getValue();
-          } else if (cell.getOwner().equals("Blue")) {
+          }
+          else if (cell.getOwner().equals("Blue")) {
             blueScore += cell.getCard().getValue();
           }
         }
@@ -238,9 +238,11 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     int[] scores = computeScores();
     if (scores[0] > scores[1]) {
       return "Red wins!";
-    } else if (scores[1] > scores[0]) {
+    }
+    else if (scores[1] > scores[0]) {
       return "Blue wins!";
-    } else {
+    }
+    else {
       return "It's a tie!";
     }
   }

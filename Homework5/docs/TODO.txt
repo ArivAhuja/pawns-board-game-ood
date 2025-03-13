@@ -1,7 +1,3 @@
-
-DO NOT SUBMIT UNTIL EVERYTHING HERE IS CHECKED OFF AND WE HAVE BOTH DONE ONE LAST FINAL CODE CHECK.
-
-
 QUESTIONS
 
 - Do you need to override functions when you implement an interface? Do we need the @Override
@@ -12,15 +8,6 @@ QUESTIONS
     I am pretty sure that goes in the Controller, but I am not sure about autopass and other things
     like that.
 
-
 TODO
 
-- Confirm that Player A placing a card with influence deosn't affect Player B's influence.
-    E.g. make sure player A card influence doesn't add to player B card influence board.
-    Maybe store influence with the player letter to make sure we can differentiate.
-- Make sure we have interfaces for everything.
-- Document the class invarient that is mentioned in the HW.
-- Cleanup all code, comments, indentation, etc before initial submission.
-- Write tests for everywhere, mainly MODEL, but also CONTROLLER and VIEW.
-- Create the official README.md file.
-- Add more cards to deck.config so that full game can be completed.
+- ...

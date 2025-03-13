@@ -12,7 +12,6 @@ public class Player implements PlayerI {
 
   /**
    * Constructs a new Player.
-   *
    * @param color The player's color.
    * @param deck The list of cards to use (deck configuration).
    * @param handSize The starting hand size.

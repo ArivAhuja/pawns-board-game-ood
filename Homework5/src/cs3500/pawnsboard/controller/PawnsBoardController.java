@@ -8,25 +8,20 @@ import cs3500.pawnsboard.model.Move;
 import java.util.List;
 import java.util.Scanner;
 
-public class PawnsBoardController {
-  private PawnsBoardModel model;
-  private PawnsBoardTextualView view;
+public class PawnsBoardController implements PawnsBoardControllerI {
+  private final PawnsBoardModel model;
+  private final PawnsBoardTextualView view;
 
+  /**
+   * Constructs a PawnsBoardController with the given model and view.
+   * @param model the model
+   * @param view the view
+   */
   public PawnsBoardController(PawnsBoardModel model, PawnsBoardTextualView view) {
     this.model = model;
     this.view = view;
   }
 
-  /**
-   * Starts the interactive game loop.
-   * Each turn, the controller:
-   *  - Checks if the current player's hand is empty and auto-passes if so.
-   *  - Checks if there are no legal moves available and auto-passes if so.
-   *  - Otherwise, prompts the player for input.
-   * Valid commands are:
-   *   - "pass" (to pass the turn)
-   *   - "place cardIndex row col" (to attempt a move)
-   */
   public void startGame() {
     Scanner sc = new Scanner(System.in);
 
@@ -63,7 +58,8 @@ public class PawnsBoardController {
 
       if (input.equalsIgnoreCase("pass")) {
         model.pass();
-      } else if (input.toLowerCase().startsWith("place")) {
+      }
+      else if (input.toLowerCase().startsWith("place")) {
         String[] tokens = input.split("\\s+");
         if (tokens.length != 4) {
           System.out.println("Invalid input format. Use: place cardIndex row col");
@@ -89,11 +85,13 @@ public class PawnsBoardController {
             System.out.println("Move failed. Try again.");
             continue;
           }
-        } catch (NumberFormatException e) {
+        }
+        catch (NumberFormatException e) {
           System.out.println("Invalid number format. Try again.");
           continue;
         }
-      } else {
+      }
+      else {
         System.out.println("Invalid command. Try again.");
         continue;
       }

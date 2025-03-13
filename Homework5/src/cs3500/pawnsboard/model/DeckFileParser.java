@@ -9,6 +9,11 @@ import java.util.Scanner;
  */
 public class DeckFileParser implements DeckFileParserI {
 
+  /**
+   * Converts a block of text into a card.
+   * @param cardBlock a block of text for one card.
+   * @return a card object.
+   */
   public Card toCard(String cardBlock) {
     Scanner scanner = new Scanner(cardBlock);
 

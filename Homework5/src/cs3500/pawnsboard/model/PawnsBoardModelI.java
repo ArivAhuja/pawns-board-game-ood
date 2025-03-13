@@ -39,7 +39,6 @@ public interface PawnsBoardModelI {
 
   /**
    * Attempts to place a card from the current player's hand on the specified cell.
-   *
    * @param row       The row of the target cell.
    * @param col       The column of the target cell.
    * @param cardIndex The index of the card in the player's hand.
@@ -49,14 +48,12 @@ public interface PawnsBoardModelI {
 
   /**
    * Enumerates all legal moves for the current player.
-   *
    * @return a list of legal moves available.
    */
   List<Move> getLegalMoves();
 
   /**
    * Computes the overall scores for both players.
-   *
    * @return an int array of length 2 where index 0 is Red's score and index 1 is Blue's score.
    */
   int[] computeScores();
@@ -64,7 +61,6 @@ public interface PawnsBoardModelI {
   /**
    * Computes the row-by-row scores.
    * For each row, sums the value scores of cards owned by Red and Blue separately.
-   *
    * @return a 2D int array where for each row i,
    *         result[i][0] is Red's row score and result[i][1] is Blue's row score.
    */
@@ -72,11 +68,9 @@ public interface PawnsBoardModelI {
 
   /**
    * Determines the winner based on the computed scores.
-   *
    * @return "Red wins!", "Blue wins!", or "It's a tie!".
    */
   String getWinner();
-
 
 
 }

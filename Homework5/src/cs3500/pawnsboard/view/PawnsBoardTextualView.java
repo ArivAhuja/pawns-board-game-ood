@@ -8,12 +8,11 @@ import cs3500.pawnsboard.model.Cell;
 /**
  * Provides a textual view of the PawnsBoard game.
  */
-public class PawnsBoardTextualView {
+public class PawnsBoardTextualView implements PawnsBoardTextualViewI {
   private final PawnsBoardModel model;
 
   /**
    * Constructs a TextualView of the game based on the inputted model
-   *
    * @param model is the game.
    */
   public PawnsBoardTextualView(PawnsBoardModel model) {
@@ -23,16 +22,6 @@ public class PawnsBoardTextualView {
     this.model = model;
   }
 
-  /**
-   * Renders the board state along with the row scores.
-   * Each row is printed as:
-   *    <red row score> <cell representations> <blue row score>
-   *
-   * The cell representation is:
-   *   - "R" or "B" if a card is present (depending on owner),
-   *   - a number (1, 2, or 3) if only pawns are present,
-   *   - "_" if the cell is empty.
-   */
   public void render(Board board) {
     int[][] rowScores = model.computeRowScores();
     System.out.println("Board state with row scores:");

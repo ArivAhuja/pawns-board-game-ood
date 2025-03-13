@@ -7,6 +7,10 @@ public class Card implements CardI {
   private final String name;
   private final int cost;
   private final int value;
+  /**
+   * Store the influence in a char array, where 'X' represents no influence, 'I' represents
+   * influence, and 'C' represents the center cell, just like the config file.
+   */
   private final char[][] influenceGrid;
 
   /**

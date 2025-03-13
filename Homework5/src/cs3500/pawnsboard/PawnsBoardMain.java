@@ -12,8 +12,16 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Main class for PawnsBoard game.
+ */
 public class PawnsBoardMain {
 
+  /**
+   * Main method to run the PawnsBoard game with a 3x5 board and a starting hand size of 5.
+   * The deck configuration is read from a file named "deck.config" in the "docs" folder.
+   * @param args command line arguments
+   */
   public static void main(String[] args) {
     // Build a path to the deck config file (assumed to be in the docs folder)
     String deckFilePath = "docs" + File.separator + "deck.config";
