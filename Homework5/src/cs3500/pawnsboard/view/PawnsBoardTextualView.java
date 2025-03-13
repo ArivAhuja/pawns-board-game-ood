@@ -12,7 +12,7 @@ public class PawnsBoardTextualView implements PawnsBoardTextualViewI {
   private final PawnsBoardModel model;
 
   /**
-   * Constructs a TextualView of the game based on the inputted model
+   * Constructs a TextualView of the game based on the inputted model.
    * @param model is the game.
    */
   public PawnsBoardTextualView(PawnsBoardModel model) {
@@ -22,6 +22,15 @@ public class PawnsBoardTextualView implements PawnsBoardTextualViewI {
     this.model = model;
   }
 
+  /**
+   * Renders the board state along with the row scores.
+   * Each row is printed as:
+   *    redRowScore cellRepresentations blueRow Score
+   * The cell representation is:
+   *   - "R" or "B" if a card is present (depending on owner),
+   *   - a number (1, 2, or 3) if only pawns are present,
+   *   - "_" if the cell is empty.
+   */
   public void render(Board board) {
     int[][] rowScores = model.computeRowScores();
     System.out.println("Board state with row scores:");

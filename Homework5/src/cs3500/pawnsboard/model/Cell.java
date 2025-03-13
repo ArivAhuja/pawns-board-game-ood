@@ -18,10 +18,18 @@ public class Cell implements CellI {
     this.card = null;
   }
 
+  /**
+   * Gets the pawn count of the cell.
+   * @return the number of pawns in the cell.
+   */
   public int getPawnCount() {
     return pawnCount;
   }
 
+  /**
+   * Sets the pawn count of the cell.
+   * @param count the number of pawns (must be between 0 and 3).
+   */
   public void setPawnCount(int count) {
     if (count < 0 || count > 3) {
       throw new IllegalArgumentException("Pawn count must be between 0 and 3.");
@@ -29,10 +37,18 @@ public class Cell implements CellI {
     this.pawnCount = count;
   }
 
+  /**
+   * Gets the owner of the cell.
+   * @return the owner ("Red", "Blue", or an empty string if no owner).
+   */
   public String getOwner() {
     return owner;
   }
 
+  /**
+   * Sets the owner of the cell.
+   * @param owner the owner ("Red", "Blue", or an empty string).
+   */
   public void setOwner(String owner) {
     if (!owner.equals("Red") && !owner.equals("Blue") && !owner.isEmpty()) {
       throw new IllegalArgumentException("Owner must be 'Red', 'Blue', or an empty string.");
@@ -40,10 +56,20 @@ public class Cell implements CellI {
     this.owner = owner;
   }
 
+  /**
+   * Gets the card placed in the cell, if any.
+   * @return the Card placed in the cell, or null if none.
+   */
   public Card getCard() {
     return card;
   }
 
+  /**
+   * Places a card in the cell.
+   * When a card is placed, the pawn count is reset.
+   * @param card the card to place.
+   * @param owner the owner of the card.
+   */
   public void placeCard(Card card, String owner) {
     this.card = card;
     this.owner = owner;
@@ -58,6 +84,9 @@ public class Cell implements CellI {
     return pawnCount > 0;
   }
 
+  /**
+   * Increments the pawn count by one, if it is less than 3.
+   */
   public void incrementPawnCount() {
     if (pawnCount < 3) {
       pawnCount++;

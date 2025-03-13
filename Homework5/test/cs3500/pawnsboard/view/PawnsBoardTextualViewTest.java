@@ -22,7 +22,6 @@ public class PawnsBoardTextualViewTest {
   private PawnsBoardTextualView view;
   private ByteArrayOutputStream outContent;
   private PrintStream originalOut;
-  private List<Card> testDeck;
 
   /**
    * Sets up the test environment before each test.
@@ -30,7 +29,7 @@ public class PawnsBoardTextualViewTest {
   @Before
   public void setUp() {
     // Create a test deck
-    testDeck = createTestDeck();
+    List<Card> testDeck = createTestDeck();
 
     // Create a default model with a 3x5 board
     model = new PawnsBoardModel(3, 5, testDeck, 5);
@@ -245,12 +244,14 @@ public class PawnsBoardTextualViewTest {
       for (int j = 0; j < board.getColumns(); j++) {
         if (isRedTurn) {
           if (redCardIndex < model.getCurrentPlayer().getHand().size()) {
-            board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(redCardIndex), "Red");
+            board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(redCardIndex),
+                    "Red");
             redCardIndex++;
           }
         } else {
           if (blueCardIndex < model.getCurrentPlayer().getHand().size()) {
-            board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(blueCardIndex), "Blue");
+            board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(blueCardIndex),
+                    "Blue");
             blueCardIndex++;
           }
         }
@@ -277,7 +278,8 @@ public class PawnsBoardTextualViewTest {
       assertEquals(5, parts[1].length()); // 5 columns
       for (char c : parts[1].toCharArray()) {
         // Each cell should be R, B, or a number (no empty cells)
-        assertTrue("Each cell should be R, B, or a number", c == 'R' || c == 'B' || Character.isDigit(c));
+        assertTrue("Each cell should be R, B, or a number", c == 'R' || c == 'B'
+                || Character.isDigit(c));
       }
     }
   }

@@ -12,6 +12,12 @@ public class Move implements MoveI {
   public final int col;
   public final int cardIndex;
 
+  /**
+   * Constructs a move.
+   * @param row the row of the cell to place the card.
+   * @param col the column of the cell to place the card.
+   * @param cardIndex the index of the card to place.
+   */
   public Move(int row, int col, int cardIndex) {
     this.row = row;
     this.col = col;
@@ -25,8 +31,12 @@ public class Move implements MoveI {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Move move = (Move) o;
     return row == move.row && col == move.col && cardIndex == move.cardIndex;
   }

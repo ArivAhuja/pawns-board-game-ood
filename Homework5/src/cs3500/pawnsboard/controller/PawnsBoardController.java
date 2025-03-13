@@ -8,6 +8,9 @@ import cs3500.pawnsboard.model.Move;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Controller for the PawnsBoard game.
+ */
 public class PawnsBoardController implements PawnsBoardControllerI {
   private final PawnsBoardModel model;
   private final PawnsBoardTextualView view;
@@ -22,6 +25,16 @@ public class PawnsBoardController implements PawnsBoardControllerI {
     this.view = view;
   }
 
+  /**
+   * Starts the interactive game loop.
+   * Each turn, the controller:
+   *  - Checks if the current player's hand is empty and auto-passes if so.
+   *  - Checks if there are no legal moves available and auto-passes if so.
+   *  - Otherwise, prompts the player for input.
+   * Valid commands are:
+   *   - "pass" (to pass the turn)
+   *   - "place cardIndex row col" (to attempt a move)
+   */
   public void startGame() {
     Scanner sc = new Scanner(System.in);
 
@@ -38,7 +51,8 @@ public class PawnsBoardController implements PawnsBoardControllerI {
       // Auto-pass if there are no legal moves available.
       List<Move> legalMoves = model.getLegalMoves();
       if (legalMoves.isEmpty()) {
-        System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available. Auto-passing.");
+        System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available. " +
+                "Auto-passing.");
         model.pass();
         view.render(model.getBoard());
         continue;

@@ -1,5 +1,8 @@
 package cs3500.pawnsboard.model;
 
+/**
+ * Represents a possible move in the game.
+ */
 public interface MoveI {
 
 

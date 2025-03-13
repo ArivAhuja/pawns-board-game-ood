@@ -25,7 +25,8 @@ public class PawnsBoardModel implements PawnsBoardModelI {
    */
   public PawnsBoardModel(int rows, int columns, List<Card> deck, int handSize) {
     if (rows <= 0 || columns <= 1 || columns % 2 == 0) {
-      throw new IllegalArgumentException("Invalid board dimensions: rows must be > 0, and columns must be > 1 and odd.");
+      throw new IllegalArgumentException("Invalid board dimensions: rows must be > 0, and " +
+              "columns must be > 1 and odd.");
     }
 
     // initialize the board as a 2D array of Cells
@@ -47,33 +48,61 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     this.consecutivePasses = 0;
   }
 
+  /**
+   * Returns the board.
+   * @return the current Board.
+   */
   public Board getBoard() {
     return board;
   }
 
+  /**
+   * Returns true if the game is over (i.e. both players have passed consecutively).
+   * @return true if game over, false otherwise.
+   */
   public boolean isGameOver() {
     return consecutivePasses >= 2;
   }
 
+  /**
+   * Returns the current player.
+   * @return the Player whose turn it is.
+   */
   public Player getCurrentPlayer() {
     return isRedTurn ? redPlayer : bluePlayer;
   }
 
+  /**
+   * Processes a pass move by the current player.
+   */
   public void pass() {
     System.out.println(getCurrentPlayer().getColor() + " passes.");
     consecutivePasses++;
     isRedTurn = !isRedTurn;
   }
 
+  /**
+   * Checks if the current player's hand is empty.
+   * If so, automatically passes.
+   * @return true if an auto-pass occurred, false otherwise.
+   */
   public boolean autoPassIfHandEmpty() {
     if (getCurrentPlayer().getHand().isEmpty()) {
-      System.out.println(getCurrentPlayer().getColor() + " has no cards left. Automatically passing.");
+      System.out.println(getCurrentPlayer().getColor() + " has no cards left. Automatically " +
+              "passing.");
       pass();
       return true;
     }
     return false;
   }
 
+  /**
+   * Attempts to place a card from the current player's hand on the specified cell.
+   * @param row       The row of the target cell.
+   * @param col       The column of the target cell.
+   * @param cardIndex The index of the card in the player's hand.
+   * @return true if the move was successful, false otherwise.
+   */
   public boolean placeCard(int row, int col, int cardIndex) {
     Player current = getCurrentPlayer();
 
@@ -83,7 +112,8 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     }
 
     Cell cell = board.getCell(row, col);
-    // Check that the cell has pawns, is owned by the current player, and does not already have a card.
+    // Check that the cell has pawns, is owned by the current player, and does not already
+    // have a card.
     if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) || cell.getCard() != null) {
       System.out.println("Cell is not eligible for placement.");
       return false;
@@ -117,8 +147,9 @@ public class PawnsBoardModel implements PawnsBoardModelI {
    * The card's 5x5 influence grid is overlaid on the board, centered at (cardRow, cardCol).
    * For each cell in the grid marked 'I':
    *   - If the cell is empty, a single pawn of the current player's color is added.
-   *   - If the cell has pawns owned by the current player, the pawn count increases by one (up to 3).
-   *   - If the cell has pawns owned by the opponent, the cell's owner is switched to the current player's color.
+   *   - If the cell has pawns owned by the current player, the pawn count increases by one (upto3).
+   *   - If the cell has pawns owned by the opponent, the cell's owner is switched to the current
+   *   player's color.
    * The influence grid is mirrored horizontally if the current player is Blue.
    *
    * @param cardRow    The row where the card was placed.
@@ -173,14 +204,20 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     }
   }
 
+  /**
+   * Enumerates all legal moves for the current player.
+   * @return a list of legal moves available.
+   */
   public List<Move> getLegalMoves() {
     List<Move> moves = new ArrayList<>();
     Player current = getCurrentPlayer();
     for (int row = 0; row < board.getRows(); row++) {
       for (int col = 0; col < board.getColumns(); col++) {
         Cell cell = board.getCell(row, col);
-        // Only consider cells that contain pawns owned by the current player and do not already hold a card.
-        if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) || cell.getCard() != null) {
+        // Only consider cells that contain pawns owned by the current player and do not already
+        // hold a card.
+        if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) ||
+                cell.getCard() != null) {
           continue;
         }
         // For each card in the player's hand, check if it can be legally played here.
@@ -195,6 +232,10 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     return moves;
   }
 
+  /**
+   * Computes the overall scores for both players.
+   * @return an int array of length 2 where index 0 is Red's score and index 1 is Blue's score.
+   */
   public int[] computeScores() {
     int redTotal = 0;
     int blueTotal = 0;
@@ -210,6 +251,12 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     return new int[] { redTotal, blueTotal };
   }
 
+  /**
+   * Computes the row-by-row scores.
+   * For each row, sums the value scores of cards owned by Red and Blue separately.
+   * @return a 2D int array where for each row i,
+   *         result[i][0] is Red's row score and result[i][1] is Blue's row score.
+   */
   public int[][] computeRowScores() {
     int rows = board.getRows();
     int cols = board.getColumns();
@@ -234,6 +281,10 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     return rowScores;
   }
 
+  /**
+   * Determines the winner based on the computed scores.
+   * @return "Red wins!", "Blue wins!", or "It's a tie!".
+   */
   public String getWinner() {
     int[] scores = computeScores();
     if (scores[0] > scores[1]) {

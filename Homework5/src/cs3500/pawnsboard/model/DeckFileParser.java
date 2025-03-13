@@ -38,7 +38,8 @@ public class DeckFileParser implements DeckFileParserI {
       }
       String row = scanner.nextLine().trim();
       if (row.length() != 5) {
-        throw new IllegalArgumentException("Grid row must have exactly 5 characters for card " + name);
+        throw new IllegalArgumentException("Grid row must have exactly 5 characters for card "
+                + name);
       }
       grid[i] = row.toCharArray();
     }
@@ -46,6 +47,13 @@ public class DeckFileParser implements DeckFileParserI {
     return new Card(name, cost, value, grid);
   }
 
+  /**
+   * Converts a full deck file (as a String) into a list of Card objects.
+   * Assumes the deck file contains a multiple of 6 non-empty lines.
+   *
+   * @param deckString the entire deck file as a string.
+   * @return a list of Card objects parsed from the file.
+   */
   public List<Card> toDeck(String deckString) {
     List<Card> deck = new ArrayList<>();
     Scanner scanner = new Scanner(deckString);
