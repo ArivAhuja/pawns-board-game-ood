@@ -99,3 +99,9 @@ XXXXX
   - **README.md**: Gives overview of the project
 
 **Sample Class Invariant:** The board is a rectangle with an odd number of columns.
+
+
+
+## Changes from HW5 -> HW6
+
+- Creates the ReadOnlyPawnsBoardModel interface, changed the PawnsBoardModel to implement this interface

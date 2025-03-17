@@ -48,6 +48,8 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     this.consecutivePasses = 0;
   }
 
+  // =================== Observation Methods (from ReadonlyPawnsBoardModelI) ===================
+
   /**
    * Returns the board.
    * @return the current Board.
@@ -71,6 +73,102 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   public Player getCurrentPlayer() {
     return isRedTurn ? redPlayer : bluePlayer;
   }
+
+  /**
+   * Enumerates all legal moves for the current player.
+   * @return a list of legal moves available.
+   */
+  public List<Move> getLegalMoves() {
+    List<Move> moves = new ArrayList<>();
+    Player current = getCurrentPlayer();
+    for (int row = 0; row < board.getRows(); row++) {
+      for (int col = 0; col < board.getColumns(); col++) {
+        Cell cell = board.getCell(row, col);
+        // Only consider cells that contain pawns owned by the current player and do not already
+        // hold a card.
+        if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) ||
+                cell.getCard() != null) {
+          continue;
+        }
+        // For each card in the player's hand, check if it can be legally played here.
+        for (int cardIndex = 0; cardIndex < current.getHand().size(); cardIndex++) {
+          Card card = current.getHand().get(cardIndex);
+          if (card.getCost() <= cell.getPawnCount()) {
+            moves.add(new Move(row, col, cardIndex));
+          }
+        }
+      }
+    }
+    return moves;
+  }
+
+  /**
+   * Computes the overall scores for both players.
+   * @return an int array of length 2 where index 0 is Red's score and index 1 is Blue's score.
+   */
+  public int[] computeScores() {
+    int redTotal = 0;
+    int blueTotal = 0;
+    int[][] rowScores = computeRowScores();
+    for (int[] rowScore : rowScores) {
+      if (rowScore[0] > rowScore[1]) {
+        redTotal += rowScore[0];
+      }
+      else if (rowScore[1] > rowScore[0]) {
+        blueTotal += rowScore[1];
+      }
+    }
+    return new int[] { redTotal, blueTotal };
+  }
+
+  /**
+   * Computes the row-by-row scores.
+   * For each row, sums the value scores of cards owned by Red and Blue separately.
+   * @return a 2D int array where for each row i,
+   *         result[i][0] is Red's row score and result[i][1] is Blue's row score.
+   */
+  public int[][] computeRowScores() {
+    int rows = board.getRows();
+    int cols = board.getColumns();
+    int[][] rowScores = new int[rows][2];
+    for (int row = 0; row < rows; row++) {
+      int redScore = 0;
+      int blueScore = 0;
+      for (int col = 0; col < cols; col++) {
+        Cell cell = board.getCell(row, col);
+        if (cell.getCard() != null) {
+          if (cell.getOwner().equals("Red")) {
+            redScore += cell.getCard().getValue();
+          }
+          else if (cell.getOwner().equals("Blue")) {
+            blueScore += cell.getCard().getValue();
+          }
+        }
+      }
+      rowScores[row][0] = redScore;
+      rowScores[row][1] = blueScore;
+    }
+    return rowScores;
+  }
+
+  /**
+   * Determines the winner based on the computed scores.
+   * @return "Red wins!", "Blue wins!", or "It's a tie!".
+   */
+  public String getWinner() {
+    int[] scores = computeScores();
+    if (scores[0] > scores[1]) {
+      return "Red wins!";
+    }
+    else if (scores[1] > scores[0]) {
+      return "Blue wins!";
+    }
+    else {
+      return "It's a tie!";
+    }
+  }
+
+  // ======================== Mutator Methods (from PawnsBoardModelI) =========================
 
   /**
    * Processes a pass move by the current player.
@@ -203,100 +301,4 @@ public class PawnsBoardModel implements PawnsBoardModelI {
       }
     }
   }
-
-  /**
-   * Enumerates all legal moves for the current player.
-   * @return a list of legal moves available.
-   */
-  public List<Move> getLegalMoves() {
-    List<Move> moves = new ArrayList<>();
-    Player current = getCurrentPlayer();
-    for (int row = 0; row < board.getRows(); row++) {
-      for (int col = 0; col < board.getColumns(); col++) {
-        Cell cell = board.getCell(row, col);
-        // Only consider cells that contain pawns owned by the current player and do not already
-        // hold a card.
-        if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) ||
-                cell.getCard() != null) {
-          continue;
-        }
-        // For each card in the player's hand, check if it can be legally played here.
-        for (int cardIndex = 0; cardIndex < current.getHand().size(); cardIndex++) {
-          Card card = current.getHand().get(cardIndex);
-          if (card.getCost() <= cell.getPawnCount()) {
-            moves.add(new Move(row, col, cardIndex));
-          }
-        }
-      }
-    }
-    return moves;
-  }
-
-  /**
-   * Computes the overall scores for both players.
-   * @return an int array of length 2 where index 0 is Red's score and index 1 is Blue's score.
-   */
-  public int[] computeScores() {
-    int redTotal = 0;
-    int blueTotal = 0;
-    int[][] rowScores = computeRowScores();
-    for (int[] rowScore : rowScores) {
-      if (rowScore[0] > rowScore[1]) {
-        redTotal += rowScore[0];
-      }
-      else if (rowScore[1] > rowScore[0]) {
-        blueTotal += rowScore[1];
-      }
-    }
-    return new int[] { redTotal, blueTotal };
-  }
-
-  /**
-   * Computes the row-by-row scores.
-   * For each row, sums the value scores of cards owned by Red and Blue separately.
-   * @return a 2D int array where for each row i,
-   *         result[i][0] is Red's row score and result[i][1] is Blue's row score.
-   */
-  public int[][] computeRowScores() {
-    int rows = board.getRows();
-    int cols = board.getColumns();
-    int[][] rowScores = new int[rows][2];
-    for (int row = 0; row < rows; row++) {
-      int redScore = 0;
-      int blueScore = 0;
-      for (int col = 0; col < cols; col++) {
-        Cell cell = board.getCell(row, col);
-        if (cell.getCard() != null) {
-          if (cell.getOwner().equals("Red")) {
-            redScore += cell.getCard().getValue();
-          }
-          else if (cell.getOwner().equals("Blue")) {
-            blueScore += cell.getCard().getValue();
-          }
-        }
-      }
-      rowScores[row][0] = redScore;
-      rowScores[row][1] = blueScore;
-    }
-    return rowScores;
-  }
-
-  /**
-   * Determines the winner based on the computed scores.
-   * @return "Red wins!", "Blue wins!", or "It's a tie!".
-   */
-  public String getWinner() {
-    int[] scores = computeScores();
-    if (scores[0] > scores[1]) {
-      return "Red wins!";
-    }
-    else if (scores[1] > scores[0]) {
-      return "Blue wins!";
-    }
-    else {
-      return "It's a tie!";
-    }
-  }
-
-
 }
