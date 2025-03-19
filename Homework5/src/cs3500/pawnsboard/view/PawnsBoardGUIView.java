@@ -13,30 +13,20 @@ import java.awt.BorderLayout;
  */
 public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
 
-  private BoardPanel boardPanel;
-  private HandPanel leftHandPanel;
-  private HandPanel rightHandPanel;
+  private final JPawnsBoardPanel panel;
 
   /**
    * Constructor: creates the GUI window with panels.
    *
    * @param model    The read-only model.
-   * @param player1  The first player (e.g. Red).
-   * @param player2  The second player (e.g. Blue).
    */
-  public PawnsBoardGUIView(ReadonlyPawnsBoardModelI model, Player player1, Player player2) {
+  public PawnsBoardGUIView(ReadonlyPawnsBoardModelI model) {
     super("Pawns Board Game");
-    this.setSize(800, 600);
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.setLayout(new BorderLayout());
-
-    boardPanel = new BoardPanel(model);
-    leftHandPanel = new HandPanel(model, player1);
-    rightHandPanel = new HandPanel(model, player2);
-
-    this.add(leftHandPanel, BorderLayout.WEST);
-    this.add(boardPanel, BorderLayout.CENTER);
-    this.add(rightHandPanel, BorderLayout.EAST);
+    Player player = model.getCurrentPlayer();
+    this.panel = new JPawnsBoardPanel(model, player);
+    this.add(panel);
+    this.pack();
 
     // Additional setup (listeners, overlays, etc.) can be added later.
     this.setLocationRelativeTo(null);
@@ -44,9 +34,7 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
 
   @Override
   public void refresh() {
-    boardPanel.repaint();
-    leftHandPanel.repaint();
-    rightHandPanel.repaint();
+    this.panel.repaint();
   }
 
   @Override
@@ -55,11 +43,13 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
   }
 
   @Override
-  public void addFeaturesListener(Object features) {
+  public void addFeatureListener(ViewFeatures features) {
     // Hook up the feature listener (for mouse/keyboard events) to all panels.
-    boardPanel.addFeatureListener(features);
-    leftHandPanel.addFeatureListener(features);
-    rightHandPanel.addFeatureListener(features);
+    this.panel.addFeaturesListener(features);
   }
 
+  @Override
+  public void clearSelectedCard() {
+    this.panel.clearSelectedCard();
+  }
 }

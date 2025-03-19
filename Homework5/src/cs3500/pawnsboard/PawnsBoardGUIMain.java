@@ -1,5 +1,7 @@
 package cs3500.pawnsboard;
 
+import cs3500.pawnsboard.controller.PawnsBoardController;
+import cs3500.pawnsboard.controller.PawnsBoardGUIController;
 import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.model.DeckFileParser;
 import cs3500.pawnsboard.model.PawnsBoardModel;
@@ -25,6 +27,10 @@ public class PawnsBoardGUIMain {
       // Instantiate the GUI view using the read-only interface.
       PawnsBoardGUIView guiView = new PawnsBoardGUIView(model);
       guiView.setVisible(true);
+
+      PawnsBoardGUIController controller = new PawnsBoardGUIController(model, guiView);
+
+      controller.startGame();
 
     } catch (IOException e) {
       System.err.println("Error reading deck file: " + e.getMessage());

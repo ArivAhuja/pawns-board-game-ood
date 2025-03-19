@@ -1,7 +1,6 @@
 package cs3500.pawnsboard.view;
 
 import cs3500.pawnsboard.model.Board;
-import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
 

@@ -4,6 +4,7 @@ import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.view.PawnsBoardTextualView;
 import cs3500.pawnsboard.model.Move;
+import cs3500.pawnsboard.view.ViewFeatures;
 
 import java.util.List;
 import java.util.Scanner;

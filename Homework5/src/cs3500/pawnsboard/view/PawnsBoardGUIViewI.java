@@ -17,5 +17,10 @@ public interface PawnsBoardGUIViewI {
   /**
    * Adds a features listener (for mouse/keyboard events) to all panels.
    */
-  void addFeaturesListener(Object features);
+  void addFeatureListener(ViewFeatures features);
+
+  /**
+   * Clears the current selected card.
+   */
+  void clearSelectedCard();
 }
