@@ -1,10 +1,7 @@
 package cs3500.pawnsboard.controller;
 
-import java.util.List;
-
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
-import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
 
@@ -38,7 +35,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void selectedCard(int CardIndex) {
-    // Highlighting logic is in view
+    // highlight card logic in view
     view.refresh();
   }
 
@@ -46,7 +43,6 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   public void selectedCell(int row, int col, int cardIndex) {
     Move attemptedMove = new Move(row, col, cardIndex);
     boolean success = model.placeCard(row, col, cardIndex);
-    System.out.println("Controller: Attempting to place card index: " + cardIndex);
     if (success) {
       view.clearSelectedCard();
     }

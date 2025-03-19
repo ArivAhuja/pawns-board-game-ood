@@ -12,6 +12,16 @@ TODO
 
 - ...
 
+To D0 GUI
+- add logic to controller similar to textual view
+- add autopass logic to controller
+- make clicks more reponsive
+- make pawns circles
+- add a restart game functionality if you click "r"
+- make cards display value instead of name and center it
+
+
+
 Checklist before sumbit
 - No leaking implementation details
 - No debug statements in final code

@@ -311,6 +311,38 @@ public class JPawnsBoardPanel extends JPanel {
   }
 
   /**
+   * Draws a game-over screen with the winner's message.
+   */
+  private void drawGameOver(Graphics2D g2d) {
+    int width = getWidth();
+    int height = getHeight();
+
+    // Draw a semi-transparent black overlay.
+    g2d.setColor(new Color(0, 0, 0, 150));  // RGBA: black with alpha = 150
+    g2d.fillRect(0, 0, width, height);
+
+    // Get the winner message.
+    String winnerMessage = model.getWinner(); // e.g., "Red wins!" or "It's a tie!"
+
+    // Set up a large, bold font.
+    Font gameOverFont = new Font("SansSerif", Font.BOLD, 48);
+    g2d.setFont(gameOverFont);
+
+    // Measure the text so we can center it.
+    FontMetrics fm = g2d.getFontMetrics();
+    int textWidth = fm.stringWidth(winnerMessage);
+    int textHeight = fm.getAscent();  // approximate height
+
+    // Calculate position to center the text.
+    int textX = (width - textWidth) / 2;
+    int textY = (height + textHeight) / 2;
+
+    // Draw the winner message in white.
+    g2d.setColor(Color.WHITE);
+    g2d.drawString(winnerMessage, textX, textY);
+  }
+
+  /**
    * The panel's painting method.
    * It divides the panel vertically so that the top 65% is for the board and
    * the bottom 35% is for the hand.
@@ -323,17 +355,21 @@ public class JPawnsBoardPanel extends JPanel {
     int width = getWidth();
     int height = getHeight();
 
-    // Calculate regions: top 65% for the board, bottom 35% for the hand.
-    int boardHeight = (int) (height * 0.65);
-    int handHeight = height - boardHeight;
+    if (model.isGameOver()) {
+      drawGameOver(g2d);
+    } else {
+      // Calculate regions: top 65% for the board, bottom 35% for the hand.
+      int boardHeight = (int) (height * 0.65);
+      int handHeight = height - boardHeight;
 
-    // Draw the board in the top region.
-    drawBoard(model.getBoard(), g2d, 0, 0, width, boardHeight);
+      // Draw the board in the top region.
+      drawBoard(model.getBoard(), g2d, 0, 0, width, boardHeight);
 
-    // Draw the hand in the bottom region.
-    drawHand(model.getCurrentPlayer().getHand(), g2d, 0, boardHeight, width, handHeight);
+      // Draw the hand in the bottom region.
+      drawHand(model.getCurrentPlayer().getHand(), g2d, 0, boardHeight, width, handHeight);
 
-    g2d.dispose();
+      g2d.dispose();
+    }
   }
 
   public void clearSelectedCard() {
