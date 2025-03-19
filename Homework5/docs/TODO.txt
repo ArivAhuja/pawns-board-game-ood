@@ -11,3 +11,12 @@ QUESTIONS
 TODO
 
 - ...
+
+Checklist before sumbit
+- No leaking implementation details
+- No debug statements in final code
+- No debug comments in final code
+- Make sure interfaces have proper methods
+- Check puublic vs private vs protected etc.
+- Overrides are consistent
+- Check that main class model, view, controller have descriptive java docs

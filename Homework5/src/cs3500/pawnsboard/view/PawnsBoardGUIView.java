@@ -23,8 +23,7 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
   public PawnsBoardGUIView(ReadonlyPawnsBoardModelI model) {
     super("Pawns Board Game");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    Player player = model.getCurrentPlayer();
-    this.panel = new JPawnsBoardPanel(model, player);
+    this.panel = new JPawnsBoardPanel(model);
     this.add(panel);
     this.pack();
 

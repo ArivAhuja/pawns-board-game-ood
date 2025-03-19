@@ -20,18 +20,13 @@ public class PawnsBoardGUIMain {
       String deckContent = new String(Files.readAllBytes(Paths.get(deckFilePath)));
       DeckFileParser parser = new DeckFileParser();
       List<Card> deck = parser.toDeck(deckContent);
-
       // Create the game model with a 3x5 board and a starting hand size of 5.
       PawnsBoardModel model = new PawnsBoardModel(3, 5, deck, 5);
-
       // Instantiate the GUI view using the read-only interface.
       PawnsBoardGUIView guiView = new PawnsBoardGUIView(model);
       guiView.setVisible(true);
-
       PawnsBoardGUIController controller = new PawnsBoardGUIController(model, guiView);
-
       controller.startGame();
-
     } catch (IOException e) {
       System.err.println("Error reading deck file: " + e.getMessage());
     }

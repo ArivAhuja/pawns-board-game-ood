@@ -21,11 +21,12 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   public PawnsBoardGUIController(PawnsBoardModel model, PawnsBoardGUIView view) {
     this.model = model;
     this.view = view;
+    this.view.addFeatureListener(this);
   }
 
   @Override
   public void startGame() {
-    view.repaint();
+    view.refresh();
   }
 
   @Override
@@ -45,5 +46,10 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   public void selectedCell(int row, int col, int cardIndex) {
     Move attemptedMove = new Move(row, col, cardIndex);
     boolean success = model.placeCard(row, col, cardIndex);
+    System.out.println("Controller: Attempting to place card index: " + cardIndex);
+    if (success) {
+      view.clearSelectedCard();
+    }
+    view.refresh();
   }
 }

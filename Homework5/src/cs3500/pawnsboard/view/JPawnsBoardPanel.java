@@ -1,7 +1,8 @@
 package cs3500.pawnsboard.view;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,7 @@ import javax.swing.*;
 public class JPawnsBoardPanel extends JPanel {
 
   private final ReadonlyPawnsBoardModelI model;
-  private final List<Card> hand;
-  private final Board board;
   private final List<ViewFeatures> featuresListeners;
-  private final Player player;
-  private boolean mouseIsDown;
   private int selectedCardIndex;
 
 
@@ -35,16 +32,20 @@ public class JPawnsBoardPanel extends JPanel {
    *
    * @param model the read-only model
    */
-  public JPawnsBoardPanel(ReadonlyPawnsBoardModelI model, Player player) {
+  public JPawnsBoardPanel(ReadonlyPawnsBoardModelI model) {
     this.model = model;
-    this.player = player;
-    this.hand = player.getHand();
-    this.board = model.getBoard();
     this.featuresListeners = new ArrayList<>();
-    this.mouseIsDown = false;
     this.selectedCardIndex = -1;
-    addMouseListener(new MouseClickListener());
-    setupKeyBindings();
+
+    setFocusable(true);
+    requestFocusInWindow();
+
+    MouseClickListener mouseListener = new MouseClickListener();
+    this.addMouseListener(mouseListener);
+    this.addMouseMotionListener(mouseListener);
+    KeyPressListener keyListener = new KeyPressListener();
+    this.addKeyListener(keyListener);
+
   }
 
   /**
@@ -108,7 +109,7 @@ public class JPawnsBoardPanel extends JPanel {
     if (selected) {
       fillColor = Color.GREEN;
     } else {
-      String pColor = player.getColor();
+      String pColor = model.getCurrentPlayer().getColor();
       if (pColor.equalsIgnoreCase("Red")) {
         fillColor = Color.RED;
       } else if (pColor.equalsIgnoreCase("Blue")) {
@@ -327,22 +328,12 @@ public class JPawnsBoardPanel extends JPanel {
     int handHeight = height - boardHeight;
 
     // Draw the board in the top region.
-    drawBoard(board, g2d, 0, 0, width, boardHeight);
+    drawBoard(model.getBoard(), g2d, 0, 0, width, boardHeight);
 
     // Draw the hand in the bottom region.
-    drawHand(hand, g2d, 0, boardHeight, width, handHeight);
+    drawHand(model.getCurrentPlayer().getHand(), g2d, 0, boardHeight, width, handHeight);
 
     g2d.dispose();
-  }
-
-  /**
-   * Sets the selected card and repaints the panel.
-   *
-   * @param cardIndex the index of the card to highlight
-   */
-  public void setSelectedCard(int cardIndex) {
-    this.selectedCardIndex = cardIndex;
-    repaint();
   }
 
   public void clearSelectedCard() {
@@ -366,8 +357,8 @@ public class JPawnsBoardPanel extends JPanel {
       // If the click is in the board region.
       if (clickY < boardHeight) {
         // The board region includes two extra columns for scores.
-        int cols = board.getColumns();
-        int rows = board.getRows();
+        int cols = model.getBoard().getColumns();
+        int rows = model.getBoard().getRows();
         int cellWidth = panelWidth / (cols + 2);
         int cellHeight = boardHeight / rows;
         // Ignore clicks on the left/right score columns.
@@ -385,7 +376,7 @@ public class JPawnsBoardPanel extends JPanel {
         int handY = boardHeight;
         int handHeight = panelHeight - boardHeight;
         int spacing = 10;
-        int n = hand.size();
+        int n = model.getCurrentPlayer().getHand().size();
         int totalSpacing = (n + 1) * spacing;
         int cardWidth = (panelWidth - totalSpacing) / n;
         int startX = Math.max(0, (panelWidth - (n * cardWidth + totalSpacing)) / 2) + spacing;
@@ -400,33 +391,22 @@ public class JPawnsBoardPanel extends JPanel {
         repaint();
       }
     }
-
   }
 
-  {
-    // Register the mouse listener.
-    addMouseListener(new MouseClickListener());
-  }
-
-  private void setupKeyBindings() {
-    // Use the panel's input map instead of the root pane
-    InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-    ActionMap actionMap = this.getActionMap();
-
-    // When this panel is in focus, bind the "P" key to the action "passTurn"
-    inputMap.put(KeyStroke.getKeyStroke("P"), "passTurn");
-    actionMap.put("passTurn", new PassKeyAction());
-  }
-
-  // Private inner class for handling the pass key action.
-  private class PassKeyAction extends AbstractAction {
+  /**
+   * Private inner class for handling key events.
+   * When the "P" key is pressed, it triggers a pass action.
+   */
+  private class KeyPressListener extends KeyAdapter {
     @Override
-    public void actionPerformed(ActionEvent e) {
-      // Notify all registered feature listeners that a pass was triggered.
-      for (ViewFeatures vf : featuresListeners) {
-        vf.passTurn();
+    public void keyPressed(KeyEvent e) {
+      if (e.getKeyCode() == KeyEvent.VK_P) {
+        // Notify all registered feature listeners that a pass was triggered.
+        for (ViewFeatures vf : featuresListeners) {
+          vf.passTurn();
+        }
+        repaint();
       }
-      repaint();
     }
   }
 }
