@@ -24,4 +24,22 @@ public interface MoveI {
    * @return the hashcode of a move.
    */
   int hashCode();
+
+  /**
+   * Returns the row of the move.
+   * @return the row of the move.
+   */
+  int getRow();
+
+  /**
+   * Returns the column of the move.
+   * @return the column of the move.
+   */
+  int getCol();
+
+  /**
+   * Returns the card index of the move.
+   * @return the card index of the move.
+   */
+  int getCardIndex();
 }

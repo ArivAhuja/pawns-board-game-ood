@@ -13,6 +13,11 @@ public interface ReadonlyPawnsBoardModelI {
   Board getBoard();
 
   /**
+   * Returns a deep copy of the current board.
+   */
+  Board cloneBoard();
+
+  /**
    * Returns true if the game is over.
    */
   boolean isGameOver();

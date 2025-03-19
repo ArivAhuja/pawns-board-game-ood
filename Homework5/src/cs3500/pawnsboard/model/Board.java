@@ -30,6 +30,31 @@ public class Board implements BoardI {
   }
 
   /**
+   * Copy constructor: Creates a deep copy of the given Board.
+   * @param other the Board to copy.
+   */
+  public Board(Board other) {
+    this.rows = other.rows;
+    this.columns = other.columns;
+    this.cells = new Cell[rows][columns];
+
+    // Deep copy each cell
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < columns; j++) {
+        this.cells[i][j] = new Cell(other.cells[i][j]); // Uses Cell's copy constructor
+      }
+    }
+  }
+
+  /**
+   * Creates a deep copy of the board using the copy constructor.
+   * @return a new Board instance.
+   */
+  public Board cloneBoard() {
+    return new Board(this); // Uses the copy constructor
+  }
+
+  /**
    * Returns the cell at the specified position.
    * @param row the row index.
    * @param col the column index.

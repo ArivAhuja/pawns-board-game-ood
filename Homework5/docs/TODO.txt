@@ -10,7 +10,9 @@ QUESTIONS
 
 TODO
 
-- ...
+- Add tests for the Straegies
+- Add the extra credit strategies
+- Add the ^^ to the README
 
 To D0 GUI
 - add logic to controller similar to textual view

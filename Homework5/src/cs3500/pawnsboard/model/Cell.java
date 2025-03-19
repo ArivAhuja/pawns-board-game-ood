@@ -19,6 +19,24 @@ public class Cell implements CellI {
   }
 
   /**
+   * Deep copies a Cell object.
+   * @param other the Cell to copy.
+   */
+  public Cell(Cell other) {
+    this.pawnCount = other.pawnCount;
+    this.owner = other.owner;
+    this.card = (other.card != null) ? new Card(other.card) : null; // Uses Card copy constructor
+  }
+
+  /**
+   * Creates a deep copy of the cell.
+   * @return a new Cell instance with the same properties.
+   */
+  public Cell clone() {
+    return new Cell(this); // Uses copy constructor
+  }
+
+  /**
    * Gets the pawn count of the cell.
    * @return the number of pawns in the cell.
    */

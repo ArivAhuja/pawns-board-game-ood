@@ -59,6 +59,14 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   }
 
   /**
+   * Creates a deep copy of the board using the copy constructor.
+   * @return a new Board instance.
+   */
+  public Board cloneBoard() {
+    return new Board(this.board); // Uses Board's copy constructor
+  }
+
+  /**
    * Returns true if the game is over (i.e. both players have passed consecutively).
    * @return true if game over, false otherwise.
    */

@@ -66,6 +66,18 @@ public class Card implements CardI {
     this.influenceGrid = influenceGrid;
   }
 
+  /**
+   * Copy constructor for deep copying a Card object.
+   * @param other The Card to copy.
+   */
+  public Card(Card other) {
+    this.name = other.name;
+    this.cost = other.cost;
+    this.value = other.value;
+    this.influenceGrid = deepCopyGrid(other.influenceGrid);
+  }
+
+
   public String getName() {
     return name;
   }
@@ -85,5 +97,14 @@ public class Card implements CardI {
   @Override
   public String toString() {
     return name + " (Cost: " + cost + ", Value: " + value + ")";
+  }
+
+  private char[][] deepCopyGrid(char[][] grid) {
+    if (grid == null) return null;
+    char[][] copy = new char[grid.length][];
+    for (int i = 0; i < grid.length; i++) {
+      copy[i] = grid[i].clone();
+    }
+    return copy;
   }
 }

@@ -45,4 +45,16 @@ public class Move implements MoveI {
   public int hashCode() {
     return Objects.hash(row, col, cardIndex);
   }
+
+  public int getRow() {
+    return row;
+  }
+
+  public int getCol() {
+    return col;
+  }
+
+  public int getCardIndex() {
+    return cardIndex;
+  }
 }

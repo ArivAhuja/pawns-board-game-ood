@@ -6,6 +6,12 @@ package cs3500.pawnsboard.model;
 public interface CellI {
 
   /**
+   * Creates a deep copy of the cell.
+   * @return a new Cell instance with the same properties.
+   */
+  Cell clone();
+
+  /**
    * Gets the pawn count of the cell.
    * @return the number of pawns in the cell.
    */

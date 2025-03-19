@@ -6,6 +6,12 @@ package cs3500.pawnsboard.model;
 public interface BoardI {
 
   /**
+   * Creates a deep copy of the board using the copy constructor.
+   * @return a new Board instance.
+   */
+  Board cloneBoard();
+
+  /**
    * Returns the cell at the specified position.
    *
    * @param row the row index.
