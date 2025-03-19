@@ -32,13 +32,13 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   public void passTurn() {
     model.pass();
     view.clearSelectedCard();
-    view.repaint();
+    view.refresh();
   }
 
   @Override
   public void selectedCard(int CardIndex) {
     // Highlighting logic is in view
-    view.repaint();
+    view.refresh();
   }
 
   @Override

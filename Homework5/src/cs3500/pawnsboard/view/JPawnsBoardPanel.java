@@ -27,7 +27,7 @@ public class JPawnsBoardPanel extends JPanel {
   private final List<ViewFeatures> featuresListeners;
   private final Player player;
   private boolean mouseIsDown;
-  private int selectedCardIndex;;
+  private int selectedCardIndex;
 
 
   /**
@@ -44,6 +44,7 @@ public class JPawnsBoardPanel extends JPanel {
     this.mouseIsDown = false;
     this.selectedCardIndex = -1;
     addMouseListener(new MouseClickListener());
+    setupKeyBindings();
   }
 
   /**
@@ -107,7 +108,6 @@ public class JPawnsBoardPanel extends JPanel {
     if (selected) {
       fillColor = Color.GREEN;
     } else {
-      // Assume player.getColor() returns a String like "Red" or "Blue".
       String pColor = player.getColor();
       if (pColor.equalsIgnoreCase("Red")) {
         fillColor = Color.RED;
@@ -397,8 +397,10 @@ public class JPawnsBoardPanel extends JPanel {
         for (ViewFeatures vf : featuresListeners) {
           vf.selectedCard(cardIndex);
         }
+        repaint();
       }
     }
+
   }
 
   {
@@ -407,10 +409,13 @@ public class JPawnsBoardPanel extends JPanel {
   }
 
   private void setupKeyBindings() {
-    // When this view is in focus, bind the "P" key to the action "passTurn".
-    this.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-            .put(KeyStroke.getKeyStroke("P"), "passTurn");
-    this.getRootPane().getActionMap().put("passTurn", new PassKeyAction());
+    // Use the panel's input map instead of the root pane
+    InputMap inputMap = this.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
+    ActionMap actionMap = this.getActionMap();
+
+    // When this panel is in focus, bind the "P" key to the action "passTurn"
+    inputMap.put(KeyStroke.getKeyStroke("P"), "passTurn");
+    actionMap.put("passTurn", new PassKeyAction());
   }
 
   // Private inner class for handling the pass key action.
@@ -421,7 +426,7 @@ public class JPawnsBoardPanel extends JPanel {
       for (ViewFeatures vf : featuresListeners) {
         vf.passTurn();
       }
+      repaint();
     }
   }
-
 }
