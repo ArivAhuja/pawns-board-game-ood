@@ -16,12 +16,14 @@ TODO
 
 To D0 GUI
 - add logic to controller similar to textual view
-- add autopass logic to controller
 - make clicks more reponsive
 - make pawns circles
 - add a restart game functionality if you click "r"
 - make cards display value instead of name and center it
 
+Other To Do?
+- make builder class?
+- make customizable start ie choose board size in gui?
 
 
 Checklist before sumbit

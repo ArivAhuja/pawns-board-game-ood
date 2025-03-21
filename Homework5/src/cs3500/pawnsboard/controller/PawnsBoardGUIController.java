@@ -1,7 +1,10 @@
 package cs3500.pawnsboard.controller;
 
+import java.util.List;
+
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
+import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
 
@@ -24,6 +27,15 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   @Override
   public void startGame() {
     view.refresh();
+    while (!model.isGameOver()) {
+      List<Move> legalMoves = model.getLegalMoves();
+      if (legalMoves.isEmpty()) {
+        System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available. " +
+                "Auto-passing.");
+        model.pass();
+        view.refresh();
+      }
+    }
   }
 
   @Override
