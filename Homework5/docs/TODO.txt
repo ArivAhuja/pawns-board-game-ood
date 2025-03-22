@@ -21,6 +21,14 @@ To D0 GUI
 - add a restart game functionality if you click "r"
 - make cards display value instead of name and center it
 
+BUGS
+- When a player autopasses it skips not their turn but the other players turn which causes a double
+- skip and ending the game when the other player could still have moves.
+- Red has no legal moves available. Auto-passing.
+- Blue passes.
+- Red has no legal moves available. Auto-passing.
+- Red passes.
+
 Other To Do?
 - make builder class?
 - make customizable start ie choose board size in gui?

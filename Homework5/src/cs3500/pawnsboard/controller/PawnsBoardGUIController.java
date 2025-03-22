@@ -28,11 +28,18 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   public void startGame() {
     view.refresh();
     while (!model.isGameOver()) {
+      // Auto-pass if the current player's hand is empty.
+      if (model.autoPassIfHandEmpty()) {
+        view.refresh();
+        continue;
+      }
+
       List<Move> legalMoves = model.getLegalMoves();
       if (legalMoves.isEmpty()) {
-        System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available. " +
-                "Auto-passing.");
+        System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available." +
+                " Auto-passing.");
         model.pass();
+        view.clearSelectedCard();
         view.refresh();
       }
     }

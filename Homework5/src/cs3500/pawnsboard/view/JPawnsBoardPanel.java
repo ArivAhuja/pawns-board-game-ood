@@ -61,35 +61,11 @@ public class JPawnsBoardPanel extends JPanel {
   /**
    * Specifies the logical coordinate system size.
    */
-  private Dimension getPreferredLogicalSize() {
-    return new Dimension(100, 100);
-  }
-
-  /**
-   * Specifies the logical coordinate system size.
-   */
   @Override
   public Dimension getPreferredSize() {
     return new Dimension(800, 600);
   }
 
-  /**
-   * Creates the transformation that converts from logical coordinates
-   * (with the origin at the center and a fixed logical size) to physical screen coordinates.
-   *
-   * @return the AffineTransform for logical to physical conversion
-   */
-  private AffineTransform transformLogicalToPhysical() {
-    AffineTransform ret = new AffineTransform();
-    Dimension preferred = getPreferredLogicalSize();
-    // Step 1: move the origin to the center of the panel
-    ret.translate(getWidth() / 2.0, getHeight() / 2.0);
-    // Step 2: scale to match the logical size
-    ret.scale(getWidth() / preferred.getWidth(), getHeight() / preferred.getHeight());
-    // Step 3: flip the y-axis so that positive y goes upward
-    ret.scale(1, -1);
-    return ret;
-  }
 
   /**
    * Draws a single card at the given position using dynamic dimensions.
@@ -152,20 +128,32 @@ public class JPawnsBoardPanel extends JPanel {
       for (int j = 0; j < 5; j++) {
         int cellX = gridStartX + j * gridCellSize;
         int cellY = gridStartY + i * gridCellSize;
-        g2d.drawRect(cellX, cellY, gridCellSize, gridCellSize);
+
+        // Determine the cell's fill color based on its character.
+        Color cellColor;
         char ch = grid[i][j];
-        if (ch != 'X') {
-          // Center the character within the grid cell.
-          FontMetrics fm = g2d.getFontMetrics();
-          int charWidth = fm.charWidth(ch);
-          int charAscent = fm.getAscent();
-          int charX = cellX + (gridCellSize - charWidth) / 2;
-          int charY = cellY + (gridCellSize + charAscent) / 2;
-          g2d.drawString(String.valueOf(ch), charX, charY);
+        if (ch == 'c' || ch == 'C') {
+          cellColor = Color.ORANGE;
+        } else if (ch == 'I') {
+          cellColor = Color.CYAN;
+        } else if (ch == 'X') {
+          cellColor = Color.DARK_GRAY;
+        } else {
+          cellColor = Color.WHITE;
         }
+
+        // Fill the cell with the determined color.
+        g2d.setColor(cellColor);
+        g2d.fillRect(cellX, cellY, gridCellSize, gridCellSize);
+
+        // Draw the cell border.
+        g2d.setColor(Color.BLACK);
+        g2d.drawRect(cellX, cellY, gridCellSize, gridCellSize);
       }
     }
   }
+
+
 
 
   /**
@@ -311,36 +299,81 @@ public class JPawnsBoardPanel extends JPanel {
   }
 
   /**
-   * Draws a game-over screen with the winner's message.
+   * Draws a game-over screen with the winner's message and final scores.
    */
   private void drawGameOver(Graphics2D g2d) {
     int width = getWidth();
     int height = getHeight();
 
-    // Draw a semi-transparent black overlay.
-    g2d.setColor(new Color(0, 0, 0, 150));  // RGBA: black with alpha = 150
+    // Compute final scores and determine the winner.
+    int[] scores = model.computeScores();
+    String winnerMessage = model.getWinner(); // e.g., "Red wins!", "Blue wins!" or "It's a tie!"
+
+    // Determine background color based on the winner.
+    Color bgColor;
+    if (winnerMessage.contains("Red")) {
+      bgColor = Color.RED;
+    } else if (winnerMessage.contains("Blue")) {
+      bgColor = Color.BLUE;
+    } else {
+      bgColor = Color.GRAY;
+    }
+
+    // Fill the entire screen with the background color.
+    g2d.setColor(bgColor);
     g2d.fillRect(0, 0, width, height);
 
-    // Get the winner message.
-    String winnerMessage = model.getWinner(); // e.g., "Red wins!" or "It's a tie!"
+    // Prepare messages to display.
+    String gameOverStr = "Game Over.";
+    String scoresTitle = "Final Scores:";
+    String redScoreStr = "Red: " + scores[0];
+    String blueScoreStr = "Blue: " + scores[1];
 
-    // Set up a large, bold font.
-    Font gameOverFont = new Font("SansSerif", Font.BOLD, 48);
-    g2d.setFont(gameOverFont);
+    // Set up fonts.
+    Font titleFont = new Font("SansSerif", Font.BOLD, 48);
+    Font scoreFont = new Font("SansSerif", Font.PLAIN, 24);
 
-    // Measure the text so we can center it.
-    FontMetrics fm = g2d.getFontMetrics();
-    int textWidth = fm.stringWidth(winnerMessage);
-    int textHeight = fm.getAscent();  // approximate height
-
-    // Calculate position to center the text.
-    int textX = (width - textWidth) / 2;
-    int textY = (height + textHeight) / 2;
-
-    // Draw the winner message in white.
+    // Draw game over and winner messages in white.
     g2d.setColor(Color.WHITE);
-    g2d.drawString(winnerMessage, textX, textY);
+    g2d.setFont(titleFont);
+    FontMetrics fmTitle = g2d.getFontMetrics();
+
+    // Calculate starting Y position for centered text.
+    int totalTitleHeight = fmTitle.getHeight() * 2; // for "Game Over." and the winner message
+    int startY = height / 2 - totalTitleHeight;
+
+    // Center and draw "Game Over."
+    int gameOverWidth = fmTitle.stringWidth(gameOverStr);
+    int gameOverX = (width - gameOverWidth) / 2;
+    int gameOverY = startY;
+    g2d.drawString(gameOverStr, gameOverX, gameOverY);
+
+    // Center and draw winner message just below.
+    int winnerWidth = fmTitle.stringWidth(winnerMessage);
+    int winnerX = (width - winnerWidth) / 2;
+    int winnerY = gameOverY + fmTitle.getHeight();
+    g2d.drawString(winnerMessage, winnerX, winnerY);
+
+    // Draw final scores below the winner message.
+    g2d.setFont(scoreFont);
+    FontMetrics fmScore = g2d.getFontMetrics();
+
+    int scoresTitleWidth = fmScore.stringWidth(scoresTitle);
+    int scoresTitleX = (width - scoresTitleWidth) / 2;
+    int scoresTitleY = winnerY + fmScore.getHeight() + 20;
+    g2d.drawString(scoresTitle, scoresTitleX, scoresTitleY);
+
+    int redScoreWidth = fmScore.stringWidth(redScoreStr);
+    int redScoreX = (width - redScoreWidth) / 2;
+    int redScoreY = scoresTitleY + fmScore.getHeight() + 10;
+    g2d.drawString(redScoreStr, redScoreX, redScoreY);
+
+    int blueScoreWidth = fmScore.stringWidth(blueScoreStr);
+    int blueScoreX = (width - blueScoreWidth) / 2;
+    int blueScoreY = redScoreY + fmScore.getHeight() + 10;
+    g2d.drawString(blueScoreStr, blueScoreX, blueScoreY);
   }
+
 
   /**
    * The panel's painting method.
@@ -357,7 +390,8 @@ public class JPawnsBoardPanel extends JPanel {
 
     if (model.isGameOver()) {
       drawGameOver(g2d);
-    } else {
+    }
+    else {
       // Calculate regions: top 65% for the board, bottom 35% for the hand.
       int boardHeight = (int) (height * 0.65);
       int handHeight = height - boardHeight;
