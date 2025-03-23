@@ -47,8 +47,8 @@ public class MaximizeRowScoreStrategy implements PawnsBoardStrategy {
       }
     }
 
-    // If no move can flip a row's score, fall back to returning the first legal move.
-    return legalMoves.get(0);
+    // If no move in any row produces a winning simulated row score, return null (indicating a pass).
+    return null;
   }
 
   /**
