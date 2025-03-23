@@ -4,6 +4,11 @@ package cs3500.pawnsboard.model;
  * The Board class represents the game board as a 2D array of Cells.
  */
 public class Board implements BoardI {
+
+  /**
+   * A board is represented by a 2d array of Cell objects. We also store the board size: rows
+   * and columns, to make the computation and error checking faster. See @Cell class for more info.
+   */
   private final int rows;
   private final int columns;
   private Cell[][] cells;

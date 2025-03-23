@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents the main model for the Pawns game.
- *
+ * Represents the main model for the Pawns game. This model represents the board, both players,
+ * and the deck. It provides methods for the logic of the game, such as whether the game is over,
+ * whos turn it is, or what the score is, for example.
  */
 public class PawnsBoardModel implements PawnsBoardModelI {
 
