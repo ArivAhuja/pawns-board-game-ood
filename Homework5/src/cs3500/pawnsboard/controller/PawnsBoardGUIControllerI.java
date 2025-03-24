@@ -5,7 +5,7 @@ package cs3500.pawnsboard.controller;
  */
 public interface PawnsBoardGUIControllerI {
   /**
-   * Runs the game
+   * Runs the game by initializing the display.
    */
   void runGame();
 
