@@ -4,7 +4,6 @@ import java.util.List;
 
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
-import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
 
@@ -24,32 +23,32 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
     this.view.addFeatureListener(this);
   }
 
-  @Override
-  public void startGame() {
-    view.refresh();
-    while (!model.isGameOver()) {
-      // Auto-pass if the current player's hand is empty.
-      if (model.autoPassIfHandEmpty()) {
-        view.refresh();
-        continue;
-      }
-
-      List<Move> legalMoves = model.getLegalMoves();
-      if (legalMoves.isEmpty()) {
-        System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available." +
-                " Auto-passing.");
-        model.pass();
-        view.clearSelectedCard();
-        view.refresh();
-      }
-    }
+  public void runGame() {
+    this.view.display(true);
   }
+
+  private void updateGameState() {
+    view.refresh();
+    if (model.isGameOver()) {
+      view.refresh();
+      return;
+    }
+    List<Move> legalMoves = model.getLegalMoves();
+    if (legalMoves.isEmpty()) {
+      System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available." +
+              " Auto-passing.");
+      model.pass();
+      updateGameState();
+    }
+    view.clearSelectedCard();
+    view.refresh();
+  }
+
 
   @Override
   public void passTurn() {
     model.pass();
-    view.clearSelectedCard();
-    view.refresh();
+    updateGameState();
   }
 
   @Override
@@ -65,6 +64,6 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
     if (success) {
       view.clearSelectedCard();
     }
-    view.refresh();
+    updateGameState();
   }
 }

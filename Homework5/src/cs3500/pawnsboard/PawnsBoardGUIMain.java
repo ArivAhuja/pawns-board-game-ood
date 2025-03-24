@@ -24,9 +24,8 @@ public class PawnsBoardGUIMain {
       PawnsBoardModel model = new PawnsBoardModel(3, 5, deck, 5);
       // Instantiate the GUI view using the read-only interface.
       PawnsBoardGUIView guiView = new PawnsBoardGUIView(model);
-      guiView.setVisible(true);
       PawnsBoardGUIController controller = new PawnsBoardGUIController(model, guiView);
-      controller.startGame();
+      controller.runGame();
     } catch (IOException e) {
       System.err.println("Error reading deck file: " + e.getMessage());
     }
