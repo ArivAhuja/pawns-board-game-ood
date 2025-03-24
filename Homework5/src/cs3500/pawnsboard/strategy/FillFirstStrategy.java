@@ -9,7 +9,7 @@ import cs3500.pawnsboard.strategy.PawnsBoardStrategy;
 /**
  * A strategy that always chooses the first legal move and places it in the first available space.
  */
-public class FillFirstStrategy implements PawnsBoardStrategy {
+public class FillFirstStrategy extends AbstractPawnsBoardStrategy {
   @Override
   public Move chooseMove(PawnsBoardModel model, String playerColor) {
     List<Move> legalMoves = model.getLegalMoves();

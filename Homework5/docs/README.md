@@ -105,3 +105,25 @@ XXXXX
 ## Changes from HW5 -> HW6
 
 - Creates the ReadOnlyPawnsBoardModel interface, changed the PawnsBoardModel to implement this interface
+
+
+
+
+
+### Strategies
+
+All four strategies from the Homework are implemented in the `/scr/strategy` directory, and also explained below:
+
+- **FillFirstStrategy**: Chooses the first card and location that can be played on, and plays there.
+- **MaximizeRowScoreStrategy**: Chooses the move that would allow the current player to win a given row.
+if there are no moves, it will pass.
+- **ControlBoardStrategy**: Chooses a move that will give the player ownership of the most cells.
+- **MiniMaxStrategy**: Chooses the move in which minimizes the opponents possible moves. For now, it minimizes
+the opponent's number of owned cells.
+- **ChainedStrategy**: You can combine different strategies here, and the resulting move will (for now) is the one
+that provides the most cell ownership.
+
+
+
+
+

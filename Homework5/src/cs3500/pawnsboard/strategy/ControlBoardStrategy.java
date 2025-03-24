@@ -7,7 +7,7 @@ import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 
-public class ControlBoardStrategy implements PawnsBoardStrategy {
+public class ControlBoardStrategy extends AbstractPawnsBoardStrategy {
 
   @Override
   public Move chooseMove(PawnsBoardModel model, String playerColor) {
@@ -75,52 +75,4 @@ public class ControlBoardStrategy implements PawnsBoardStrategy {
     return count;
   }
 
-  /**
-   * Simulates the application of a card's influence on a board. The influence grid is applied
-   * similarly to the other strategies.
-   *
-   * @param board       the board on which to simulate influence
-   * @param cardRow     the row where the card is played
-   * @param cardCol     the column where the card is played
-   * @param card        the card being played
-   * @param playerColor the color of the player
-   */
-  private void simulateInfluenceOnBoard(Board board, int cardRow, int cardCol, Card card, String playerColor) {
-    char[][] grid = card.getInfluenceGrid();
-    for (int i = 0; i < 5; i++) {
-      for (int j = 0; j < 5; j++) {
-        if (grid[i][j] != 'I') {
-          continue;
-        }
-        // For Blue players, mirror the influence grid horizontally.
-        int effectiveJ = playerColor.equals("Blue") ? 4 - j : j;
-        int dr = i - 2;
-        int dc = effectiveJ - 2;
-        if (dr == 0 && dc == 0) {
-          continue;
-        }
-        int targetRow = cardRow + dr;
-        int targetCol = cardCol + dc;
-        if (!board.isValidPosition(targetRow, targetCol)) {
-          continue;
-        }
-        Cell targetCell = board.getCell(targetRow, targetCol);
-        // Skip cells that already have a card.
-        if (targetCell.getCard() != null) {
-          continue;
-        }
-        if (!targetCell.hasPawns()) {
-          targetCell.setPawnCount(1);
-          targetCell.setOwner(playerColor);
-        } else {
-          if (targetCell.getOwner().equals(playerColor)) {
-            int newCount = Math.min(targetCell.getPawnCount() + 1, 3);
-            targetCell.setPawnCount(newCount);
-          } else {
-            targetCell.setOwner(playerColor);
-          }
-        }
-      }
-    }
-  }
 }
