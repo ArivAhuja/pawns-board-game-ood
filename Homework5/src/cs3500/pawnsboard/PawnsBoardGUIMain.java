@@ -13,6 +13,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * Initializes the Model, View and Controller and then runs the game.
+ */
 public class PawnsBoardGUIMain {
   public static void main(String[] args) {
     String deckFilePath = "docs" + File.separator + "deck.config";

@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Represents the main model for the Pawns game. This model represents the board, both players,
  * and the deck. It provides methods for the logic of the game, such as whether the game is over,
- * whos turn it is, or what the score is, for example.
+ * who's turn it is, or what the score is, for example.
  */
 public class PawnsBoardModel implements PawnsBoardModelI {
 
@@ -82,6 +82,7 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   public boolean isGameOver() {
     return consecutivePasses >= 2;
   }
+
 
   /**
    * Returns the current player.
@@ -188,27 +189,34 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   // ======================== Mutator Methods (from PawnsBoardModelI) =========================
 
   /**
+   * Checks if the current player's hand is empty.
+   * If so, automatically passes.
+   * @return true if an auto-pass occurred, false otherwise.
+   */
+  public boolean checkAutoPass() {
+    if (getCurrentPlayer().getHand().isEmpty()) {
+      System.out.println(getCurrentPlayer().getColor() + " has no cards left." +
+              " Auto-passing...");
+      pass();
+      return true;
+    }
+    System.out.println(getLegalMoves());
+    if (getLegalMoves().isEmpty()) {
+      System.out.println(getCurrentPlayer().getColor() + " has no legal moves available." +
+              " Auto-passing...");
+      pass();
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * Processes a pass move by the current player.
    */
   public void pass() {
     System.out.println(getCurrentPlayer().getColor() + " passes.");
     consecutivePasses++;
     isRedTurn = !isRedTurn;
-  }
-
-  /**
-   * Checks if the current player's hand is empty.
-   * If so, automatically passes.
-   * @return true if an auto-pass occurred, false otherwise.
-   */
-  public boolean autoPassIfHandEmpty() {
-    if (getCurrentPlayer().getHand().isEmpty()) {
-      System.out.println(getCurrentPlayer().getColor() + " has no cards left. Automatically " +
-              "passing.");
-      pass();
-      return true;
-    }
-    return false;
   }
 
   /**

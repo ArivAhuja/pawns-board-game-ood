@@ -44,7 +44,7 @@ public class PawnsBoardController implements PawnsBoardControllerI {
 
     while (!model.isGameOver()) {
       // Auto-pass if the current player's hand is empty.
-      if (model.autoPassIfHandEmpty()) {
+      if (model.checkAutoPass()) {
         view.render(model.getBoard());
         continue;
       }

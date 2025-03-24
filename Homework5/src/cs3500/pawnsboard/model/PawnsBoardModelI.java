@@ -11,11 +11,11 @@ public interface PawnsBoardModelI extends ReadonlyPawnsBoardModelI {
   void pass();
 
   /**
-   * Checks if the current player's hand is empty.
+   * Checks if the current player's hand is empty or player has no legal moves.
    * If so, automatically passes.
    * @return true if an auto-pass occurred, false otherwise.
    */
-  boolean autoPassIfHandEmpty();
+  boolean checkAutoPass();
 
   /**
    * Attempts to place a card from the current player's hand on the specified cell.

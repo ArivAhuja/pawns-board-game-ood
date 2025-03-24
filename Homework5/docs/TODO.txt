@@ -27,6 +27,7 @@ BUGS
 Other To Do?
 - make builder class?
 - make customizable start ie choose board size in gui?
+- add r to restart game?
 
 
 Checklist before sumbit

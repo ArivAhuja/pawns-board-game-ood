@@ -25,25 +25,20 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   public void runGame() {
     this.view.display(true);
+    updateGameState();
   }
 
   private void updateGameState() {
-    view.refresh();
     if (model.isGameOver()) {
       view.refresh();
       return;
     }
-    List<Move> legalMoves = model.getLegalMoves();
-    if (legalMoves.isEmpty()) {
-      System.out.println(model.getCurrentPlayer().getColor() + " has no legal moves available." +
-              " Auto-passing.");
-      model.pass();
+    if (model.checkAutoPass()) {
       updateGameState();
     }
     view.clearSelectedCard();
     view.refresh();
   }
-
 
   @Override
   public void passTurn() {
@@ -59,7 +54,6 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void selectedCell(int row, int col, int cardIndex) {
-    Move attemptedMove = new Move(row, col, cardIndex);
     boolean success = model.placeCard(row, col, cardIndex);
     if (success) {
       view.clearSelectedCard();
