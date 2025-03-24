@@ -200,7 +200,6 @@ public class PawnsBoardModel implements PawnsBoardModelI {
       pass();
       return true;
     }
-    System.out.println(getLegalMoves());
     if (getLegalMoves().isEmpty()) {
       System.out.println(getCurrentPlayer().getColor() + " has no legal moves available." +
               " Auto-passing...");

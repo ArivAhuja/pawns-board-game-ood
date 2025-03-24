@@ -31,7 +31,7 @@ public class PawnsBoardMain {
       List<Card> deck = parser.toDeck(deckContent);
 
       // Create the game model with a 3x5 board and a starting hand size of 5
-      PawnsBoardModel model = new PawnsBoardModel(3, 5, deck, 5);
+      PawnsBoardModel model = new PawnsBoardModel(7, 5, deck, 5);
 
       // Instantiate the view and controller.
       PawnsBoardTextualView view = new PawnsBoardTextualView(model);

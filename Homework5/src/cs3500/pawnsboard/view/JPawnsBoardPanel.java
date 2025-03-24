@@ -279,38 +279,6 @@ public class JPawnsBoardPanel extends JPanel {
         g2d.fillOval(circleX1, circleY, diameter, diameter);
         g2d.fillOval(circleX2, circleY, diameter, diameter);
         g2d.fillOval(circleX3, circleY, diameter, diameter);
-      } else if (pawnCount == 4) {
-        // Four circles arranged in a 2x2 grid.
-        int spacingX = (cellWidth - 2 * diameter) / 3;
-        int spacingY = (cellHeight - 2 * diameter) / 3;
-        int circleX1 = x + spacingX;
-        int circleX2 = x + spacingX * 2 + diameter;
-        int circleY1 = y + spacingY;
-        int circleY2 = y + spacingY * 2 + diameter;
-        g2d.fillOval(circleX1, circleY1, diameter, diameter);
-        g2d.fillOval(circleX2, circleY1, diameter, diameter);
-        g2d.fillOval(circleX1, circleY2, diameter, diameter);
-        g2d.fillOval(circleX2, circleY2, diameter, diameter);
-      } else if (pawnCount == 5) {
-        // Five pawns: use a quincunx pattern (four at the corners and one centered).
-        int offsetX = cellWidth / 5;
-        int offsetY = cellHeight / 5;
-        int centerX = x + (cellWidth - diameter) / 2;
-        int centerY = y + (cellHeight - diameter) / 2;
-        g2d.fillOval(x + offsetX, y + offsetY, diameter, diameter);  // top-left
-        g2d.fillOval(x + cellWidth - offsetX - diameter, y + offsetY, diameter, diameter);  // top-right
-        g2d.fillOval(x + offsetX, y + cellHeight - offsetY - diameter, diameter, diameter);  // bottom-left
-        g2d.fillOval(x + cellWidth - offsetX - diameter, y + cellHeight - offsetY - diameter, diameter, diameter);  // bottom-right
-        g2d.fillOval(centerX, centerY, diameter, diameter);  // center
-      } else { // pawnCount >= 6
-        // For 6 or more, display the number followed by "P".
-        String text = pawnCount + "P";
-        FontMetrics fm = g2d.getFontMetrics();
-        int textWidth = fm.stringWidth(text);
-        int textHeight = fm.getAscent();
-        int textX = x + (cellWidth - textWidth) / 2;
-        int textY = y + (cellHeight + textHeight) / 2;
-        g2d.drawString(text, textX, textY);
       }
     }
   }
