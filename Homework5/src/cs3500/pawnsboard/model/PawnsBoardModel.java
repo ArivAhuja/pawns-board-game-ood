@@ -33,9 +33,17 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     // initialize the board as a 2D array of Cells
     this.board = new Board(rows, columns);
 
+    int deckSize = deck.size();
+    int redEnd = (int) (deckSize * 0.75);   // End index for Red (75% of the deck)
+    int blueStart = (int) (deckSize * 0.25);  // Start index for Blue (25% of the deck)
+
+// Create new lists so that the sublists aren't just views of the original deck.
+    List<Card> redDeck = new ArrayList<>(deck.subList(0, redEnd));
+    List<Card> blueDeck = new ArrayList<>(deck.subList(blueStart, deckSize));
+
     // initialize players using the same deck
-    this.redPlayer = new Player("Red", deck, handSize);
-    this.bluePlayer = new Player("Blue", deck, handSize);
+    this.redPlayer = new Player("Red", redDeck, handSize);
+    this.bluePlayer = new Player("Blue", blueDeck, handSize);
 
     // set initial board configuration:
     // first column cells get 1 red pawn, last column cells get 1 blue pawn.

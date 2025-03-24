@@ -100,8 +100,7 @@ XXXXX
 
 **Sample Class Invariant:** The board is a rectangle with an odd number of columns.
 
-
-
 ## Changes from HW5 -> HW6
 
 - Creates the ReadOnlyPawnsBoardModel interface, changed the PawnsBoardModel to implement this interface
+- Made it so red and blue have some same and some different cards and added non-symetrical cars

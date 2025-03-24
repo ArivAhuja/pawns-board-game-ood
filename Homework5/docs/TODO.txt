@@ -22,7 +22,7 @@ To D0 GUI
 - make cards display value instead of name and center it
 
 BUGS
-- 
+-
 
 Other To Do?
 - make builder class?

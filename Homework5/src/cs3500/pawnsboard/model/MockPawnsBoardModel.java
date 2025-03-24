@@ -15,7 +15,7 @@ public class MockPawnsBoardModel extends PawnsBoardModel {
    *
    * @param rows the number of rows on the board.
    * @param columns the number of columns on the board.
-   * @param deck the deck of cards.
+   * @param deck the red deck of cards.
    * @param handSize the starting hand size.
    */
   public MockPawnsBoardModel(int rows, int columns, List<Card> deck, int handSize) {
