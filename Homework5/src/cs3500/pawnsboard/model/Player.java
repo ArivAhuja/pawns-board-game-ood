@@ -1,6 +1,7 @@
 package cs3500.pawnsboard.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -25,6 +26,7 @@ public class Player implements PlayerI {
     for (int i = 0; i < handSize && !deck1.isEmpty(); i++) {
       hand.add(deck1.remove(0));
     }
+    hand.sort(Comparator.comparingInt(Card::getCost));
   }
 
   public String getColor() {

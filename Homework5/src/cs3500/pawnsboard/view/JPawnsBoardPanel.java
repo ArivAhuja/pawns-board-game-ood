@@ -131,7 +131,12 @@ public class JPawnsBoardPanel extends JPanel {
 
         // Determine the cell's fill color based on its character.
         Color cellColor;
-        char ch = grid[i][j];
+        char ch;
+        if (model.getCurrentPlayer().getColor().equalsIgnoreCase("Blue")) {
+          ch = grid[i][4 - j];
+        } else {
+          ch = grid[i][j];
+        }
         if (ch == 'c' || ch == 'C') {
           cellColor = Color.ORANGE;
         } else if (ch == 'I') {
@@ -197,9 +202,9 @@ public class JPawnsBoardPanel extends JPanel {
 
   /**
    * Draws a single cell of the board at the specified position.
-   * If the cell contains a card, its name is drawn;
-   * otherwise, if it has pawns, the pawn count is displayed.
-   * Also fills the background with a light color based on ownership.
+   * If the cell contains a card, its value is drawn in the center;
+   * otherwise, if it has pawns, circles are drawn to represent the pawns.
+   * The cell's background is only colored when a card is placed.
    *
    * @param cell       the cell to draw
    * @param g2d        the graphics context
@@ -209,28 +214,107 @@ public class JPawnsBoardPanel extends JPanel {
    * @param cellHeight the height of the cell
    */
   private void drawCell(Cell cell, Graphics2D g2d, int x, int y, int cellWidth, int cellHeight) {
-    // Draw cell border.
+    // If a card is placed in the cell, fill the background with a light color based on ownership.
+    if (cell.getCard() != null) {
+      String owner = cell.getOwner();
+      if ("Red".equals(owner)) {
+        g2d.setColor(new Color(255, 200, 200));  // light red
+      } else if ("Blue".equals(owner)) {
+        g2d.setColor(new Color(200, 200, 255));  // light blue
+      } else {
+        g2d.setColor(Color.WHITE);
+      }
+      g2d.fillRect(x, y, cellWidth, cellHeight);
+    }
+
+    // Always draw the cell border in black.
+    g2d.setColor(Color.BLACK);
     g2d.drawRect(x, y, cellWidth, cellHeight);
 
-    // Fill the background based on the cell's owner.
-    String owner = cell.getOwner();
-    if ("Red".equals(owner)) {
-      g2d.setColor(new Color(255, 200, 200));  // light red
-      g2d.fillRect(x, y, cellWidth, cellHeight);
-      g2d.setColor(Color.BLACK);
-    } else if ("Blue".equals(owner)) {
-      g2d.setColor(new Color(200, 200, 255));  // light blue
-      g2d.fillRect(x, y, cellWidth, cellHeight);
-      g2d.setColor(Color.BLACK);
-    }
-
-    // Draw cell content: if a card is placed, show its name; if not, show pawn count.
+    // Draw cell content: if a card is placed, show its value; if not, draw pawn circles.
     if (cell.getCard() != null) {
-      g2d.drawString(cell.getCard().getName(), x + 5, y + 15);
+      // Draw the card's value in the center of the cell.
+      String valueString = String.valueOf(cell.getCard().getValue());
+      FontMetrics fm = g2d.getFontMetrics();
+      int textWidth = fm.stringWidth(valueString);
+      int textHeight = fm.getAscent(); // for better vertical alignment
+      int textX = x + (cellWidth - textWidth) / 2;
+      int textY = y + (cellHeight + textHeight) / 2;
+      g2d.drawString(valueString, textX, textY);
     } else if (cell.hasPawns()) {
-      g2d.drawString(String.valueOf(cell.getPawnCount()), x + cellWidth / 2 - 5, y + cellHeight / 2);
+      int pawnCount = cell.getPawnCount();
+      // Use a smaller diameter for pawn circles.
+      int diameter = Math.min(cellWidth, cellHeight) / 4;
+
+      // Set pawn color based on owner.
+      String owner = cell.getOwner();
+      if ("Red".equals(owner)) {
+        g2d.setColor(Color.RED);
+      } else if ("Blue".equals(owner)) {
+        g2d.setColor(Color.BLUE);
+      } else {
+        g2d.setColor(Color.BLACK);
+      }
+
+      if (pawnCount == 1) {
+        // Center a single circle.
+        int circleX = x + (cellWidth - diameter) / 2;
+        int circleY = y + (cellHeight - diameter) / 2;
+        g2d.fillOval(circleX, circleY, diameter, diameter);
+      } else if (pawnCount == 2) {
+        // Two circles arranged horizontally.
+        int spacing = (cellWidth - 2 * diameter) / 3;
+        int circleY = y + (cellHeight - diameter) / 2;
+        int circleX1 = x + spacing;
+        int circleX2 = x + spacing * 2 + diameter;
+        g2d.fillOval(circleX1, circleY, diameter, diameter);
+        g2d.fillOval(circleX2, circleY, diameter, diameter);
+      } else if (pawnCount == 3) {
+        // Three circles in a row.
+        int spacing = (cellWidth - 3 * diameter) / 4;
+        int circleY = y + (cellHeight - diameter) / 2;
+        int circleX1 = x + spacing;
+        int circleX2 = x + spacing * 2 + diameter;
+        int circleX3 = x + spacing * 3 + 2 * diameter;
+        g2d.fillOval(circleX1, circleY, diameter, diameter);
+        g2d.fillOval(circleX2, circleY, diameter, diameter);
+        g2d.fillOval(circleX3, circleY, diameter, diameter);
+      } else if (pawnCount == 4) {
+        // Four circles arranged in a 2x2 grid.
+        int spacingX = (cellWidth - 2 * diameter) / 3;
+        int spacingY = (cellHeight - 2 * diameter) / 3;
+        int circleX1 = x + spacingX;
+        int circleX2 = x + spacingX * 2 + diameter;
+        int circleY1 = y + spacingY;
+        int circleY2 = y + spacingY * 2 + diameter;
+        g2d.fillOval(circleX1, circleY1, diameter, diameter);
+        g2d.fillOval(circleX2, circleY1, diameter, diameter);
+        g2d.fillOval(circleX1, circleY2, diameter, diameter);
+        g2d.fillOval(circleX2, circleY2, diameter, diameter);
+      } else if (pawnCount == 5) {
+        // Five pawns: use a quincunx pattern (four at the corners and one centered).
+        int offsetX = cellWidth / 5;
+        int offsetY = cellHeight / 5;
+        int centerX = x + (cellWidth - diameter) / 2;
+        int centerY = y + (cellHeight - diameter) / 2;
+        g2d.fillOval(x + offsetX, y + offsetY, diameter, diameter);  // top-left
+        g2d.fillOval(x + cellWidth - offsetX - diameter, y + offsetY, diameter, diameter);  // top-right
+        g2d.fillOval(x + offsetX, y + cellHeight - offsetY - diameter, diameter, diameter);  // bottom-left
+        g2d.fillOval(x + cellWidth - offsetX - diameter, y + cellHeight - offsetY - diameter, diameter, diameter);  // bottom-right
+        g2d.fillOval(centerX, centerY, diameter, diameter);  // center
+      } else { // pawnCount >= 6
+        // For 6 or more, display the number followed by "P".
+        String text = pawnCount + "P";
+        FontMetrics fm = g2d.getFontMetrics();
+        int textWidth = fm.stringWidth(text);
+        int textHeight = fm.getAscent();
+        int textX = x + (cellWidth - textWidth) / 2;
+        int textY = y + (cellHeight + textHeight) / 2;
+        g2d.drawString(text, textX, textY);
+      }
     }
   }
+
 
   /**
    * Draws a score cell (a grey box) and displays the given score centered within it.
