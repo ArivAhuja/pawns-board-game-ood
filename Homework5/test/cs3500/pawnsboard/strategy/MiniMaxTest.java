@@ -17,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
- * Tests for the MiniMax Strategy
+ * Tests for the MiniMax Strategy.
  */
 public class MiniMaxTest {
 

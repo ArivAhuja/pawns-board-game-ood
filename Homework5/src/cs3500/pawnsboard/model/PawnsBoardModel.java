@@ -31,7 +31,7 @@ public class PawnsBoardModel implements PawnsBoardModelI {
               "columns must be > 1 and odd.");
     }
     if (handSize > (deck.size() / 3)) {
-      throw new IllegalArgumentException ("Hand size cannot be greater than a third " +
+      throw new IllegalArgumentException("Hand size cannot be greater than a third " +
               "of the deck size.");
     }
     if ((rows * columns) > deck.size()) {
@@ -240,9 +240,12 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   /**
    * Draws a card from the deck and adds it to the current player's hand.
    *
-   * <p>This method attempts to remove the top card from the deck (index 0) and passes it to the current
-   * player's {@code drawCard} method. A message is printed indicating which card was drawn by which player.
-   * If the deck is empty, an {@code IndexOutOfBoundsException} is caught and a warning message is printed
+   * <p>This method attempts to remove the top card from the deck (index 0) and passes it to the
+   * current
+   * player's {@code drawCard} method. A message is printed indicating which card was drawn by
+   * which player.
+   * If the deck is empty, an {@code IndexOutOfBoundsException} is caught and a warning message
+   * is printed
    * instead.
    */
   public void drawCard() {

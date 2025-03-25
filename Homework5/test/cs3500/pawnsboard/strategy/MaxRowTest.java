@@ -23,7 +23,6 @@ import static org.junit.Assert.fail;
 public class MaxRowTest {
 
   private MockPawnsBoardModel model;
-  private List<Card> testDeck;
   private MaximizeRowScoreStrategy strategy;
 
   /**
@@ -58,6 +57,7 @@ public class MaxRowTest {
    */
   @Before
   public void setUp() {
+    List<Card> testDeck;
     testDeck = new ArrayList<>();
     testDeck.add(createTestCard("Card1", 1, 5));
     testDeck.add(createTestCard("Card2", 1, 6));
@@ -85,7 +85,8 @@ public class MaxRowTest {
 
     model.getTranscript().clear();
     List<Move> legalMoves = model.getLegalMoves();
-    assertTrue("There should be no legal moves when the hand is empty", legalMoves.isEmpty());
+    assertTrue("There should be no legal moves when the hand is empty",
+            legalMoves.isEmpty());
 
     model.getTranscript().clear();
     Move chosenMove = strategy.chooseMove(model, "Red");
@@ -93,8 +94,10 @@ public class MaxRowTest {
 
     List<String> transcript = model.getTranscript();
     // Expect at least a call to getLegalMoves and getCurrentPlayer
-    assertTrue("Transcript should contain 'getLegalMoves called'", transcript.contains("getLegalMoves called"));
-    boolean hasPlayer = transcript.stream().anyMatch(s -> s.startsWith("getCurrentPlayer called: Red"));
+    assertTrue("Transcript should contain 'getLegalMoves called'",
+            transcript.contains("getLegalMoves called"));
+    boolean hasPlayer = transcript.stream().anyMatch(s ->
+            s.startsWith("getCurrentPlayer called: Red"));
     assertTrue("Transcript should record current player details", hasPlayer);
   }
 
@@ -114,20 +117,27 @@ public class MaxRowTest {
 
     model.getTranscript().clear();
     Move chosenMove = strategy.chooseMove(model, "Red");
-    assertNotNull("Strategy should choose a move when one produces a winning simulated score", chosenMove);
+    assertNotNull("Strategy should choose a move when one produces a winning simulated" +
+            " score", chosenMove);
     assertEquals("Chosen move should come from row 1", 1, chosenMove.getRow());
 
     List<String> transcript = model.getTranscript();
     // Check that the transcript records key calls
-    assertTrue("Transcript should record 'getLegalMoves called'", transcript.contains("getLegalMoves called"));
-    assertTrue("Transcript should record 'computeRowScores called'", transcript.contains("computeRowScores called"));
-    assertTrue("Transcript should record 'getBoard called'", transcript.contains("getBoard called"));
+    assertTrue("Transcript should record 'getLegalMoves called'",
+            transcript.contains("getLegalMoves called"));
+    assertTrue("Transcript should record 'computeRowScores called'",
+            transcript.contains("computeRowScores called"));
+    assertTrue("Transcript should record 'getBoard called'",
+            transcript.contains("getBoard called"));
     long cloneCalls = transcript.stream().filter(s -> s.equals("cloneBoard called")).count();
-    assertTrue("Transcript should record at least one 'cloneBoard called'", cloneCalls >= 1);
-    boolean hasPlayer = transcript.stream().anyMatch(s -> s.startsWith("getCurrentPlayer called: Red"));
+    assertTrue("Transcript should record at least one 'cloneBoard called'",
+            cloneCalls >= 1);
+    boolean hasPlayer = transcript.stream().anyMatch(s ->
+            s.startsWith("getCurrentPlayer called: Red"));
     assertTrue("Transcript should record getCurrentPlayer call", hasPlayer);
     // Also check that at least one cell inspection is recorded (e.g., for row 0)
-    boolean inspectedRow0 = transcript.stream().anyMatch(s -> s.contains("Inspecting cell (0,"));
+    boolean inspectedRow0 = transcript.stream().anyMatch(s ->
+            s.contains("Inspecting cell (0,"));
     assertTrue("Transcript should record cell inspections in row 0", inspectedRow0);
   }
 
@@ -152,16 +162,18 @@ public class MaxRowTest {
 
     model.getTranscript().clear();
     Move chosenMove = strategy.chooseMove(model, "Red");
-    assertNull("When no move flips any row, strategy should return null (indicating pass)", chosenMove);
+    assertNull("When no move flips any row, strategy should return null (indicating pass)",
+            chosenMove);
 
     List<String> transcript = model.getTranscript();
-    assertTrue("Transcript should contain a call to computeRowScores", transcript.contains("computeRowScores called"));
-    assertTrue("Transcript should contain a call to getLegalMoves", transcript.contains("getLegalMoves called"));
+    assertTrue("Transcript should contain a call to computeRowScores",
+            transcript.contains("computeRowScores called"));
+    assertTrue("Transcript should contain a call to getLegalMoves",
+            transcript.contains("getLegalMoves called"));
   }
 
   /**
    * Tests that the strategy processes rows in top-to-bottom order.
-   *
    * Setup: Modify row 0 so that it cannot be flipped (by placing a Blue card).
    * Then, the strategy should skip row 0 and choose a move from a later row.
    */

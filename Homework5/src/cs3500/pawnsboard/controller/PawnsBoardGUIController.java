@@ -5,9 +5,12 @@ import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
 
 /**
- * The {@code PawnsBoardGUIController} class handles user interactions in the GUI for the Pawns Board game.
- * It coordinates between the game model and the GUI view, processing user actions and updating the game state.
- * This controller implements both {@link PawnsBoardGUIControllerI} and {@link ViewFeatures} to ensure proper
+ * The {@code PawnsBoardGUIController} class handles user interactions in the GUI for the Pawns
+ * Board game.
+ * It coordinates between the game model and the GUI view, processing user actions and updating the
+ * game state.
+ * This controller implements both {@link PawnsBoardGUIControllerI} and {@link ViewFeatures} to
+ * ensure proper
  * communication with the model and view.
  */
 public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures {
@@ -66,11 +69,11 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void placeAttempt(int row, int col, int cardIndex) {
-    if (cardIndex == -1){
+    if (cardIndex == -1) {
       System.out.println("Select a card first.");
       return;
     }
-    if (row == -1){
+    if (row == -1) {
       System.out.println("Select a cell first.");
       return;
     }
