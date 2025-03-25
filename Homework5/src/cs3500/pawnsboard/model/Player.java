@@ -35,7 +35,6 @@ public class Player implements PlayerI {
   }
 
   public void removeCardFromHand(Card card) {
-    System.out.println("card removed: " + card.getName());
     hand.remove(card);
   }
 
