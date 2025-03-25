@@ -37,6 +37,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       updateGameState();
     }
     view.clearSelectedCard();
+    view.clearSelectedCell();
     view.refresh();
   }
 
@@ -47,17 +48,28 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   }
 
   @Override
-  public void selectedCard(int CardIndex) {
-    // highlight card logic in view
+  public void selectedCard(int cardIndex) {
     view.refresh();
   }
 
   @Override
-  public void selectedCell(int row, int col, int cardIndex) {
+  public void selectedCell(int row, int col) {
+    view.refresh();
+  }
+
+  @Override
+  public void placeAttempt(int row, int col, int cardIndex) {
+    if (cardIndex == -1){
+      System.out.println("Select a card first.");
+      return;
+    }
+    if (row == -1){
+      System.out.println("Select a cell first.");
+      return;
+    }
     boolean success = model.placeCard(row, col, cardIndex);
     if (success) {
-      view.clearSelectedCard();
+      updateGameState();
     }
-    updateGameState();
   }
 }

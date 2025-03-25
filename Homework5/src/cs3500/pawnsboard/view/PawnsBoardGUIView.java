@@ -51,4 +51,8 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
   public void clearSelectedCard() {
     this.panel.clearSelectedCard();
   }
+
+  public void clearSelectedCell(){
+    this.panel.clearSelectedCell();
+  }
 }

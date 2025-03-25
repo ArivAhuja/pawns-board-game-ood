@@ -25,6 +25,8 @@ public class JPawnsBoardPanel extends JPanel {
   private final ReadonlyPawnsBoardModelI model;
   private final List<ViewFeatures> featuresListeners;
   private int selectedCardIndex;
+  private int selectedCellRow;
+  private int selectedCellCol;
 
 
   /**
@@ -36,6 +38,8 @@ public class JPawnsBoardPanel extends JPanel {
     this.model = model;
     this.featuresListeners = new ArrayList<>();
     this.selectedCardIndex = -1;
+    this.selectedCellRow = -1;
+    this.selectedCellCol = -1;
 
     setFocusable(true);
     requestFocusInWindow();
@@ -213,9 +217,13 @@ public class JPawnsBoardPanel extends JPanel {
    * @param cellWidth  the width of the cell
    * @param cellHeight the height of the cell
    */
-  private void drawCell(Cell cell, Graphics2D g2d, int x, int y, int cellWidth, int cellHeight) {
-    // If a card is placed in the cell, fill the background with a light color based on ownership.
-    if (cell.getCard() != null) {
+  private void drawCell(Cell cell, Graphics2D g2d, int x, int y, int cellWidth, int cellHeight,
+                        boolean selected) {
+    if (selected) {
+      g2d.setColor(Color.GREEN);
+      g2d.fillRect(x, y, cellWidth, cellHeight);
+    } else if (cell.getCard() != null) {
+      // Otherwise, if a card is present, fill based on ownership.
       String owner = cell.getOwner();
       if ("Red".equals(owner)) {
         g2d.setColor(new Color(255, 200, 200));  // light red
@@ -224,6 +232,10 @@ public class JPawnsBoardPanel extends JPanel {
       } else {
         g2d.setColor(Color.WHITE);
       }
+      g2d.fillRect(x, y, cellWidth, cellHeight);
+    } else {
+      // For unselected cells without a card, you might want to fill with a default color.
+      g2d.setColor(Color.WHITE);
       g2d.fillRect(x, y, cellWidth, cellHeight);
     }
 
@@ -344,7 +356,11 @@ public class JPawnsBoardPanel extends JPanel {
         } else if (col == cols) {
           drawScoreCell(rowScores[row][1], g2d, cellX, cellY, cellWidth, cellHeight);
         } else {
-          drawCell(board.getCell(row, col), g2d, cellX, cellY, cellWidth, cellHeight);
+          if ((selectedCellRow == row) && (selectedCellCol == col)) {
+            drawCell(board.getCell(row, col), g2d, cellX, cellY, cellWidth, cellHeight, true);
+          } else {
+            drawCell(board.getCell(row, col), g2d, cellX, cellY, cellWidth, cellHeight, false);
+          }
         }
       }
     }
@@ -462,6 +478,11 @@ public class JPawnsBoardPanel extends JPanel {
     this.selectedCardIndex = -1;
   }
 
+  public void clearSelectedCell() {
+    this.selectedCellRow = -1;
+    this.selectedCellCol = -1;
+  }
+
   /**
    * Mouse click listener to handle clicks for placing cards.
    * It divides the panel into board region (top 65%) and hand region (bottom 35%)
@@ -491,9 +512,12 @@ public class JPawnsBoardPanel extends JPanel {
         int adjustedX = clickX - cellWidth;
         int col = adjustedX / cellWidth;
         int row = clickY / cellHeight;
+        JPawnsBoardPanel.this.selectedCellRow = row;
+        JPawnsBoardPanel.this.selectedCellCol = col;
         for (ViewFeatures vf : featuresListeners) {
-          vf.selectedCell(row, col, JPawnsBoardPanel.this.selectedCardIndex);
+          vf.selectedCell(row, col);
         }
+        repaint();
       } else { // Click in the hand region.
         int handY = boardHeight;
         int handHeight = panelHeight - boardHeight;
@@ -526,6 +550,13 @@ public class JPawnsBoardPanel extends JPanel {
         // Notify all registered feature listeners that a pass was triggered.
         for (ViewFeatures vf : featuresListeners) {
           vf.passTurn();
+        }
+        repaint();
+      }
+      if (e.getKeyCode() == KeyEvent.VK_C) {
+        for (ViewFeatures vf : featuresListeners) {
+          vf.placeAttempt(JPawnsBoardPanel.this.selectedCellRow,
+                  JPawnsBoardPanel.this.selectedCellCol, JPawnsBoardPanel.this.selectedCardIndex);
         }
         repaint();
       }

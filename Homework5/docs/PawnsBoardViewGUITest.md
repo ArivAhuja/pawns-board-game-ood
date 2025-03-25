@@ -33,3 +33,23 @@
 ![Screenshot20250324at63710PM.png](assets/PawnsBoardGameInitial 5x3 Resized.png)
 
 **PAWN BOARD 5X3 RESIZED**
+
+![Screenshot20250324at63710PM.png](assets/Selected Cell.png)
+
+**SELECTED CELL**
+
+![Screenshot20250324at63710PM.png](assets/Post Confirmation.png)
+
+**SUCCESFULLY PLACED**
+
+![Screenshot20250324at63710PM.png](assets/Console Output Success.png)
+
+**CONSOLE OUTPUT SUCCESSFULL**
+
+![Screenshot20250324at63710PM.png](assets/Pre Failure.png)
+
+**SELECTED CELL INELEGIBLE**
+
+![Screenshot20250324at63710PM.png](assets/Console Output Failure.png)
+
+**CONSOLE OUTPUT FAIL**

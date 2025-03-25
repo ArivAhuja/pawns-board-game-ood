@@ -118,3 +118,11 @@ All four strategies from the Homework are implemented in the `/scr/strategy` dir
   the opponent's number of owned cells.
 - **ChainedStrategy**: You can combine different strategies here, and the resulting move will (for now) is the one
   that provides the most cell ownership.
+
+### Controller Insturctions
+
+- Press a card to select it
+- Press a cell to select it
+- Press different card or cell to change selection
+- Press "p" to pass turn
+- Press "c" to place card

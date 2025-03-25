@@ -23,4 +23,9 @@ public interface PawnsBoardGUIViewI {
    * Clears the current selected card.
    */
   void clearSelectedCard();
+
+  /**
+   * Clears the current selected cell.
+   */
+  void clearSelectedCell();
 }
