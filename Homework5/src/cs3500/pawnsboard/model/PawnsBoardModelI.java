@@ -25,4 +25,10 @@ public interface PawnsBoardModelI extends ReadonlyPawnsBoardModelI {
    * @return true if the move was successful, false otherwise.
    */
   boolean placeCard(int row, int col, int cardIndex);
+
+  /**
+   * This method draws the card from the top of the deck and gives it to the current player.
+   */
+  void drawCard();
+
 }

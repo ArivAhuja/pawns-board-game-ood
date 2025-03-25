@@ -105,6 +105,7 @@ XXXXX
 - Creates the ReadOnlyPawnsBoardModel interface, changed the PawnsBoardModel to implement this interface
 - Made it so red and blue have some same and some different cards and added non-symetrical cards
 - Made autopass be handled internally by the model instead of the controller
+- Added drawing abilities
 
 ### Strategies
 
@@ -121,8 +122,8 @@ All four strategies from the Homework are implemented in the `/scr/strategy` dir
 
 ### Controller Insturctions
 
-- Press a card to select it
-- Press a cell to select it
-- Press different card or cell to change selection
+- Click a card to select it
+- Click a cell to select it
+- Click a different card or cell to change selection
 - Press "p" to pass turn
 - Press "c" to place card

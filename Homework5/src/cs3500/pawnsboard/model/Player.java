@@ -19,12 +19,10 @@ public class Player implements PlayerI {
    */
   public Player(String color, List<Card> deck, int handSize) {
     this.color = color;
-    // create a shallow copy of the deck to avoid modifying the original deck
-    List<Card> deck1 = new ArrayList<>(deck);
     this.hand = new ArrayList<>();
     // deal the starting hand
-    for (int i = 0; i < handSize && !deck1.isEmpty(); i++) {
-      hand.add(deck1.remove(0));
+    for (int i = 0; i < handSize && !deck.isEmpty(); i++) {
+      hand.add(deck.remove(0));
     }
     hand.sort(Comparator.comparingInt(Card::getCost));
   }
@@ -39,5 +37,11 @@ public class Player implements PlayerI {
 
   public void removeCardFromHand(Card card) {
     hand.remove(card);
+  }
+
+  public void drawCard(Card card) {
+    if (card != null) {
+      hand.add(card);
+    }
   }
 }

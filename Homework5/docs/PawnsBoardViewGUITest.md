@@ -45,3 +45,7 @@
 ![Screenshot20250324at63710PM.png](assets/Sample Console Output.png)
 
 **SAMPLE CONSOLE OUTPUT**
+
+![Screenshot20250324at63710PM.png](assets/BLUE SELECT.png)
+
+**BLUE SELECT**

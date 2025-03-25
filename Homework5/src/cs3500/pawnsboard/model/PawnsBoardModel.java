@@ -15,6 +15,7 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   private final Player bluePlayer;
   private boolean isRedTurn;
   private int consecutivePasses;
+  private List<Card> deck;
 
 
   /**
@@ -29,21 +30,27 @@ public class PawnsBoardModel implements PawnsBoardModelI {
       throw new IllegalArgumentException("Invalid board dimensions: rows must be > 0, and " +
               "columns must be > 1 and odd.");
     }
-
+    if (handSize > (deck.size()/3)) {
+      throw new IllegalArgumentException
+              ("Hand size cannot be greater than a third of the deck size.");
+    }
+    if ((rows * columns) > deck.size()) {
+      throw new IllegalArgumentException
+              ("Must have enough cards in deck to fill board.");
+    }
     // initialize the board as a 2D array of Cells
     this.board = new Board(rows, columns);
-
-    int deckSize = deck.size();
-    int redEnd = (int) (deckSize * 0.75);   // End index for Red (75% of the deck)
-    int blueStart = (int) (deckSize * 0.25);  // Start index for Blue (25% of the deck)
-
-// Create new lists so that the sublists aren't just views of the original deck.
-    List<Card> redDeck = new ArrayList<>(deck.subList(0, redEnd));
-    List<Card> blueDeck = new ArrayList<>(deck.subList(blueStart, deckSize));
-
-    // initialize players using the same deck
-    this.redPlayer = new Player("Red", redDeck, handSize);
-    this.bluePlayer = new Player("Blue", blueDeck, handSize);
+    this.deck = deck;
+    List<Card> redHand = new ArrayList<Card>();
+    for (int i = 0; i < handSize; i++) {
+      redHand.add(deck.remove(0)); // removes the first card each time
+    }
+    List<Card> blueHand = new ArrayList<Card>();
+    for (int i = 0; i < handSize; i++) {
+      blueHand.add(deck.remove(0)); // now the deck has shifted, so this gets the next hand
+    }
+    this.redPlayer = new Player("Red", redHand, handSize);
+    this.bluePlayer = new Player("Blue", blueHand, handSize);
 
     // set initial board configuration:
     // first column cells get 1 red pawn, last column cells get 1 blue pawn.
@@ -187,6 +194,12 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   }
 
   // ======================== Mutator Methods (from PawnsBoardModelI) =========================
+
+
+  public void drawCard() {
+    Card card = deck.remove(0);
+    this.getCurrentPlayer().drawCard(card);
+  }
 
   /**
    * Checks if the current player's hand is empty.

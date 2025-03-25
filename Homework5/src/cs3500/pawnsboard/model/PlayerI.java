@@ -27,4 +27,12 @@ public interface PlayerI {
    * @param card the Card to remove.
    */
   void removeCardFromHand(Card card);
+
+  /**
+   * This function adds the specified card to the hand.
+   *
+   * @param card the Card to add.
+   */
+  void drawCard(Card card);
+
 }
