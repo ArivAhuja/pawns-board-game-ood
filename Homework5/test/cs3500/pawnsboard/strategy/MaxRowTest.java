@@ -104,7 +104,6 @@ public class MaxRowTest {
   /**
    * Tests that when a move in an earlier row (row 0) does not flip the row's score
    * but a move in a lower row (row 1) would, the strategy returns the move from row 1.
-   *
    * Setup: Place a high-value Blue card in row 0 so that any legal move there will not win the row.
    * Then, a move in row 1 (with no Blue interference) should win the row.
    */
@@ -143,7 +142,6 @@ public class MaxRowTest {
 
   /**
    * Tests that when no move in any row can flip the score, the strategy returns null.
-   *
    * Setup: In every row, place a high-value Blue card so that the opponent's row score is high.
    * Any simulated move with a Red card will not flip the row.
    */
