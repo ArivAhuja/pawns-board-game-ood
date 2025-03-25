@@ -49,4 +49,20 @@ public interface ReadonlyPawnsBoardModelI {
    * @return "Red wins!", "Blue wins!", or "It's a tie!".
    */
   String getWinner();
+
+  /**
+   * Gets the current player hand of cards.
+   */
+  List<Card> getHand();
+
+  /**
+   * Determines if it is legal for the current player to play the card (specified by hand index)
+   * at the given cell coordinates.
+   *
+   * @param row       the row coordinate of the target cell.
+   * @param col       the column coordinate of the target cell.
+   * @param cardIndex the index of the card in the current player's hand.
+   * @return true if the move is legal, false otherwise.
+   */
+  boolean isLegalMove(int row, int col, int cardIndex);
 }

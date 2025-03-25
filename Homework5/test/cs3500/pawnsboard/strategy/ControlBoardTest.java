@@ -40,18 +40,20 @@ public class ControlBoardTest {
 
   /**
    * A testable subclass of ControlBoardStrategy that lets us override the simulated controlled
-   * cell count for each move.
+   * cell count for each move. We use a string key "row,col,cardIndex" for reliable lookup.
    */
   public static class TestableControlBoardStrategy extends ControlBoardStrategy {
-    private Map<Move, Integer> simulationResults = new HashMap<>();
+    private Map<String, Integer> simulationResults = new HashMap<>();
 
     public void setSimulationResult(Move move, int result) {
-      simulationResults.put(move, result);
+      String key = move.getRow() + "," + move.getCol() + "," + move.getCardIndex();
+      simulationResults.put(key, result);
     }
 
     @Override
     protected int simulateControlledCells(PawnsBoardModel model, Move move, String playerColor) {
-      return simulationResults.getOrDefault(move, 0);
+      String key = move.getRow() + "," + move.getCol() + "," + move.getCardIndex();
+      return simulationResults.getOrDefault(key, 0);
     }
   }
 
@@ -63,7 +65,7 @@ public class ControlBoardTest {
 
     // Prepare a predetermined list of legal moves.
     legalMoves = new ArrayList<>();
-    // Assuming Move has a constructor: Move(int row, int col, int cardIndex)
+    // For example, we add three moves.
     legalMoves.add(new Move(0, 0, 0)); // Move A
     legalMoves.add(new Move(0, 1, 0)); // Move B
     legalMoves.add(new Move(1, 0, 0)); // Move C
@@ -126,6 +128,10 @@ public class ControlBoardTest {
     strategy.setSimulationResult(moveB, 7);
     strategy.setSimulationResult(moveC, 6);
 
+    // Before calling the strategy, ensure legal moves exist.
+    List<Move> currentLegalMoves = model.getLegalMoves();
+    assertFalse("Legal moves list should not be empty", currentLegalMoves.isEmpty());
+
     model.getTranscript().clear();
     Move chosenMove = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
@@ -155,11 +161,15 @@ public class ControlBoardTest {
     strategy.setSimulationResult(moveD, 8);
     strategy.setSimulationResult(moveE, 8);
 
+    // Ensure legal moves exist.
+    List<Move> currentLegalMoves = model.getLegalMoves();
+    assertFalse("Legal moves list should not be empty", currentLegalMoves.isEmpty());
+
     model.getTranscript().clear();
     Move chosenMove = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
-    // According to the tie-breaker, (1,1) is uppermost-leftmost relative to (2,0).
-    assertEquals("Tie-breaker should choose the uppermost move", moveD, chosenMove);
+    // According to the tie-breaker, (1,1) is uppermost-leftmost compared to (2,0).
+    assertEquals("Tie-breaker should choose the uppermost-leftmost move", moveD, chosenMove);
 
     long legalMovesCallCount = model.getTranscript().stream()
             .filter(s -> s.equals("getLegalMoves called"))
@@ -183,6 +193,10 @@ public class ControlBoardTest {
     // Set both simulation results equal.
     strategy.setSimulationResult(moveF, 9);
     strategy.setSimulationResult(moveG, 9);
+
+    // Ensure legal moves exist.
+    List<Move> currentLegalMoves = model.getLegalMoves();
+    assertFalse("Legal moves list should not be empty", currentLegalMoves.isEmpty());
 
     model.getTranscript().clear();
     Move chosenMove = strategy.chooseMove(model, "Red");

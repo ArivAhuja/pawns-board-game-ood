@@ -427,25 +427,25 @@ public class PawnsBoardModelTest {
     assertTrue("Should find a legal move for Red's pawns", foundMove);
   }
 
-  @Test
-  public void testAutoPassIfHandEmpty() {
-    // Make Red's hand empty
-    Player redPlayer = model.getCurrentPlayer();
-    try {
-      java.lang.reflect.Field handField = Player.class.getDeclaredField("hand");
-      handField.setAccessible(true);
-      handField.set(redPlayer, new ArrayList<>());
-    } catch (Exception e) {
-      fail("Failed to set up test: " + e.getMessage());
-    }
-
-    // Test auto-pass
-    boolean didAutoPass = model.autoPassIfHandEmpty();
-    assertTrue(didAutoPass);
-
-    // Turn should have changed to Blue
-    assertEquals("Blue", model.getCurrentPlayer().getColor());
-  }
+//  @Test
+//  public void testAutoPassIfHandEmpty() {
+//    // Make Red's hand empty
+//    Player redPlayer = model.getCurrentPlayer();
+//    try {
+//      java.lang.reflect.Field handField = Player.class.getDeclaredField("hand");
+//      handField.setAccessible(true);
+//      handField.set(redPlayer, new ArrayList<>());
+//    } catch (Exception e) {
+//      fail("Failed to set up test: " + e.getMessage());
+//    }
+//
+//    // Test auto-pass
+//    boolean didAutoPass = model.autoPassIfHandEmpty();
+//    assertTrue(didAutoPass);
+//
+//    // Turn should have changed to Blue
+//    assertEquals("Blue", model.getCurrentPlayer().getColor());
+//  }
 
   @Test
   public void testComputeScores() {

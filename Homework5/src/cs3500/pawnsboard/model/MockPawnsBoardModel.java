@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A mock version of PawnsBoardModel that records a transcript of method calls.
+ * A mock version of PawnsBoardModel that records a transcript of method calls,
+ * including detailed information about which board positions were inspected and
+ * what cards were considered.
  */
 public class MockPawnsBoardModel extends PawnsBoardModel {
   private final List<String> transcript;
@@ -34,10 +36,29 @@ public class MockPawnsBoardModel extends PawnsBoardModel {
   /**
    * Returns the recorded transcript.
    *
-   * @return a List of strings representing the method calls.
+   * @return a List of strings representing the detailed method calls.
    */
   public List<String> getTranscript() {
     return transcript;
+  }
+
+  @Override
+  public Player getCurrentPlayer() {
+    Player p = super.getCurrentPlayer();
+    if (recordTranscript) {
+      StringBuilder sb = new StringBuilder();
+      sb.append("getCurrentPlayer called: " + p.getColor() + ", hand=[");
+      for (int i = 0; i < p.getHand().size(); i++) {
+        Card card = p.getHand().get(i);
+        sb.append(card.getName() + "(cost=" + card.getCost() + ")");
+        if (i < p.getHand().size() - 1) {
+          sb.append(", ");
+        }
+      }
+      sb.append("]");
+      transcript.add(sb.toString());
+    }
+    return p;
   }
 
   @Override
@@ -45,7 +66,41 @@ public class MockPawnsBoardModel extends PawnsBoardModel {
     if (recordTranscript) {
       transcript.add("getLegalMoves called");
     }
-    return super.getLegalMoves();
+    List<Move> moves = new ArrayList<>();
+    Player current = getCurrentPlayer();
+    Board board = super.getBoard().cloneBoard();
+    for (int row = 0; row < board.getRows(); row++) {
+      for (int col = 0; col < board.getColumns(); col++) {
+        Cell cell = board.getCell(row, col);
+        if (recordTranscript) {
+          transcript.add("Inspecting cell (" + row + ", " + col + "): owner="
+                  + cell.getOwner() + ", pawnCount=" + cell.getPawnCount()
+                  + ", cardPresent=" + (cell.getCard() != null));
+        }
+        // Only consider cells that have pawns, are owned by the current player, and do not hold a card.
+        if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) || cell.getCard() != null) {
+          continue;
+        }
+        // For each card in the player's hand, check if it can be legally played here.
+        for (int cardIndex = 0; cardIndex < current.getHand().size(); cardIndex++) {
+          Card card = current.getHand().get(cardIndex);
+          if (recordTranscript) {
+            transcript.add("Considering card " + card.getName() + " (cost=" + card.getCost()
+                    + ") at hand index " + cardIndex + " for cell (" + row + ", " + col
+                    + ") with pawnCount=" + cell.getPawnCount());
+          }
+          if (card.getCost() <= cell.getPawnCount()) {
+            Move move = new Move(row, col, cardIndex);
+            moves.add(move);
+            if (recordTranscript) {
+              transcript.add("Legal move added: Place card " + card.getName()
+                      + " (index " + cardIndex + ") at (" + row + ", " + col + ")");
+            }
+          }
+        }
+      }
+    }
+    return moves;
   }
 
   @Override
@@ -71,13 +126,4 @@ public class MockPawnsBoardModel extends PawnsBoardModel {
     }
     return super.cloneBoard();
   }
-
-  @Override
-  public Player getCurrentPlayer() {
-    if (recordTranscript) {
-      transcript.add("getCurrentPlayer called: " + super.getCurrentPlayer().getColor());
-    }
-    return super.getCurrentPlayer();
-  }
-
 }

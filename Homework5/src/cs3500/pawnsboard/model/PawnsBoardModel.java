@@ -193,6 +193,48 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     }
   }
 
+  /**
+   * Returns the current player's hand of cards.
+   *
+   * @return a List of Cards representing the current player's hand.
+   */
+  public List<Card> getHand() {
+    return getCurrentPlayer().getHand();
+  }
+
+  /**
+   * Determines whether it is legal for the current player to play the card at the specified hand index
+   * on the cell at (row, col).
+   *
+   * @param row       the row coordinate of the target cell.
+   * @param col       the column coordinate of the target cell.
+   * @param cardIndex the index of the card in the current player's hand.
+   * @return true if the move is legal; false otherwise.
+   */
+  public boolean isLegalMove(int row, int col, int cardIndex) {
+    // first, ensure the board position is valid
+    if (!board.isValidPosition(row, col)) {
+      return false;
+    }
+
+    Player current = getCurrentPlayer();
+    // then check that the card index is within bounds
+    if (cardIndex < 0 || cardIndex >= current.getHand().size()) {
+      return false;
+    }
+
+    Cell cell = board.getCell(row, col);
+    // a cell is eligible only if it contains pawns, is owned by the current player,
+    // and does not already have a card:
+    if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) || cell.getCard() != null) {
+      return false;
+    }
+
+    Card card = current.getHand().get(cardIndex);
+    // lastly, the move is legal if the card's cost does not exceed the pawn count on the cell
+    return card.getCost() <= cell.getPawnCount();
+  }
+
   // ======================== Mutator Methods (from PawnsBoardModelI) =========================
 
 

@@ -106,21 +106,28 @@ XXXXX
 - Made it so red and blue have some same and some different cards and added non-symetrical cards
 - Made autopass be handled internally by the model instead of the controller
 - Added drawing abilities
+- Some methods in the deeper-classes, like Player's getHand, into the model explicitly. Also added
+isLegalMove, 
 
 ### Strategies
 
 All four strategies from the Homework are implemented in the `/scr/strategy` directory, and also explained below:
 
-- **FillFirstStrategy**: Chooses the first card and location that can be played on, and plays there.
+- **FillFirstStrategy**: Chooses the first card and location that can be played on, and plays there. *[tested]*
 - **MaximizeRowScoreStrategy**: Chooses the move that would allow the current player to win a given row.
-  if there are no moves, it will pass.
-- **ControlBoardStrategy**: Chooses a move that will give the player ownership of the most cells.
+  if there are no moves, it will pass. *[tested]*
+- **ControlBoardStrategy**: Chooses a move that will give the player ownership of the most cells. *[not yet tested]*
 - **MiniMaxStrategy**: Chooses the move in which minimizes the opponents possible moves. For now, it minimizes
-  the opponent's number of owned cells.
+  the opponent's number of owned cells. *[not yet tested]*
 - **ChainedStrategy**: You can combine different strategies here, and the resulting move will (for now) is the one
-  that provides the most cell ownership.
+  that provides the most cell ownership. *[not yet tested]*
 
-### Controller Insturctions
+> *Transcripts for the first two strategies as per the HW specs can be found: ![FillFirstTranscript](assets/strategy-transcript-first.txt) and 
+> ![MaxRowTranscript](assets/strategy-transcript-score.txt).* ***It is important to note that these transcripts are based off the description in the homework
+> "choosing a move for the Red player on the starting board configuration of the 3 row by 5 column board using the cards you made". Thus, it is an empty 3x5 board
+> and the strategy chooses a initial move for red player.***
+
+### Controller Instructions
 
 - Click a card to select it
 - Click a cell to select it

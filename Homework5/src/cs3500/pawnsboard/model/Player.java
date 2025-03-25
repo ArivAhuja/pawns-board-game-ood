@@ -32,7 +32,11 @@ public class Player implements PlayerI {
   }
 
   public List<Card> getHand() {
-    return hand;
+    List<Card> handCopy = new ArrayList<>();
+    for (Card card : hand) {
+      handCopy.add(new Card(card));
+    }
+    return handCopy;
   }
 
   public void removeCardFromHand(Card card) {

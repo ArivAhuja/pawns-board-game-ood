@@ -27,7 +27,8 @@ public class ControlBoardStrategy extends AbstractPawnsBoardStrategy {
       if (controlled > bestControlled) {
         bestControlled = controlled;
         bestMove = move;
-      } else if (controlled == bestControlled) {
+      }
+      else if (controlled == bestControlled) {
         // Tie-break: choose the uppermost-leftmost move.
         if (move.getRow() < bestMove.getRow() ||
                 (move.getRow() == bestMove.getRow() && move.getCol() < bestMove.getCol())) {
