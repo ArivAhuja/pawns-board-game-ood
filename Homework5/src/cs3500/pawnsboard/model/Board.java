@@ -2,6 +2,16 @@ package cs3500.pawnsboard.model;
 
 /**
  * The Board class represents the game board as a 2D array of Cells.
+ *
+ * Board Coordinate System:
+ *   - The board is represented as a two-dimensional grid with rows and columns.
+ *   - Coordinates are specified as (row, column).
+ *   - The top-left cell of the board is at coordinate (0, 0).
+ *   - Row indices increase downward (0 at the top to rows-1 at the bottom).
+ *   - Column indices increase to the right (0 at the left to columns-1 at the right).
+ *   - For example, a board with 5 rows and 7 columns will have its bottom-right cell at (4, 6).
+ *
+ * Note: The board dimensions are validated in the constructor to ensure rows > 0, columns > 1, and columns is odd.
  */
 public class Board implements BoardI {
 

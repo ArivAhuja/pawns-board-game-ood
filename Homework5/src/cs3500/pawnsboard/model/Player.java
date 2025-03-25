@@ -24,7 +24,6 @@ public class Player implements PlayerI {
     for (int i = 0; i < handSize && !deck.isEmpty(); i++) {
       hand.add(deck.remove(0));
     }
-    hand.sort(Comparator.comparingInt(Card::getCost));
   }
 
   public String getColor() {
@@ -32,20 +31,15 @@ public class Player implements PlayerI {
   }
 
   public List<Card> getHand() {
-    List<Card> handCopy = new ArrayList<>();
-    for (Card card : hand) {
-      handCopy.add(new Card(card));
-    }
-    return handCopy;
+    return new ArrayList<>(hand);
   }
 
   public void removeCardFromHand(Card card) {
+    System.out.println("card removed: " + card.getName());
     hand.remove(card);
   }
 
   public void drawCard(Card card) {
-    if (card != null) {
       hand.add(card);
-    }
   }
 }

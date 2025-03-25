@@ -239,8 +239,13 @@ public class PawnsBoardModel implements PawnsBoardModelI {
 
 
   public void drawCard() {
-    Card card = deck.remove(0);
-    this.getCurrentPlayer().drawCard(card);
+    try {
+      Card card = deck.remove(0);
+      this.getCurrentPlayer().drawCard(card);
+      System.out.println(getCurrentPlayer().getColor() + " draws card " + card.getName());
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("Deck is empty cannot draw card.");
+    }
   }
 
   /**
@@ -272,6 +277,7 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     consecutivePasses++;
     isRedTurn = !isRedTurn;
   }
+
 
   /**
    * Attempts to place a card from the current player's hand on the specified cell.

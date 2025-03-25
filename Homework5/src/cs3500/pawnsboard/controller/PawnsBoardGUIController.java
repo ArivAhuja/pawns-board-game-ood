@@ -25,6 +25,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   public void runGame() {
     this.view.display(true);
+    model.drawCard();
   }
 
   private void updateGameState() {
@@ -32,10 +33,11 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       view.refresh();
       return;
     }
+    model.drawCard();
+    // checkAutoPass checks as well as triggers the pass if necessary
     if (model.checkAutoPass()) {
       updateGameState();
     }
-    model.drawCard();
     view.clearSelectedCard();
     view.clearSelectedCell();
     view.refresh();
