@@ -49,11 +49,13 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void selectedCard(int cardIndex) {
+    System.out.println("Card Index: " + cardIndex + " selected.");
     view.refresh();
   }
 
   @Override
   public void selectedCell(int row, int col) {
+    System.out.println("Cell Row: " + row + "Cell Col: " + col + ".");
     view.refresh();
   }
 
