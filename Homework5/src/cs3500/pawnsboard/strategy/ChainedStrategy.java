@@ -58,10 +58,18 @@ public class ChainedStrategy extends AbstractPawnsBoardStrategy {
    * (lower column number), and then using a lower card index.
    */
   private boolean tieBreaker(Move candidate, Move current) {
-    if (candidate.getRow() < current.getRow()) return true;
-    if (candidate.getRow() == current.getRow() && candidate.getCol() < current.getCol()) return true;
-    if (candidate.getRow() == current.getRow() && candidate.getCol() == current.getCol() &&
-            candidate.getCardIndex() < current.getCardIndex()) return true;
+    if (candidate.getRow() < current.getRow()) {
+      return true;
+    }
+    if (candidate.getRow() == current.getRow()) {
+      if (candidate.getCol() < current.getCol()) {
+        return true;
+      }
+      if (candidate.getCol() == current.getCol() &&
+              candidate.getCardIndex() < current.getCardIndex()) {
+        return true;
+      }
+    }
     return false;
   }
 }

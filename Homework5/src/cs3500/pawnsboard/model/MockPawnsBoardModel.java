@@ -77,8 +77,10 @@ public class MockPawnsBoardModel extends PawnsBoardModel {
                   + cell.getOwner() + ", pawnCount=" + cell.getPawnCount()
                   + ", cardPresent=" + (cell.getCard() != null));
         }
-        // Only consider cells that have pawns, are owned by the current player, and do not hold a card.
-        if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) || cell.getCard() != null) {
+        // Only consider cells that have pawns, are owned by the current player, and do not hold a
+        // card.
+        if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) ||
+                cell.getCard() != null) {
           continue;
         }
         // For each card in the player's hand, check if it can be legally played here.

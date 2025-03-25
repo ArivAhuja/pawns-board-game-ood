@@ -9,7 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 
 /**
  * Test for the FillFirst strategy.
@@ -17,7 +24,6 @@ import static org.junit.Assert.*;
 public class FillFirstTest {
 
   private MockPawnsBoardModel model;
-  private List<Card> testDeck;
   private FillFirstStrategy strategy;
 
   /**
@@ -52,6 +58,7 @@ public class FillFirstTest {
    */
   @Before
   public void setUp() {
+    List<Card> testDeck;
     // Create a test deck with three cards.
     testDeck = new ArrayList<>();
     testDeck.add(createTestCard("Card1", 1, 5));
@@ -99,7 +106,8 @@ public class FillFirstTest {
         break;
       }
     }
-    assertTrue("Transcript should record details of current player and hand", hasPlayerDetails);
+    assertTrue("Transcript should record details of current player and hand",
+            hasPlayerDetails);
 
     // Check that at least one cell was inspected, for example cell (0, 0)
     boolean inspectedCell00 = false;
@@ -109,7 +117,8 @@ public class FillFirstTest {
         break;
       }
     }
-    assertTrue("Transcript should record inspection of cell (0, 0) with owner Red", inspectedCell00);
+    assertTrue("Transcript should record inspection of cell (0, 0) with owner Red",
+            inspectedCell00);
 
     // Check that the transcript shows a card was considered for cell (0, 0)
     boolean consideredCard = false;
@@ -120,7 +129,8 @@ public class FillFirstTest {
         break;
       }
     }
-    assertTrue("Transcript should show that Card1 was considered for cell (0, 0)", consideredCard);
+    assertTrue("Transcript should show that Card1 was considered for cell (0, 0)",
+            consideredCard);
 
     // Finally, check that a legal move was added for cell (0, 0)
     boolean addedLegalMove = false;
@@ -130,7 +140,8 @@ public class FillFirstTest {
         break;
       }
     }
-    assertTrue("Transcript should record that a legal move was added for cell (0,0)", addedLegalMove);
+    assertTrue("Transcript should record that a legal move was added for cell (0,0)",
+            addedLegalMove);
   }
 
   /**
@@ -151,7 +162,8 @@ public class FillFirstTest {
     // Clear transcript and call getLegalMoves
     model.getTranscript().clear();
     List<Move> legalMoves = model.getLegalMoves();
-    assertTrue("There should be no legal moves when the hand is empty", legalMoves.isEmpty());
+    assertTrue("There should be no legal moves when the hand is empty",
+            legalMoves.isEmpty());
 
     // Clear transcript and attempt to choose a move
     model.getTranscript().clear();
@@ -160,7 +172,8 @@ public class FillFirstTest {
 
     // Check that the transcript contains detailed logging of getLegalMoves
     List<String> transcript = model.getTranscript();
-    assertTrue("Transcript should contain 'getLegalMoves called'", transcript.contains("getLegalMoves called"));
+    assertTrue("Transcript should contain 'getLegalMoves called'",
+            transcript.contains("getLegalMoves called"));
   }
 
   /**
@@ -187,8 +200,10 @@ public class FillFirstTest {
     Move chosenMove = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     // Based on our configuration, the next available move should be in cell (1,0)
-    assertEquals("Strategy should choose the next available move (row)", 1, chosenMove.getRow());
-    assertEquals("Strategy should choose the move at column 0", 0, chosenMove.getCol());
+    assertEquals("Strategy should choose the next available move (row)", 1,
+            chosenMove.getRow());
+    assertEquals("Strategy should choose the move at column 0", 0,
+            chosenMove.getCol());
 
     // Verify transcript contains expected cell inspection details
     List<String> transcript = model.getTranscript();
@@ -199,7 +214,8 @@ public class FillFirstTest {
         break;
       }
     }
-    assertTrue("Transcript should record inspection of cell (0,0) showing a card is present", inspectedIllegalCell);
+    assertTrue("Transcript should record inspection of cell (0,0) showing a card is " +
+            "present", inspectedIllegalCell);
   }
 
   /**
@@ -234,7 +250,8 @@ public class FillFirstTest {
     Move chosenMove = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when a legal move exists", chosenMove);
     // Expect that the chosen move uses the second card in hand (index 1)
-    assertEquals("The move should use the second card in hand (index 1)", 1, chosenMove.getCardIndex());
+    assertEquals("The move should use the second card in hand (index 1)", 1,
+            chosenMove.getCardIndex());
     // And because cell (0,0) is legal, the move should be from (0,0)
     assertEquals("The move should be in row 0", 0, chosenMove.getRow());
     assertEquals("The move should be in column 0", 0, chosenMove.getCol());
@@ -251,7 +268,9 @@ public class FillFirstTest {
         consideredCheap = true;
       }
     }
-    assertTrue("Transcript should record that ExpensiveCard was considered", consideredExpensive);
-    assertTrue("Transcript should record that CheapCard was considered", consideredCheap);
+    assertTrue("Transcript should record that ExpensiveCard was considered",
+            consideredExpensive);
+    assertTrue("Transcript should record that CheapCard was considered",
+            consideredCheap);
   }
 }

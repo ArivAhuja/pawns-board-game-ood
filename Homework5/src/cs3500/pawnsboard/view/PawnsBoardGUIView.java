@@ -2,10 +2,8 @@ package cs3500.pawnsboard.view;
 
 
 import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
-import cs3500.pawnsboard.model.Player;
 
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
 
 /**
  * A Swing-based GUI view for the PawnsBoard game.
@@ -52,7 +50,7 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
     this.panel.clearSelectedCard();
   }
 
-  public void clearSelectedCell(){
+  public void clearSelectedCell() {
     this.panel.clearSelectedCell();
   }
 }

@@ -4,7 +4,6 @@ import java.util.List;
 
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
-import cs3500.pawnsboard.strategy.PawnsBoardStrategy;
 
 /**
  * A strategy that always chooses the first legal move and places it in the first available space.

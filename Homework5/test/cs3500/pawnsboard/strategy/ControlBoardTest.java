@@ -11,14 +11,22 @@ import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+/**
+ * Tests for the Control Board.
+ */
 public class ControlBoardTest {
 
   private MockPawnsBoardModel model;
   private TestableControlBoardStrategy strategy;
   private List<Move> legalMoves;
-  private List<Card> testDeck;
 
   /**
    * Helper method to create a test card with a simple influence grid.
@@ -59,6 +67,7 @@ public class ControlBoardTest {
 
   @Before
   public void setUp() {
+    List<Card> testDeck;
     // Create a test deck (for simplicity, one card is enough for these tests).
     testDeck = new ArrayList<>();
     testDeck.add(createTestCard("Card1", 1, 5));
@@ -136,16 +145,19 @@ public class ControlBoardTest {
     Move chosenMove = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     // Expect moveB to be chosen because it has the highest count (7).
-    assertEquals("Strategy should choose the move with maximum controlled cells", moveB, chosenMove);
+    assertEquals("Strategy should choose the move with maximum controlled cells", moveB,
+            chosenMove);
 
     long legalMovesCallCount = model.getTranscript().stream()
             .filter(s -> s.equals("getLegalMoves called"))
             .count();
-    assertEquals("Strategy should call getLegalMoves exactly once", 1, legalMovesCallCount);
+    assertEquals("Strategy should call getLegalMoves exactly once", 1,
+            legalMovesCallCount);
   }
 
   /**
-   * Tests the tie-breaker: if two moves have the same controlled cell count, choose the uppermost-leftmost.
+   * Tests the tie-breaker: if two moves have the same controlled cell count, choose the
+   * uppermost-leftmost.
    */
   @Test
   public void testTieBreakerUppermostLeftmost() {
@@ -169,16 +181,19 @@ public class ControlBoardTest {
     Move chosenMove = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     // According to the tie-breaker, (1,1) is uppermost-leftmost compared to (2,0).
-    assertEquals("Tie-breaker should choose the uppermost-leftmost move", moveD, chosenMove);
+    assertEquals("Tie-breaker should choose the uppermost-leftmost move", moveD,
+            chosenMove);
 
     long legalMovesCallCount = model.getTranscript().stream()
             .filter(s -> s.equals("getLegalMoves called"))
             .count();
-    assertEquals("Strategy should call getLegalMoves exactly once", 1, legalMovesCallCount);
+    assertEquals("Strategy should call getLegalMoves exactly once", 1,
+            legalMovesCallCount);
   }
 
   /**
-   * Tests the tie-breaker for card index: if two moves have the same location and simulation result,
+   * Tests the tie-breaker for card index: if two moves have the same location and simulation
+   * result,
    * choose the move with the lower (leftmost) card index.
    */
   @Test
@@ -201,11 +216,13 @@ public class ControlBoardTest {
     model.getTranscript().clear();
     Move chosenMove = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
-    assertEquals("Tie-breaker should choose the move with the lower card index", moveG, chosenMove);
+    assertEquals("Tie-breaker should choose the move with the lower card index", moveG,
+            chosenMove);
 
     long legalMovesCallCount = model.getTranscript().stream()
             .filter(s -> s.equals("getLegalMoves called"))
             .count();
-    assertEquals("Strategy should call getLegalMoves exactly once", 1, legalMovesCallCount);
+    assertEquals("Strategy should call getLegalMoves exactly once", 1,
+            legalMovesCallCount);
   }
 }

@@ -31,6 +31,6 @@ Checklist before sumbit
 - No debug statements in final code
 - No debug comments in final code
 - Make sure interfaces have proper methods
-- Check puublic vs private vs protected etc.
+- Check public vs private vs protected etc.
 - Overrides are consistent
 - Check that main class model, view, controller have descriptive java docs

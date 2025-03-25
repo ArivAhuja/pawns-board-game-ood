@@ -1,17 +1,28 @@
 package cs3500.pawnsboard;
 
 import cs3500.pawnsboard.model.MockPawnsBoardModel;
-import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.strategy.FillFirstStrategy;
 import cs3500.pawnsboard.strategy.MaximizeRowScoreStrategy;
 import cs3500.pawnsboard.strategy.PawnsBoardStrategy;
 import cs3500.pawnsboard.model.Move;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * StrategyTranscriptGenerator is a utility class that sets up a mock PawnsBoard game configuration,
+ * applies different strategies to choose moves, and generates a transcript of the moves. The
+ * transcript entries are then written to a file.
+ *
+ * <p>This class uses a mock model configured with a test deck and board, applies strategies such as
+ * {@link FillFirstStrategy} and {@link MaximizeRowScoreStrategy}, and records the transcript of the
+ * moves chosen by these strategies. It is designed to help with testing and debugging strategy
+ * behavior.
+ * </p>
+ */
 public class StrategyTranscriptGenerator {
 
   /**
@@ -61,6 +72,15 @@ public class StrategyTranscriptGenerator {
     return model;
   }
 
+  /**
+   * Main method to generate strategy transcripts for different strategies.
+   *
+   * <p>This method sets up a mock board model and applies two different strategies to choose a
+   * move for the "Red" player. It then appends the chosen moves to the transcript and writes the
+   * transcript to a file named "strategy-transcript-score.txt".</p>
+   *
+   * @param args command-line arguments (not used)
+   */
   public static void main(String[] args) {
     MockPawnsBoardModel model = setupMockModel();
     PawnsBoardStrategy fillFirst = new FillFirstStrategy();

@@ -9,12 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+/**
+ * Tests for the MiniMax Strategy
+ */
 public class MiniMaxTest {
 
   private MockPawnsBoardModel model;
-  private List<Card> testDeck;
   private List<Move> legalMoves;
   private MiniMaxStrategy strategy;
 
@@ -47,6 +54,7 @@ public class MiniMaxTest {
    */
   @Before
   public void setUp() {
+    List<Card> testDeck;
     // Create test deck with one card.
     testDeck = new ArrayList<>();
     testDeck.add(createTestCard("Card1", 1, 5));
@@ -128,8 +136,10 @@ public class MiniMaxTest {
     model.getTranscript().clear();
     Move chosen = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosen);
-    assertEquals("Strategy should choose move with highest evaluation (row)", 1, chosen.getRow());
-    assertEquals("Strategy should choose move with highest evaluation (col)", 2, chosen.getCol());
+    assertEquals("Strategy should choose move with highest evaluation (row)", 1,
+            chosen.getRow());
+    assertEquals("Strategy should choose move with highest evaluation (col)", 2,
+            chosen.getCol());
 
     long count = model.getTranscript().stream()
             .filter(s -> s.equals("getLegalMoves called"))
@@ -156,7 +166,8 @@ public class MiniMaxTest {
     Move chosen = strategy.chooseMove(model, "Red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosen);
     // Since evaluations are equal, the last move in the list should be chosen.
-    assertEquals("Tie-breaker should choose the first move when evaluations are equal", move2, chosen);
+    assertEquals("Tie-breaker should choose the first move when evaluations are equal",
+            move2, chosen);
   }
 
   /**
@@ -172,7 +183,8 @@ public class MiniMaxTest {
     board.getCell(0, 0).placeCard(blueCard, "Blue");
 
     legalMoves.clear();
-    Move move1 = new Move(0, 0, 0);  // This move cannot change (0,0) because it already has a card.
+    Move move1 = new Move(0, 0, 0);  // This move cannot change (0,0) because it
+    // already has a card.
     Move move2 = new Move(1, 2, 0);  // This move will yield a full influence.
     legalMoves.add(move1);
     legalMoves.add(move2);
@@ -198,6 +210,7 @@ public class MiniMaxTest {
     strategy.chooseMove(model, "Red");
 
     String newOwner = originalBoard.getCell(0, 4).getOwner();
-    assertEquals("Original board should remain unchanged after simulation", originalOwner, newOwner);
+    assertEquals("Original board should remain unchanged after simulation", originalOwner,
+            newOwner);
   }
 }

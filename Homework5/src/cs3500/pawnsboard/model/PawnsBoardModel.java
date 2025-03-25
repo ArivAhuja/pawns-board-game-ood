@@ -30,13 +30,12 @@ public class PawnsBoardModel implements PawnsBoardModelI {
       throw new IllegalArgumentException("Invalid board dimensions: rows must be > 0, and " +
               "columns must be > 1 and odd.");
     }
-    if (handSize > (deck.size()/3)) {
-      throw new IllegalArgumentException
-              ("Hand size cannot be greater than a third of the deck size.");
+    if (handSize > (deck.size() / 3)) {
+      throw new IllegalArgumentException ("Hand size cannot be greater than a third " +
+              "of the deck size.");
     }
     if ((rows * columns) > deck.size()) {
-      throw new IllegalArgumentException
-              ("Must have enough cards in deck to fill board.");
+      throw new IllegalArgumentException("Must have enough cards in deck to fill board.");
     }
     // initialize the board as a 2D array of Cells
     this.board = new Board(rows, columns);
@@ -203,8 +202,8 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   }
 
   /**
-   * Determines whether it is legal for the current player to play the card at the specified hand index
-   * on the cell at (row, col).
+   * Determines whether it is legal for the current player to play the card at the specified hand
+   * index on the cell at (row, col).
    *
    * @param row       the row coordinate of the target cell.
    * @param col       the column coordinate of the target cell.
@@ -238,6 +237,14 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   // ======================== Mutator Methods (from PawnsBoardModelI) =========================
 
 
+  /**
+   * Draws a card from the deck and adds it to the current player's hand.
+   *
+   * <p>This method attempts to remove the top card from the deck (index 0) and passes it to the current
+   * player's {@code drawCard} method. A message is printed indicating which card was drawn by which player.
+   * If the deck is empty, an {@code IndexOutOfBoundsException} is caught and a warning message is printed
+   * instead.
+   */
   public void drawCard() {
     try {
       Card card = deck.remove(0);

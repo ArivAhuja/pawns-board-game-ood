@@ -100,7 +100,9 @@ public class Card implements CardI {
   }
 
   private char[][] deepCopyGrid(char[][] grid) {
-    if (grid == null) return null;
+    if (grid == null) {
+      return null;
+    }
     char[][] copy = new char[grid.length][];
     for (int i = 0; i < grid.length; i++) {
       copy[i] = grid[i].clone();

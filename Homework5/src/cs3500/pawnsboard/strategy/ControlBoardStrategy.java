@@ -7,6 +7,17 @@ import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 
+/**
+ * The {@code ControlBoardStrategy} class implements a strategy for the Pawns Board game
+ * that selects the move which maximizes control over the board. It does so by simulating the effect
+ * of each legal move on a cloned board and counting the number of cells that would be owned by the
+ * current player after applying the move's influence.
+ * <p>
+ * In case of a tie in the number of controlled cells, the strategy prefers moves that are uppermost
+ * (lowest row number), then leftmost (lowest column number), and finally the move that uses a lower
+ * card index.
+ * </p>
+ */
 public class ControlBoardStrategy extends AbstractPawnsBoardStrategy {
 
   @Override

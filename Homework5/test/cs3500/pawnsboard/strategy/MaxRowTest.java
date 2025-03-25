@@ -7,9 +7,15 @@ import cs3500.pawnsboard.model.MockPawnsBoardModel;
 import cs3500.pawnsboard.model.Player;
 import java.util.ArrayList;
 import java.util.List;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Tests for the MaxRowScore strategy.
@@ -173,10 +179,13 @@ public class MaxRowTest {
 
     // Verify that the transcript records expected calls
     List<String> transcript = model.getTranscript();
-    assertTrue("Transcript should record 'getLegalMoves called'", transcript.contains("getLegalMoves called"));
-    assertTrue("Transcript should record 'computeRowScores called'", transcript.contains("computeRowScores called"));
+    assertTrue("Transcript should record 'getLegalMoves called'",
+            transcript.contains("getLegalMoves called"));
+    assertTrue("Transcript should record 'computeRowScores called'",
+            transcript.contains("computeRowScores called"));
     // Also, check that cell inspections for row 0 are present
-    boolean inspectedRow0 = transcript.stream().anyMatch(s -> s.contains("Inspecting cell (0,"));
+    boolean inspectedRow0 = transcript.stream().anyMatch(s ->
+            s.contains("Inspecting cell (0,"));
     assertTrue("Transcript should record inspections for row 0", inspectedRow0);
   }
 

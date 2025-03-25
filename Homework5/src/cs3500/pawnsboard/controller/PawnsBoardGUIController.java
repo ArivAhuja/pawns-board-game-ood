@@ -1,12 +1,15 @@
 package cs3500.pawnsboard.controller;
 
-import java.util.List;
-
-import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
 
+/**
+ * The {@code PawnsBoardGUIController} class handles user interactions in the GUI for the Pawns Board game.
+ * It coordinates between the game model and the GUI view, processing user actions and updating the game state.
+ * This controller implements both {@link PawnsBoardGUIControllerI} and {@link ViewFeatures} to ensure proper
+ * communication with the model and view.
+ */
 public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures {
   private final PawnsBoardModel model;
   private final PawnsBoardGUIView view;

@@ -1,7 +1,6 @@
 package cs3500.pawnsboard.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -39,6 +38,6 @@ public class Player implements PlayerI {
   }
 
   public void drawCard(Card card) {
-      hand.add(card);
+    hand.add(card);
   }
 }

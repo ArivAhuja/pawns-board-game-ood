@@ -51,7 +51,8 @@ public abstract class AbstractPawnsBoardStrategy implements PawnsBoardStrategy {
    * @param card the card being played.
    * @param playerColor the player's color ("Red" or "Blue").
    */
-  protected void simulateInfluenceOnBoard(Board board, int cardRow, int cardCol, Card card, String playerColor) {
+  protected void simulateInfluenceOnBoard(Board board, int cardRow, int cardCol, Card card,
+                                          String playerColor) {
     char[][] grid = card.getInfluenceGrid();
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 5; j++) {

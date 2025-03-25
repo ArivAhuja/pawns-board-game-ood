@@ -1,21 +1,22 @@
 package cs3500.pawnsboard.view;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
-import java.util.ArrayList;
-import java.util.List;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Card;
-import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
-
-import javax.swing.*;
-
+import javax.swing.JPanel;
 
 /**
  * A JPanel that displays the board grid for the Pawns Board game.

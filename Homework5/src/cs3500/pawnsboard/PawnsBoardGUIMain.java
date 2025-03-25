@@ -1,6 +1,5 @@
 package cs3500.pawnsboard;
 
-import cs3500.pawnsboard.controller.PawnsBoardController;
 import cs3500.pawnsboard.controller.PawnsBoardGUIController;
 import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.model.DeckFileParser;
@@ -19,6 +18,10 @@ import java.util.List;
  * Initializes the Model, View and Controller and then runs the game.
  */
 public class PawnsBoardGUIMain {
+  /**
+   * Main class for the game.
+   * @param args arguments.
+   */
   public static void main(String[] args) {
     String deckFilePath = "docs" + File.separator + "deck.config";
     try {

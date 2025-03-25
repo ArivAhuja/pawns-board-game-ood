@@ -58,9 +58,22 @@ public class PawnsBoardModelTest {
     testDeck.add(createTestCard("Card4", 1, 3));
     testDeck.add(createTestCard("Card5", 2, 6));
     testDeck.add(createTestCard("Card6", 3, 10));
+    testDeck.add(createTestCard("Card7", 3, 10));
+    testDeck.add(createTestCard("Card8", 3, 10));
+    testDeck.add(createTestCard("Card9", 3, 10));
+    testDeck.add(createTestCard("Card10", 3, 10));
+    testDeck.add(createTestCard("Card11", 1, 5));
+    testDeck.add(createTestCard("Card12", 2, 8));
+    testDeck.add(createTestCard("Card13", 3, 12));
+    testDeck.add(createTestCard("Card14", 1, 3));
+    testDeck.add(createTestCard("Card15", 2, 6));
+    testDeck.add(createTestCard("Card16", 3, 10));
+    testDeck.add(createTestCard("Card17", 3, 10));
+    testDeck.add(createTestCard("Card18", 3, 10));
+    testDeck.add(createTestCard("Card19", 3, 10));
 
     // Initialize a 3x5 board with the test deck
-    model = new PawnsBoardModel(3, 5, testDeck, 3);
+    model = new PawnsBoardModel(3, 5, testDeck, 1);
   }
 
   @Test
@@ -427,25 +440,18 @@ public class PawnsBoardModelTest {
     assertTrue("Should find a legal move for Red's pawns", foundMove);
   }
 
-//  @Test
-//  public void testAutoPassIfHandEmpty() {
-//    // Make Red's hand empty
-//    Player redPlayer = model.getCurrentPlayer();
-//    try {
-//      java.lang.reflect.Field handField = Player.class.getDeclaredField("hand");
-//      handField.setAccessible(true);
-//      handField.set(redPlayer, new ArrayList<>());
-//    } catch (Exception e) {
-//      fail("Failed to set up test: " + e.getMessage());
-//    }
-//
-//    // Test auto-pass
-//    boolean didAutoPass = model.autoPassIfHandEmpty();
-//    assertTrue(didAutoPass);
-//
-//    // Turn should have changed to Blue
-//    assertEquals("Blue", model.getCurrentPlayer().getColor());
-//  }
+  @Test
+  public void testAutoPassIfHandEmpty() {
+    // Make Red's hand empty
+    Player redPlayer = model.getCurrentPlayer();
+
+    // Test auto-pass
+    boolean didAutoPass = model.checkAutoPass();
+    assertTrue(didAutoPass);
+
+    // Turn should have changed to Blue
+    assertEquals("Blue", model.getCurrentPlayer().getColor());
+  }
 
   @Test
   public void testComputeScores() {

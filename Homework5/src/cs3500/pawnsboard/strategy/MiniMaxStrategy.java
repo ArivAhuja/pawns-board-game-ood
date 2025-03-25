@@ -7,6 +7,18 @@ import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 
+/**
+ * The {@code MiniMaxStrategy} class implements a simple minimax-based strategy for the Pawns Board
+ * game.
+ * <p>
+ * This strategy evaluates each legal move by simulating its effect on a cloned board, applying the
+ * card's influence,
+ * and then using a heuristic evaluation function. The heuristic used here is defined as:
+ * (number of cells owned by the player) - (number of cells owned by the opponent). The move with
+ * the highest evaluation
+ * is selected. In the event of a tie, the first move in the legal moves list is chosen.
+ * </p>
+ */
 public class MiniMaxStrategy extends AbstractPawnsBoardStrategy {
 
   @Override
