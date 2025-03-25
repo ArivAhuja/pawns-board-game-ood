@@ -55,7 +55,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void selectedCell(int row, int col) {
-    System.out.println("Cell Row: " + row + "Cell Col: " + col + ".");
+    System.out.println("Cell Row: " + row + " Cell Col: " + col + ".");
     view.refresh();
   }
 
