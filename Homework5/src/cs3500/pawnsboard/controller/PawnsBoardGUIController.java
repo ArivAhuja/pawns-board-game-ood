@@ -1,5 +1,6 @@
 package cs3500.pawnsboard.controller;
 
+import cs3500.pawnsboard.model.ModelStatusListener;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
@@ -13,7 +14,7 @@ import cs3500.pawnsboard.view.ViewFeatures;
  * ensure proper
  * communication with the model and view.
  */
-public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures {
+public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures, ModelStatusListener {
   private final PawnsBoardModel model;
   private final PawnsBoardGUIView view;
 
@@ -27,6 +28,8 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
     this.model = model;
     this.view = view;
     this.view.addFeatureListener(this);
+    // Register as a listener for model-status events:
+    this.model.addModelStatusListener(this);
   }
 
   public void runGame() {
@@ -81,5 +84,20 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
     if (success) {
       updateGameState();
     }
+  }
+
+  @Override
+  public void turnChanged() {
+    // can add things here like system dialoug in the future
+    view.clearSelectedCard();
+    view.clearSelectedCell();
+    view.refresh();
+  }
+
+  @Override
+  public void gameOver(String result) {
+    // can add things here like system dialoug in the future
+    System.out.println("Game over: " + result);
+    view.refresh();
   }
 }

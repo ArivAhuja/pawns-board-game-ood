@@ -16,6 +16,8 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   private boolean isRedTurn;
   private int consecutivePasses;
   private List<Card> deck;
+  private final List<ModelStatusListener> statusListeners;
+
 
 
   /**
@@ -61,7 +63,42 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     // red always starts
     this.isRedTurn = true;
     this.consecutivePasses = 0;
+
+    // set the status listerners (features) initialized
+    this.statusListeners = new ArrayList<>();
   }
+
+  // ================== NEW Listener Methods (need to add to interface) ===================
+  /**
+   * Adds a listener for model status updates.
+   * @param listener the listener to add.
+   */
+  public void addModelStatusListener(ModelStatusListener listener) {
+    if (listener == null) {
+      throw new IllegalArgumentException("Listener cannot be null");
+    }
+    this.statusListeners.add(listener);
+  }
+
+  /**
+   * Notifies all registered listeners that the turn has changed.
+   */
+  private void notifyTurnChanged() {
+    for (ModelStatusListener listener : statusListeners) {
+      listener.turnChanged();
+    }
+  }
+
+  /**
+   * Notifies all registered listeners that the game is over.
+   */
+  private void notifyGameOver() {
+    String result = this.getWinner(); // Assuming getWinner() provides a message like "Red wins!"
+    for (ModelStatusListener listener : statusListeners) {
+      listener.gameOver(result);
+    }
+  }
+
 
   // =================== Observation Methods (from ReadonlyPawnsBoardModelI) ===================
 
@@ -286,6 +323,13 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     System.out.println(getCurrentPlayer().getColor() + " passes.");
     consecutivePasses++;
     isRedTurn = !isRedTurn;
+    // after updating the game state, notify listeners:
+    if (isGameOver()) {
+      notifyGameOver();
+    }
+    else {
+      notifyTurnChanged();
+    }
   }
 
 
@@ -332,6 +376,15 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     // Apply the card's influence.
     applyInfluence(row, col, chosenCard, current.getColor());
     isRedTurn = !isRedTurn; // Switch turn.
+
+    // notify listeners
+    if (isGameOver()) {
+      notifyGameOver();
+    }
+    else {
+      notifyTurnChanged();
+    }
+
     return true;
   }
 
