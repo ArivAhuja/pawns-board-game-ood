@@ -316,6 +316,8 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     return false;
   }
 
+
+
   /**
    * Processes a pass move by the current player.
    */
@@ -338,33 +340,40 @@ public class PawnsBoardModel implements PawnsBoardModelI {
    * @param row       The row of the target cell.
    * @param col       The column of the target cell.
    * @param cardIndex The index of the card in the player's hand.
-   * @return true if the move was successful, false otherwise.
+   * @return true if the move was successful.
+   * @throws IllegalArgumentException if any of the move parameters are invalid.
+   * @throws IllegalStateException if the move is not allowed by game rules.
    */
   public boolean placeCard(int row, int col, int cardIndex) {
     Player current = getCurrentPlayer();
 
     if (!board.isValidPosition(row, col)) {
-      System.out.println("Invalid cell position.");
-      return false;
+      throw new IllegalArgumentException("Invalid cell position.");
     }
 
     Cell cell = board.getCell(row, col);
     // Check that the cell has pawns, is owned by the current player, and does not already
     // have a card.
-    if (!cell.hasPawns() || !cell.getOwner().equals(current.getColor()) || cell.getCard() != null) {
-      System.out.println("Cell is not eligible for placement.");
-      return false;
+    if (!cell.hasPawns()) {
+      throw new IllegalStateException("Cell has no pawns.");
     }
+
+    if (!cell.getOwner().equals(current.getColor())) {
+      throw new IllegalStateException("Cell is not owned by the current player.");
+    }
+
+    if (cell.getCard() != null) {
+      throw new IllegalStateException("Cell already has a card.");
+    }
+
     // Check card index validity.
     if (cardIndex < 0 || cardIndex >= current.getHand().size()) {
-      System.out.println("Invalid card index.");
-      return false;
+      throw new IllegalArgumentException("Invalid card index.");
     }
 
     Card chosenCard = current.getHand().get(cardIndex);
     if (chosenCard.getCost() > cell.getPawnCount()) {
-      System.out.println("Not enough pawns to cover the card's cost.");
-      return false;
+      throw new IllegalStateException("Not enough pawns to cover the card's cost.");
     }
 
     // Place the card.

@@ -1,5 +1,7 @@
 package cs3500.pawnsboard.controller;
 
+import javax.swing.*;
+
 import cs3500.pawnsboard.model.ModelStatusListener;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
@@ -72,17 +74,25 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void placeAttempt(int row, int col, int cardIndex) {
-    if (cardIndex == -1) {
-      System.out.println("Select a card first.");
-      return;
-    }
-    if (row == -1) {
-      System.out.println("Select a cell first.");
-      return;
-    }
-    boolean success = model.placeCard(row, col, cardIndex);
-    if (success) {
-      updateGameState();
+    try {
+      if (cardIndex == -1) {
+        throw new IllegalStateException("Select a card first.");
+      }
+      if (row == -1) {
+        throw new IllegalStateException("Select a cell first.");
+      }
+      boolean success = model.placeCard(row, col, cardIndex);
+      if (success) {
+        updateGameState();
+      }
+    } catch (IllegalStateException | IllegalArgumentException e) {
+      // Assuming you're using Swing for your UI
+      JOptionPane.showMessageDialog(
+              view, // Pass your view component here
+              e.getMessage(),
+              "Invalid Move",
+              JOptionPane.WARNING_MESSAGE
+      );
     }
   }
 

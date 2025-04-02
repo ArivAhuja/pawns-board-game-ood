@@ -30,7 +30,7 @@ public class PawnsBoardGUIMain {
       List<Card> deck = parser.toDeck(deckContent);
       Collections.shuffle(deck);
       // Create the game model with a 3x5 board and a starting hand size of 5.
-      PawnsBoardModel model = new PawnsBoardModel(7, 7, deck, 5);
+      PawnsBoardModel model = new PawnsBoardModel(3, 3, deck, 2);
       // Instantiate the GUI view using the read-only interface.
       PawnsBoardGUIView guiView = new PawnsBoardGUIView(model);
       PawnsBoardGUIController controller = new PawnsBoardGUIController(model, guiView);
