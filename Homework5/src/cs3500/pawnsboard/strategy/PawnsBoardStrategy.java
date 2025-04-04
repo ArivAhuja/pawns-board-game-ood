@@ -2,6 +2,7 @@ package cs3500.pawnsboard.strategy;
 
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
+import cs3500.pawnsboard.model.Player;
 
 /**
  * The {@code PawnsBoardStrategy} interface defines the contract for implementing strategies
@@ -25,8 +26,8 @@ public interface PawnsBoardStrategy {
    * the chosen move for the computer.
    *
    * @param model The current PawnsBoardModel (or a read-only view of it).
-   * @param playerColor The color for which the strategy is making a decision ("Red" or "Blue").
+   * @param player The player for which the strategy is making a decision ("red" or "blue").
    * @return A Move representing the row, column, and hand index, or null if no valid move exists.
    */
-  Move chooseMove(PawnsBoardModel model, String playerColor);
+  Move chooseMove(PawnsBoardModel model, Player player);
 }

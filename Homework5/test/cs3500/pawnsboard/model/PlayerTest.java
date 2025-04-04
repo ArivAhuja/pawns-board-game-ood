@@ -46,9 +46,9 @@ public class PlayerTest {
   @Test
   public void testConstructor_BasicInitialization() {
     List<Card> deck = createTestDeck(10);
-    Player player = new Player("Red", deck, 5);
+    Player player = new Player("red", deck, 5);
 
-    assertEquals("Red", player.getColor());
+    assertEquals("red", player.getColor());
     assertNotNull(player.getHand());
     assertEquals(5, player.getHand().size());
   }
@@ -56,7 +56,7 @@ public class PlayerTest {
   @Test
   public void testConstructor_HandSizeLargerThanDeck() {
     List<Card> deck = createTestDeck(3);
-    Player player = new Player("Blue", deck, 5);
+    Player player = new Player("blue", deck, 5);
 
     // Hand should only have 3 cards since the deck only has 3
     assertEquals(3, player.getHand().size());
@@ -65,7 +65,7 @@ public class PlayerTest {
   @Test
   public void testConstructor_EmptyDeck() {
     List<Card> deck = new ArrayList<>();
-    Player player = new Player("Red", deck, 5);
+    Player player = new Player("red", deck, 5);
 
     assertTrue(player.getHand().isEmpty());
   }
@@ -73,7 +73,7 @@ public class PlayerTest {
   @Test
   public void testConstructor_ZeroHandSize() {
     List<Card> deck = createTestDeck(5);
-    Player player = new Player("Blue", deck, 0);
+    Player player = new Player("blue", deck, 0);
 
     assertTrue(player.getHand().isEmpty());
   }
@@ -83,7 +83,7 @@ public class PlayerTest {
     List<Card> originalDeck = createTestDeck(10);
     List<Card> deckCopy = new ArrayList<>(originalDeck);
 
-    Player player = new Player("Red", originalDeck, 5);
+    Player player = new Player("red", originalDeck, 5);
 
     // Original deck should not be modified
     assertEquals(10, originalDeck.size());
@@ -92,17 +92,17 @@ public class PlayerTest {
 
   @Test
   public void testGetColor() {
-    Player redPlayer = new Player("Red", createTestDeck(5), 3);
-    Player bluePlayer = new Player("Blue", createTestDeck(5), 3);
+    Player redPlayer = new Player("red", createTestDeck(5), 3);
+    Player bluePlayer = new Player("blue", createTestDeck(5), 3);
 
-    assertEquals("Red", redPlayer.getColor());
-    assertEquals("Blue", bluePlayer.getColor());
+    assertEquals("red", redPlayer.getColor());
+    assertEquals("blue", bluePlayer.getColor());
   }
 
   @Test
   public void testGetHand() {
     List<Card> deck = createTestDeck(10);
-    Player player = new Player("Red", deck, 5);
+    Player player = new Player("red", deck, 5);
 
     List<Card> hand = player.getHand();
     assertNotNull(hand);
@@ -117,7 +117,7 @@ public class PlayerTest {
   @Test
   public void testRemoveCardFromHand() {
     List<Card> deck = createTestDeck(5);
-    Player player = new Player("Red", deck, 5);
+    Player player = new Player("red", deck, 5);
 
     Card cardToRemove = player.getHand().get(2);
     player.removeCardFromHand(cardToRemove);
@@ -132,7 +132,7 @@ public class PlayerTest {
   @Test
   public void testRemoveCardFromHand_CardNotInHand() {
     List<Card> deck = createTestDeck(5);
-    Player player = new Player("Red", deck, 3);
+    Player player = new Player("red", deck, 3);
 
     // Create a card that's not in the player's hand
     Card notInHand = createTestCard("NotInHand", 1, 10);
@@ -150,7 +150,7 @@ public class PlayerTest {
   @Test
   public void testHandIndependenceFromDeck() {
     List<Card> deck = createTestDeck(10);
-    Player player = new Player("Red", deck, 5);
+    Player player = new Player("red", deck, 5);
 
     // Modify the original deck
     deck.remove(0);
@@ -164,7 +164,7 @@ public class PlayerTest {
   @Test
   public void testHandMutability() {
     List<Card> deck = createTestDeck(5);
-    Player player = new Player("Red", deck, 5);
+    Player player = new Player("red", deck, 5);
 
     List<Card> hand = player.getHand();
     int initialSize = hand.size();

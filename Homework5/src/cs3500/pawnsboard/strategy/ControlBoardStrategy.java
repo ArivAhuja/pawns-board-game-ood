@@ -6,6 +6,7 @@ import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
+import cs3500.pawnsboard.model.Player;
 
 /**
  * The {@code ControlBoardStrategy} class implements a strategy for the Pawns Board game
@@ -21,8 +22,8 @@ import cs3500.pawnsboard.model.PawnsBoardModel;
 public class ControlBoardStrategy extends AbstractPawnsBoardStrategy {
 
   @Override
-  public Move chooseMove(PawnsBoardModel model, String playerColor) {
-    List<Move> legalMoves = model.getLegalMoves();
+  public Move chooseMove(PawnsBoardModel model, Player player) {
+    List<Move> legalMoves = player.getLegalMoves();
     if (legalMoves.isEmpty()) {
       return null;
     }
@@ -32,7 +33,7 @@ public class ControlBoardStrategy extends AbstractPawnsBoardStrategy {
 
     // Iterate over every legal move and simulate its effect.
     for (Move move : legalMoves) {
-      int controlled = simulateControlledCells(model, move, playerColor);
+      int controlled = simulateControlledCells(model, move, player);
 
       // Choose the move with the maximum number of controlled cells.
       if (controlled > bestControlled) {
@@ -61,25 +62,25 @@ public class ControlBoardStrategy extends AbstractPawnsBoardStrategy {
    *
    * @param model       the current game model
    * @param move        the move to simulate
-   * @param playerColor the player's color ("Red" or "Blue")
+   * @param player the player ("red" or "blue")
    * @return the total count of cells owned by the player after simulation
    */
-  protected int simulateControlledCells(PawnsBoardModel model, Move move, String playerColor) {
+  protected int simulateControlledCells(PawnsBoardModel model, Move move, Player player) {
     Board clonedBoard = model.cloneBoard();
-    Card card = model.getCurrentPlayer().getHand().get(move.getCardIndex());
+    Card card = player.getHand().get(move.getCardIndex());
     Cell cell = clonedBoard.getCell(move.getRow(), move.getCol());
 
     // Place the card on the clone.
-    cell.placeCard(card, playerColor);
+    cell.placeCard(card, player.getColor());
 
     // Simulate the card's influence.
-    simulateInfluenceOnBoard(clonedBoard, move.getRow(), move.getCol(), card, playerColor);
+    simulateInfluenceOnBoard(clonedBoard, move.getRow(), move.getCol(), card, player.getColor());
 
     // Count cells controlled by the player.
     int count = 0;
     for (int row = 0; row < clonedBoard.getRows(); row++) {
       for (int col = 0; col < clonedBoard.getColumns(); col++) {
-        if (playerColor.equals(clonedBoard.getCell(row, col).getOwner())) {
+        if (player.getColor().equals(clonedBoard.getCell(row, col).getOwner())) {
           count++;
         }
       }

@@ -1,6 +1,7 @@
 package cs3500.pawnsboard.view;
 
 
+import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
 
 import javax.swing.JFrame;
@@ -18,10 +19,10 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
    *
    * @param model    The read-only model.
    */
-  public PawnsBoardGUIView(ReadonlyPawnsBoardModelI model) {
+  public PawnsBoardGUIView(ReadonlyPawnsBoardModelI model, Player player) {
     super("Pawns Board Game");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.panel = new JPawnsBoardPanel(model);
+    this.panel = new JPawnsBoardPanel(model, player);
     this.add(panel);
     this.pack();
 
@@ -36,7 +37,7 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
 
   @Override
   public void display(boolean show) {
-    this.setVisible(show);
+      this.setVisible(show);
   }
 
   @Override

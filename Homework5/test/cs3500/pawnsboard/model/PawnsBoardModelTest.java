@@ -83,18 +83,18 @@ public class PawnsBoardModelTest {
     assertEquals(5, model.getBoard().getColumns());
 
     // Test initial player turn (Red starts)
-    assertEquals("Red", model.getCurrentPlayer().getColor());
+    assertEquals("red", model.getCurrentPlayer().getColor());
 
     // Test initial board state - first column has red pawns
     for (int row = 0; row < 3; row++) {
       Cell leftCell = model.getBoard().getCell(row, 0);
       assertEquals(1, leftCell.getPawnCount());
-      assertEquals("Red", leftCell.getOwner());
+      assertEquals("red", leftCell.getOwner());
 
       // Last column has blue pawns
       Cell rightCell = model.getBoard().getCell(row, 4);
       assertEquals(1, rightCell.getPawnCount());
-      assertEquals("Blue", rightCell.getOwner());
+      assertEquals("blue", rightCell.getOwner());
     }
 
     // Test initial game state (not over)
@@ -117,15 +117,15 @@ public class PawnsBoardModelTest {
   @Test
   public void testPass() {
     // Initially it's Red's turn
-    assertEquals("Red", model.getCurrentPlayer().getColor());
+    assertEquals("red", model.getCurrentPlayer().getColor());
 
     // After passing, it should be Blue's turn
     model.pass();
-    assertEquals("Blue", model.getCurrentPlayer().getColor());
+    assertEquals("blue", model.getCurrentPlayer().getColor());
 
     // After another pass, back to Red
     model.pass();
-    assertEquals("Red", model.getCurrentPlayer().getColor());
+    assertEquals("red", model.getCurrentPlayer().getColor());
   }
 
   @Test
@@ -152,11 +152,11 @@ public class PawnsBoardModelTest {
     // Check that the card was placed
     Cell cell = model.getBoard().getCell(0, 0);
     assertNotNull(cell.getCard());
-    assertEquals("Red", cell.getOwner());
+    assertEquals("red", cell.getOwner());
     assertEquals(0, cell.getPawnCount()); // Pawns get consumed
 
     // Turn should change to Blue
-    assertEquals("Blue", model.getCurrentPlayer().getColor());
+    assertEquals("blue", model.getCurrentPlayer().getColor());
 
     // Consecutive passes should be reset
     model.pass(); // Blue passes
@@ -170,7 +170,7 @@ public class PawnsBoardModelTest {
     assertFalse(result);
 
     // Turn should not change
-    assertEquals("Red", model.getCurrentPlayer().getColor());
+    assertEquals("red", model.getCurrentPlayer().getColor());
   }
 
   @Test
@@ -180,7 +180,7 @@ public class PawnsBoardModelTest {
     assertFalse(result);
 
     // Turn should not change
-    assertEquals("Red", model.getCurrentPlayer().getColor());
+    assertEquals("red", model.getCurrentPlayer().getColor());
   }
 
   @Test
@@ -190,7 +190,7 @@ public class PawnsBoardModelTest {
     assertFalse(result);
 
     // Turn should not change
-    assertEquals("Red", model.getCurrentPlayer().getColor());
+    assertEquals("red", model.getCurrentPlayer().getColor());
   }
 
   @Test
@@ -200,7 +200,7 @@ public class PawnsBoardModelTest {
     assertFalse(result);
 
     // Turn should not change
-    assertEquals("Red", model.getCurrentPlayer().getColor());
+    assertEquals("red", model.getCurrentPlayer().getColor());
   }
 
   @Test
@@ -224,7 +224,7 @@ public class PawnsBoardModelTest {
       assertFalse(result);
 
       // Turn should not change
-      assertEquals("Red", model.getCurrentPlayer().getColor());
+      assertEquals("red", model.getCurrentPlayer().getColor());
     }
   }
 
@@ -238,7 +238,7 @@ public class PawnsBoardModelTest {
 
     // Cell should still have Red's card
     Cell cell = model.getBoard().getCell(0, 0);
-    assertEquals("Red", cell.getOwner());
+    assertEquals("red", cell.getOwner());
   }
 
   @Test
@@ -252,7 +252,7 @@ public class PawnsBoardModelTest {
     }
 
     // Set up test condition: Red has a pawn at (1,1)
-    board.setCellPawns(1, 1, 1, "Red");
+    board.setCellPawns(1, 1, 1, "red");
 
     // Create a card with specific influence pattern
     Card testCard = createTestCard("TestCard", 1, 5);
@@ -282,24 +282,24 @@ public class PawnsBoardModelTest {
     Cell bottomCell = board.getCell(2, 1);
 
     assertEquals(1, topCell.getPawnCount());
-    assertEquals("Red", topCell.getOwner());
+    assertEquals("red", topCell.getOwner());
 
     assertEquals(1, leftCell.getPawnCount());
-    assertEquals("Red", leftCell.getOwner());
+    assertEquals("red", leftCell.getOwner());
 
     assertEquals(1, rightCell.getPawnCount());
-    assertEquals("Red", rightCell.getOwner());
+    assertEquals("red", rightCell.getOwner());
 
     assertEquals(1, bottomCell.getPawnCount());
-    assertEquals("Red", bottomCell.getOwner());
+    assertEquals("red", bottomCell.getOwner());
   }
 
   @Test
   public void testInfluenceOnOpponentPawns() {
     // Set up test condition: Red has a pawn at (1,1), Blue has a pawn at (1,2)
     Board board = model.getBoard();
-    board.setCellPawns(1, 1, 1, "Red");
-    board.setCellPawns(1, 2, 1, "Blue");
+    board.setCellPawns(1, 1, 1, "red");
+    board.setCellPawns(1, 2, 1, "blue");
 
     // Create a card with specific influence pattern
     Card testCard = createTestCard("TestCard", 1, 5);
@@ -323,7 +323,7 @@ public class PawnsBoardModelTest {
 
     // Check that Blue's pawn at (1,2) is now Red's
     Cell rightCell = board.getCell(1, 2);
-    assertEquals("Red", rightCell.getOwner());
+    assertEquals("red", rightCell.getOwner());
     assertEquals(1, rightCell.getPawnCount());
   }
 
@@ -331,8 +331,8 @@ public class PawnsBoardModelTest {
   public void testInfluenceOnExistingPawns() {
     // Set up: Red has 1 pawn at (1,1) and 2 pawns at (1,2)
     Board board = model.getBoard();
-    board.setCellPawns(1, 1, 1, "Red");
-    board.setCellPawns(1, 2, 2, "Red");
+    board.setCellPawns(1, 1, 1, "red");
+    board.setCellPawns(1, 2, 2, "red");
 
     // Create a card with specific influence pattern
     Card testCard = createTestCard("TestCard", 1, 5);
@@ -357,18 +357,18 @@ public class PawnsBoardModelTest {
     // Cell at (1,2) should now have 3 pawns (2+1, max is 3)
     Cell rightCell = board.getCell(1, 2);
     assertEquals(3, rightCell.getPawnCount());
-    assertEquals("Red", rightCell.getOwner());
+    assertEquals("red", rightCell.getOwner());
   }
 
   @Test
   public void testInfluenceWithBluePlayer() {
     // Setup: Blue has a pawn at (1,3)
     Board board = model.getBoard();
-    board.setCellPawns(1, 3, 1, "Blue");
+    board.setCellPawns(1, 3, 1, "blue");
 
     // First pass to make it Blue's turn
     model.pass();
-    assertEquals("Blue", model.getCurrentPlayer().getColor());
+    assertEquals("blue", model.getCurrentPlayer().getColor());
 
     // Create a card with specific influence pattern
     Card testCard = createTestCard("TestCard", 1, 5);
@@ -400,22 +400,22 @@ public class PawnsBoardModelTest {
     // Check the cells have Blue pawns
     if (board.isValidPosition(0, 3)) {
       assertEquals(1, topCell.getPawnCount());
-      assertEquals("Blue", topCell.getOwner());
+      assertEquals("blue", topCell.getOwner());
     }
 
     if (board.isValidPosition(1, 2)) {
       assertEquals(1, leftCell.getPawnCount());
-      assertEquals("Blue", leftCell.getOwner());
+      assertEquals("blue", leftCell.getOwner());
     }
 
     if (board.isValidPosition(1, 4)) {
       assertEquals(2, rightCell.getPawnCount());
-      assertEquals("Blue", rightCell.getOwner());
+      assertEquals("blue", rightCell.getOwner());
     }
 
     if (board.isValidPosition(2, 3)) {
       assertEquals(1, bottomCell.getPawnCount());
-      assertEquals("Blue", bottomCell.getOwner());
+      assertEquals("blue", bottomCell.getOwner());
     }
   }
 
@@ -450,7 +450,7 @@ public class PawnsBoardModelTest {
     assertTrue(didAutoPass);
 
     // Turn should have changed to Blue
-    assertEquals("Blue", model.getCurrentPlayer().getColor());
+    assertEquals("blue", model.getCurrentPlayer().getColor());
   }
 
   @Test
@@ -473,16 +473,16 @@ public class PawnsBoardModelTest {
 
     // Setup cells with cards manually
     Cell cell1 = board.getCell(0, 0);
-    cell1.placeCard(redCard1, "Red");
+    cell1.placeCard(redCard1, "red");
 
     Cell cell2 = board.getCell(0, 1);
-    cell2.placeCard(blueCard1, "Blue");
+    cell2.placeCard(blueCard1, "blue");
 
     Cell cell3 = board.getCell(1, 0);
-    cell3.placeCard(redCard2, "Red");
+    cell3.placeCard(redCard2, "red");
 
     Cell cell4 = board.getCell(1, 1);
-    cell4.placeCard(blueCard2, "Blue");
+    cell4.placeCard(blueCard2, "blue");
 
     // Compute scores
     int[] scores = model.computeScores();
@@ -514,16 +514,16 @@ public class PawnsBoardModelTest {
 
     // Setup cells with cards manually
     Cell cell1 = board.getCell(0, 0);
-    cell1.placeCard(redCard1, "Red");
+    cell1.placeCard(redCard1, "red");
 
     Cell cell2 = board.getCell(0, 1);
-    cell2.placeCard(blueCard1, "Blue");
+    cell2.placeCard(blueCard1, "blue");
 
     Cell cell3 = board.getCell(1, 0);
-    cell3.placeCard(redCard2, "Red");
+    cell3.placeCard(redCard2, "red");
 
     Cell cell4 = board.getCell(1, 1);
-    cell4.placeCard(blueCard2, "Blue");
+    cell4.placeCard(blueCard2, "blue");
 
     // Compute row scores
     int[][] rowScores = model.computeRowScores();
@@ -559,10 +559,10 @@ public class PawnsBoardModelTest {
 
     // Place cards to ensure Red has higher score
     Cell cell1 = board.getCell(0, 0);
-    cell1.placeCard(redCard, "Red");
+    cell1.placeCard(redCard, "red");
 
     Cell cell2 = board.getCell(1, 0);
-    cell2.placeCard(blueCard, "Blue");
+    cell2.placeCard(blueCard, "blue");
 
     // Trigger game end
     model.pass();
@@ -590,10 +590,10 @@ public class PawnsBoardModelTest {
 
     // Place cards to ensure Blue has higher score
     Cell cell1 = board.getCell(0, 0);
-    cell1.placeCard(redCard, "Red");
+    cell1.placeCard(redCard, "red");
 
     Cell cell2 = board.getCell(1, 0);
-    cell2.placeCard(blueCard, "Blue");
+    cell2.placeCard(blueCard, "blue");
 
     // Trigger game end
     model.pass();
@@ -621,10 +621,10 @@ public class PawnsBoardModelTest {
 
     // Place cards to ensure a tie
     Cell cell1 = board.getCell(0, 0);
-    cell1.placeCard(redCard, "Red");
+    cell1.placeCard(redCard, "red");
 
     Cell cell2 = board.getCell(1, 0);
-    cell2.placeCard(blueCard, "Blue");
+    cell2.placeCard(blueCard, "blue");
 
     // Trigger game end
     model.pass();

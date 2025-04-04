@@ -6,7 +6,7 @@ package cs3500.pawnsboard.model;
  */
 public class Cell implements CellI {
   private int pawnCount;
-  private String owner; // "Red" or "Blue" - empty string if no owner
+  private String owner; // "red" or "blue" - empty string if no owner
   private Card card;    // a card placed in the cell, if any (null if no card)
 
   /**
@@ -57,7 +57,7 @@ public class Cell implements CellI {
 
   /**
    * Gets the owner of the cell.
-   * @return the owner ("Red", "Blue", or an empty string if no owner).
+   * @return the owner ("red", "blue", or an empty string if no owner).
    */
   public String getOwner() {
     return owner;
@@ -65,10 +65,10 @@ public class Cell implements CellI {
 
   /**
    * Sets the owner of the cell.
-   * @param owner the owner ("Red", "Blue", or an empty string).
+   * @param owner the owner ("red", "blue", or an empty string).
    */
   public void setOwner(String owner) {
-    if (!owner.equals("Red") && !owner.equals("Blue") && !owner.isEmpty()) {
+    if (!owner.equals("red") && !owner.equals("blue") && !owner.isEmpty()) {
       throw new IllegalArgumentException("Owner must be 'Red', 'Blue', or an empty string.");
     }
     this.owner = owner;

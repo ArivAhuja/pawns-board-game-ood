@@ -4,6 +4,7 @@ import java.util.List;
 
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
+import cs3500.pawnsboard.model.Player;
 
 /**
  * The MaximizeRowScoreStrategy examines every legal move and selects the first one that, when
@@ -13,8 +14,8 @@ import cs3500.pawnsboard.model.PawnsBoardModel;
 public class MaximizeRowScoreStrategy extends AbstractPawnsBoardStrategy {
 
   @Override
-  public Move chooseMove(PawnsBoardModel model, String playerColor) {
-    List<Move> legalMoves = model.getLegalMoves();
+  public Move chooseMove(PawnsBoardModel model, Player player) {
+    List<Move> legalMoves = player.getLegalMoves();
     if (legalMoves.isEmpty()) {
       return null; // No valid moves available: the player should pass.
     }
@@ -23,8 +24,8 @@ public class MaximizeRowScoreStrategy extends AbstractPawnsBoardStrategy {
     int[][] currentRowScores = model.computeRowScores();
     int boardRows = model.getBoard().cloneBoard().getRows();
     // Determine indices: assume row score array uses index 0 for Red and 1 for Blue.
-    int playerIdx = playerColor.equals("Red") ? 0 : 1;
-    int opponentIdx = playerColor.equals("Red") ? 1 : 0;
+    int playerIdx = player.getColor().equals("red") ? 0 : 1;
+    int opponentIdx = player.getColor().equals("red") ? 1 : 0;
 
     // Process rows from top to bottom.
     for (int row = 0; row < boardRows; row++) {
@@ -34,7 +35,7 @@ public class MaximizeRowScoreStrategy extends AbstractPawnsBoardStrategy {
         // For each legal move in this row, simulate its effect.
         for (Move move : legalMoves) {
           if (move.getRow() == row) {
-            int simulatedScore = simulateRowScoreAfterMove(model, move, playerColor);
+            int simulatedScore = simulateRowScoreAfterMove(model, move, player);
             // If the simulated score wins the row (i.e. becomes strictly greater than the
             // opponent's score), choose this move.
             if (simulatedScore > currentRowScores[row][opponentIdx]) {

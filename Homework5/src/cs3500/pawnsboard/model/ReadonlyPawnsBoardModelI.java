@@ -8,6 +8,12 @@ import java.util.List;
  */
 public interface ReadonlyPawnsBoardModelI {
   /**
+   * Returns the color of the current player.
+   * @return A string representing the current player's color ("red" or "blue")
+   */
+  String getCurrentPlayerColor();
+
+  /**
    * Returns the current board.
    */
   Board getBoard();
@@ -21,16 +27,6 @@ public interface ReadonlyPawnsBoardModelI {
    * Returns true if the game is over.
    */
   boolean isGameOver();
-
-  /**
-   * Returns the current player.
-   */
-  Player getCurrentPlayer();
-
-  /**
-   * Returns the list of legal moves for the current player.
-   */
-  List<Move> getLegalMoves();
 
   /**
    * Computes and returns the overall scores for both players.
@@ -50,19 +46,10 @@ public interface ReadonlyPawnsBoardModelI {
    */
   String getWinner();
 
-  /**
-   * Gets the current player hand of cards.
-   */
-  List<Card> getHand();
 
   /**
-   * Determines if it is legal for the current player to play the card (specified by hand index)
-   * at the given cell coordinates.
-   *
-   * @param row       the row coordinate of the target cell.
-   * @param col       the column coordinate of the target cell.
-   * @param cardIndex the index of the card in the current player's hand.
-   * @return true if the move is legal, false otherwise.
+   * Returns the handSize of the model.
    */
-  boolean isLegalMove(int row, int col, int cardIndex);
+  int getHandSize();
+
 }

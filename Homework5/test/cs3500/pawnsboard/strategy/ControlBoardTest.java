@@ -115,7 +115,7 @@ public class ControlBoardTest {
     model.getTranscript().clear();
     List<Move> moves = model.getLegalMoves();
     assertTrue("There should be no legal moves when hand is empty", moves.isEmpty());
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNull("Strategy should return null when no legal moves exist", chosenMove);
   }
 
@@ -142,7 +142,7 @@ public class ControlBoardTest {
     assertFalse("Legal moves list should not be empty", currentLegalMoves.isEmpty());
 
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     // Expect moveB to be chosen because it has the highest count (7).
     assertEquals("Strategy should choose the move with maximum controlled cells", moveB,
@@ -178,7 +178,7 @@ public class ControlBoardTest {
     assertFalse("Legal moves list should not be empty", currentLegalMoves.isEmpty());
 
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     // According to the tie-breaker, (1,1) is uppermost-leftmost compared to (2,0).
     assertEquals("Tie-breaker should choose the uppermost-leftmost move", moveD,
@@ -214,7 +214,7 @@ public class ControlBoardTest {
     assertFalse("Legal moves list should not be empty", currentLegalMoves.isEmpty());
 
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     assertEquals("Tie-breaker should choose the move with the lower card index", moveG,
             chosenMove);

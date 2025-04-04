@@ -5,6 +5,7 @@ import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
+import cs3500.pawnsboard.model.Player;
 
 /**
  * A chained strategy that combines multiple strategies.
@@ -23,15 +24,15 @@ public class ChainedStrategy extends AbstractPawnsBoardStrategy {
   }
 
   @Override
-  public Move chooseMove(PawnsBoardModel model, String playerColor) {
+  public Move chooseMove(PawnsBoardModel model, Player player) {
     Move best = null;
     int bestEval = Integer.MIN_VALUE;
 
     // Iterate over each sub-strategy to obtain candidate moves.
     for (PawnsBoardStrategy strat : strategies) {
-      Move candidate = strat.chooseMove(model, playerColor);
+      Move candidate = strat.chooseMove(model, player);
       if (candidate != null) {
-        int eval = evaluateMove(model, candidate, playerColor);
+        int eval = evaluateMove(model, candidate, player);
         if (best == null || eval > bestEval || (eval == bestEval && tieBreaker(candidate, best))) {
           best = candidate;
           bestEval = eval;
@@ -44,12 +45,12 @@ public class ChainedStrategy extends AbstractPawnsBoardStrategy {
   /**
    * Simulates a candidate move on a cloned board and returns its evaluation.
    */
-  private int evaluateMove(PawnsBoardModel model, Move move, String playerColor) {
+  private int evaluateMove(PawnsBoardModel model, Move move, Player player) {
     Board boardClone = model.cloneBoard();
-    Card card = model.getCurrentPlayer().getHand().get(move.getCardIndex());
-    boardClone.getCell(move.getRow(), move.getCol()).placeCard(card, playerColor);
-    simulateInfluenceOnBoard(boardClone, move.getRow(), move.getCol(), card, playerColor);
-    return evaluateBoard(boardClone, playerColor);
+    Card card = player.getHand().get(move.getCardIndex());
+    boardClone.getCell(move.getRow(), move.getCol()).placeCard(card, player.getColor());
+    simulateInfluenceOnBoard(boardClone, move.getRow(), move.getCol(), card, player.getColor());
+    return evaluateBoard(boardClone, player);
   }
 
   /**

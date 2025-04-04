@@ -111,23 +111,23 @@ public class BoardTest {
   @Test
   public void testSetCellPawns_ValidInput() {
     Board board = new Board(3, 5);
-    board.setCellPawns(1, 2, 2, "Red");
+    board.setCellPawns(1, 2, 2, "red");
 
     Cell cell = board.getCell(1, 2);
     assertEquals(2, cell.getPawnCount());
-    assertEquals("Red", cell.getOwner());
+    assertEquals("red", cell.getOwner());
   }
 
   @Test(expected = IndexOutOfBoundsException.class)
   public void testSetCellPawns_InvalidPosition() {
     Board board = new Board(3, 5);
-    board.setCellPawns(3, 2, 2, "Red");
+    board.setCellPawns(3, 2, 2, "red");
   }
 
   @Test(expected = IllegalArgumentException.class)
   public void testSetCellPawns_InvalidPawnCount() {
     Board board = new Board(3, 5);
-    board.setCellPawns(1, 2, 4, "Red");
+    board.setCellPawns(1, 2, 4, "red");
   }
 
   @Test(expected = IllegalArgumentException.class)

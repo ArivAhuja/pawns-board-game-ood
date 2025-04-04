@@ -25,13 +25,13 @@ public interface CellI {
 
   /**
    * Gets the owner of the cell.
-   * @return the owner ("Red", "Blue", or an empty string if no owner).
+   * @return the owner ("red", "blue", or an empty string if no owner).
    */
   String getOwner();
 
   /**
    * Sets the owner of the cell.
-   * @param owner the owner ("Red", "Blue", or an empty string).
+   * @param owner the owner ("red", "blue", or an empty string).
    */
   void setOwner(String owner);
 

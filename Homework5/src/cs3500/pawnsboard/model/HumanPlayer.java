@@ -6,14 +6,16 @@ package cs3500.pawnsboard.model;
  * they do not compute moves automatically.
  */
 public class HumanPlayer implements PlayerActions {
-  private final String color;
+  private final Player player;
 
-  public HumanPlayer(String color) {
-    this.color = color;
+  public HumanPlayer(Player player) {
+    super();
+    this.player = player;
   }
 
   @Override
   public String getColor() {
-    return color;
+    return player.getColor();
   }
+
 }

@@ -85,7 +85,7 @@ public class FillFirstTest {
 
     // Clear transcript again to only look at strat's chooseMove process since we confirmed already
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     // Expect the first legal move
     assertEquals("FillFirstStrategy should choose the first legal move",
@@ -167,7 +167,7 @@ public class FillFirstTest {
 
     // Clear transcript and attempt to choose a move
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNull("Strategy should return null when no legal moves exist", chosenMove);
 
     // Check that the transcript contains detailed logging of getLegalMoves
@@ -185,7 +185,7 @@ public class FillFirstTest {
     Board board = model.getBoard();
     // Place a dummy card into cell (0,0) so that it becomes illegal
     Card dummy = createTestCard("Dummy", 1, 1);
-    board.getCell(0, 0).placeCard(dummy, "Red");
+    board.getCell(0, 0).placeCard(dummy, "red");
 
     // Clear transcript and call getLegalMoves
     model.getTranscript().clear();
@@ -197,7 +197,7 @@ public class FillFirstTest {
 
     // Clear transcript and let the strategy choose a move
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     // Based on our configuration, the next available move should be in cell (1,0)
     assertEquals("Strategy should choose the next available move (row)", 1,
@@ -247,7 +247,7 @@ public class FillFirstTest {
 
     // Clear transcript and choose move
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when a legal move exists", chosenMove);
     // Expect that the chosen move uses the second card in hand (index 1)
     assertEquals("The move should use the second card in hand (index 1)", 1,

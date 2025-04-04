@@ -10,25 +10,10 @@ public interface PawnsBoardModelI extends ReadonlyPawnsBoardModelI {
    */
   void pass();
 
-  /**
-   * Checks if the current player's hand is empty or player has no legal moves.
-   * If so, automatically passes.
-   * @return true if an auto-pass occurred, false otherwise.
-   */
-  boolean checkAutoPass();
 
   /**
-   * Attempts to place a card from the current player's hand on the specified cell.
-   * @param row       The row of the target cell.
-   * @param col       The column of the target cell.
-   * @param cardIndex The index of the card in the player's hand.
-   * @return true if the move was successful, false otherwise.
+   * Starts the Game.
    */
-  boolean placeCard(int row, int col, int cardIndex);
-
-  /**
-   * This method draws the card from the top of the deck and gives it to the current player.
-   */
-  void drawCard();
+  void startGame();
 
 }

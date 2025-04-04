@@ -15,6 +15,7 @@ import java.util.List;
 import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Card;
+import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
 import javax.swing.JPanel;
 
@@ -24,6 +25,7 @@ import javax.swing.JPanel;
 public class JPawnsBoardPanel extends JPanel {
 
   private final ReadonlyPawnsBoardModelI model;
+  private final Player player;
   private final List<ViewFeatures> featuresListeners;
   private int selectedCardIndex;
   private int selectedCellRow;
@@ -35,8 +37,9 @@ public class JPawnsBoardPanel extends JPanel {
    *
    * @param model the read-only model
    */
-  public JPawnsBoardPanel(ReadonlyPawnsBoardModelI model) {
+  public JPawnsBoardPanel(ReadonlyPawnsBoardModelI model, Player player) {
     this.model = model;
+    this.player = player;
     this.featuresListeners = new ArrayList<>();
     this.selectedCardIndex = -1;
     this.selectedCellRow = -1;
@@ -54,7 +57,7 @@ public class JPawnsBoardPanel extends JPanel {
   }
 
   /**
-   * Adds a feature listener (typically the controller) to this view.
+   * Adds a feature listener to this view.
    *
    * @param features the listener to add
    */
@@ -90,10 +93,10 @@ public class JPawnsBoardPanel extends JPanel {
     if (selected) {
       fillColor = Color.GREEN;
     } else {
-      String pColor = model.getCurrentPlayer().getColor();
-      if (pColor.equalsIgnoreCase("Red")) {
+      String pColor = player.getColor();
+      if (pColor.equalsIgnoreCase("red")) {
         fillColor = Color.RED;
-      } else if (pColor.equalsIgnoreCase("Blue")) {
+      } else if (pColor.equalsIgnoreCase("blue")) {
         fillColor = Color.BLUE;
       } else {
         fillColor = Color.GRAY; // Fallback if player's color isn't recognized.
@@ -137,7 +140,7 @@ public class JPawnsBoardPanel extends JPanel {
         // Determine the cell's fill color based on its character.
         Color cellColor;
         char ch;
-        if (model.getCurrentPlayer().getColor().equalsIgnoreCase("Blue")) {
+        if (player.getColor().equalsIgnoreCase("blue")) {
           ch = grid[i][4 - j];
         } else {
           ch = grid[i][j];
@@ -226,9 +229,9 @@ public class JPawnsBoardPanel extends JPanel {
     } else if (cell.getCard() != null) {
       // Otherwise, if a card is present, fill based on ownership.
       String owner = cell.getOwner();
-      if ("Red".equals(owner)) {
+      if ("red".equals(owner)) {
         g2d.setColor(new Color(255, 200, 200));  // light red
-      } else if ("Blue".equals(owner)) {
+      } else if ("blue".equals(owner)) {
         g2d.setColor(new Color(200, 200, 255));  // light blue
       } else {
         g2d.setColor(Color.WHITE);
@@ -261,9 +264,9 @@ public class JPawnsBoardPanel extends JPanel {
 
       // Set pawn color based on owner.
       String owner = cell.getOwner();
-      if ("Red".equals(owner)) {
+      if ("red".equals(owner)) {
         g2d.setColor(Color.RED);
-      } else if ("Blue".equals(owner)) {
+      } else if ("blue".equals(owner)) {
         g2d.setColor(Color.BLUE);
       } else {
         g2d.setColor(Color.BLACK);
@@ -380,9 +383,9 @@ public class JPawnsBoardPanel extends JPanel {
 
     // Determine background color based on the winner.
     Color bgColor;
-    if (winnerMessage.contains("Red")) {
+    if (winnerMessage.contains("red")) {
       bgColor = Color.RED;
-    } else if (winnerMessage.contains("Blue")) {
+    } else if (winnerMessage.contains("blue")) {
       bgColor = Color.BLUE;
     } else {
       bgColor = Color.GRAY;
@@ -469,7 +472,7 @@ public class JPawnsBoardPanel extends JPanel {
       drawBoard(model.getBoard(), g2d, 0, 0, width, boardHeight);
 
       // Draw the hand in the bottom region.
-      drawHand(model.getCurrentPlayer().getHand(), g2d, 0, boardHeight, width, handHeight);
+      drawHand(player.getHand(), g2d, 0, boardHeight, width, handHeight);
 
       g2d.dispose();
     }
@@ -520,10 +523,8 @@ public class JPawnsBoardPanel extends JPanel {
         }
         repaint();
       } else { // Click in the hand region.
-        int handY = boardHeight;
-        int handHeight = panelHeight - boardHeight;
         int spacing = 10;
-        int n = model.getCurrentPlayer().getHand().size();
+        int n = player.getHand().size();
         int totalSpacing = (n + 1) * spacing;
         int cardWidth = (panelWidth - totalSpacing) / n;
         int startX = Math.max(0, (panelWidth - (n * cardWidth + totalSpacing)) / 2) + spacing;

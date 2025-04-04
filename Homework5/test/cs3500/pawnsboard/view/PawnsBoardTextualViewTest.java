@@ -150,8 +150,8 @@ public class PawnsBoardTextualViewTest {
     Board board = model.getBoard();
 
     // Modify some pawn counts
-    board.setCellPawns(1, 1, 2, "Red");
-    board.setCellPawns(1, 3, 3, "Blue");
+    board.setCellPawns(1, 1, 2, "red");
+    board.setCellPawns(1, 3, 3, "blue");
 
     view.render(board);
     String output = outContent.toString();
@@ -177,8 +177,8 @@ public class PawnsBoardTextualViewTest {
     model.placeCard(2, 4, 0);  // Blue places a card
 
     // Set some pawn configurations
-    board.setCellPawns(1, 1, 2, "Red");
-    board.setCellPawns(1, 3, 3, "Blue");
+    board.setCellPawns(1, 1, 2, "red");
+    board.setCellPawns(1, 3, 3, "blue");
 
     view.render(board);
     String output = outContent.toString();
@@ -227,9 +227,9 @@ public class PawnsBoardTextualViewTest {
     for (int i = 0; i < board.getRows(); i++) {
       for (int j = 1; j < board.getColumns() - 1; j++) {
         if (j % 2 == 0) {
-          board.setCellPawns(i, j, 1, "Red");
+          board.setCellPawns(i, j, 1, "red");
         } else {
-          board.setCellPawns(i, j, 1, "Blue");
+          board.setCellPawns(i, j, 1, "blue");
         }
       }
     }
@@ -245,13 +245,13 @@ public class PawnsBoardTextualViewTest {
         if (isRedTurn) {
           if (redCardIndex < model.getCurrentPlayer().getHand().size()) {
             board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(redCardIndex),
-                    "Red");
+                    "red");
             redCardIndex++;
           }
         } else {
           if (blueCardIndex < model.getCurrentPlayer().getHand().size()) {
             board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(blueCardIndex),
-                    "Blue");
+                    "blue");
             blueCardIndex++;
           }
         }

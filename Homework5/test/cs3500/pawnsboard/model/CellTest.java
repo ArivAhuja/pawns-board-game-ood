@@ -58,11 +58,11 @@ public class CellTest {
 
   @Test
   public void testSetAndGetOwner() {
-    cell.setOwner("Red");
-    assertEquals("Red", cell.getOwner());
+    cell.setOwner("red");
+    assertEquals("red", cell.getOwner());
 
-    cell.setOwner("Blue");
-    assertEquals("Blue", cell.getOwner());
+    cell.setOwner("blue");
+    assertEquals("blue", cell.getOwner());
 
     cell.setOwner("");
     assertEquals("", cell.getOwner());
@@ -75,22 +75,22 @@ public class CellTest {
 
   @Test
   public void testPlaceCard() {
-    cell.placeCard(testCard, "Red");
+    cell.placeCard(testCard, "red");
     assertEquals(testCard, cell.getCard());
-    assertEquals("Red", cell.getOwner());
+    assertEquals("red", cell.getOwner());
     assertEquals(0, cell.getPawnCount());
   }
 
   @Test
   public void testIsEmptyWithPawns() {
     cell.setPawnCount(1);
-    cell.setOwner("Red");
+    cell.setOwner("red");
     assertFalse(cell.isEmpty());
   }
 
   @Test
   public void testIsEmptyWithCard() {
-    cell.placeCard(testCard, "Blue");
+    cell.placeCard(testCard, "blue");
     assertFalse(cell.isEmpty());
   }
 
@@ -142,27 +142,27 @@ public class CellTest {
   public void testCellStateAfterPlacingCard() {
     // Setup cell with pawns
     cell.setPawnCount(3);
-    cell.setOwner("Red");
+    cell.setOwner("red");
     assertTrue(cell.hasPawns());
 
     // Place a card
-    cell.placeCard(testCard, "Red");
+    cell.placeCard(testCard, "red");
 
     // Verify state changes
     assertEquals(0, cell.getPawnCount());
     assertEquals(testCard, cell.getCard());
-    assertEquals("Red", cell.getOwner());
+    assertEquals("red", cell.getOwner());
     assertFalse(cell.hasPawns());
     assertFalse(cell.isEmpty());
   }
 
   @Test
   public void testChangingOwnerWithoutPawns() {
-    cell.setOwner("Red");
-    assertEquals("Red", cell.getOwner());
+    cell.setOwner("red");
+    assertEquals("red", cell.getOwner());
 
-    cell.setOwner("Blue");
-    assertEquals("Blue", cell.getOwner());
+    cell.setOwner("blue");
+    assertEquals("blue", cell.getOwner());
 
     cell.setOwner("");
     assertEquals("", cell.getOwner());
@@ -172,13 +172,13 @@ public class CellTest {
   public void testPlaceCardChangesOwnership() {
     // Initial setup
     cell.setPawnCount(2);
-    cell.setOwner("Red");
+    cell.setOwner("red");
 
     // Place a card with different owner
-    cell.placeCard(testCard, "Blue");
+    cell.placeCard(testCard, "blue");
 
     // Verify ownership changed
-    assertEquals("Blue", cell.getOwner());
+    assertEquals("blue", cell.getOwner());
   }
 
   @Test

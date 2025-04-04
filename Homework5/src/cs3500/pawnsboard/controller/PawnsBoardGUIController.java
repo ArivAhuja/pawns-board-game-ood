@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import cs3500.pawnsboard.model.ModelStatusListener;
 import cs3500.pawnsboard.model.PawnsBoardModel;
+import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
 
@@ -19,6 +20,7 @@ import cs3500.pawnsboard.view.ViewFeatures;
 public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures, ModelStatusListener {
   private final PawnsBoardModel model;
   private final PawnsBoardGUIView view;
+  private final Player player;
 
   /**
    * Constructs the GUI controller and registers it with the view.
@@ -26,9 +28,10 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
    * @param model the game model
    * @param view  the GUI view
    */
-  public PawnsBoardGUIController(PawnsBoardModel model, PawnsBoardGUIView view) {
+  public PawnsBoardGUIController(PawnsBoardModel model, PawnsBoardGUIView view, Player player) {
     this.model = model;
     this.view = view;
+    this.player = player;
     this.view.addFeatureListener(this);
     // Register as a listener for model-status events:
     this.model.addModelStatusListener(this);
@@ -36,7 +39,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   public void runGame() {
     this.view.display(true);
-    model.drawCard();
+    updateGameState();
   }
 
   private void updateGameState() {
@@ -44,20 +47,22 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       view.refresh();
       return;
     }
-    model.drawCard();
-    // checkAutoPass checks as well as triggers the pass if necessary
-    if (model.checkAutoPass()) {
-      updateGameState();
+    if (model.getCurrentPlayerColor().equals(player.getColor())){
+      this.view.display(true);
+      player.drawCard();
+      // checkAutoPass checks as well as triggers the pass if necessary
+      player.checkAutoPass();
+      view.clearSelectedCard();
+      view.clearSelectedCell();
+      view.refresh();
+    } else {
+      this.view.display(false);
     }
-    view.clearSelectedCard();
-    view.clearSelectedCell();
-    view.refresh();
   }
 
   @Override
   public void passTurn() {
     model.pass();
-    updateGameState();
   }
 
   @Override
@@ -81,14 +86,10 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       if (row == -1) {
         throw new IllegalStateException("Select a cell first.");
       }
-      boolean success = model.placeCard(row, col, cardIndex);
-      if (success) {
-        updateGameState();
-      }
+      player.placeCard(row, col, cardIndex);
     } catch (IllegalStateException | IllegalArgumentException e) {
-      // Assuming you're using Swing for your UI
       JOptionPane.showMessageDialog(
-              view, // Pass your view component here
+              view,
               e.getMessage(),
               "Invalid Move",
               JOptionPane.WARNING_MESSAGE
@@ -98,16 +99,14 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void turnChanged() {
-    // can add things here like system dialoug in the future
-    view.clearSelectedCard();
-    view.clearSelectedCell();
-    view.refresh();
+    updateGameState();
   }
 
   @Override
   public void gameOver(String result) {
-    // can add things here like system dialoug in the future
-    System.out.println("Game over: " + result);
-    view.refresh();
+    if (model.getCurrentPlayerColor().equals(player.getColor())) {
+      System.out.println("Game over: " + result);
+      view.refresh();
+    }
   }
 }

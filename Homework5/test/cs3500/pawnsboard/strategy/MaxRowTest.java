@@ -89,7 +89,7 @@ public class MaxRowTest {
             legalMoves.isEmpty());
 
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNull("Strategy should return null when no legal moves exist", chosenMove);
 
     List<String> transcript = model.getTranscript();
@@ -112,10 +112,10 @@ public class MaxRowTest {
     Board board = model.getBoard();
     // Place a Blue card in row 0 at column 2
     Card blueHighCard = createTestCard("BlueHigh", 1, 10);
-    board.getCell(0, 2).placeCard(blueHighCard, "Blue");
+    board.getCell(0, 2).placeCard(blueHighCard, "blue");
 
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when one produces a winning simulated" +
             " score", chosenMove);
     assertEquals("Chosen move should come from row 1", 1, chosenMove.getRow());
@@ -150,16 +150,16 @@ public class MaxRowTest {
     Board board = model.getBoard();
     Card blueCard = createTestCard("BlueCard", 1, 10);
     // Place Blue cards in each row
-    board.getCell(0, 2).placeCard(blueCard, "Blue");
-    board.getCell(1, 2).placeCard(blueCard, "Blue");
-    board.getCell(2, 2).placeCard(blueCard, "Blue");
+    board.getCell(0, 2).placeCard(blueCard, "blue");
+    board.getCell(1, 2).placeCard(blueCard, "blue");
+    board.getCell(2, 2).placeCard(blueCard, "blue");
 
     model.getTranscript().clear();
     List<Move> legalMoves = model.getLegalMoves();
     assertFalse("There should be legal moves available", legalMoves.isEmpty());
 
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNull("When no move flips any row, strategy should return null (indicating pass)",
             chosenMove);
 
@@ -180,10 +180,10 @@ public class MaxRowTest {
     Board board = model.getBoard();
     Card blueCard = createTestCard("BlueCard", 1, 10);
     // Place a Blue card in row 0 at column 2
-    board.getCell(0, 2).placeCard(blueCard, "Blue");
+    board.getCell(0, 2).placeCard(blueCard, "blue");
 
     model.getTranscript().clear();
-    Move chosenMove = strategy.chooseMove(model, "Red");
+    Move chosenMove = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosenMove);
     assertTrue("Chosen move should not be from row 0", chosenMove.getRow() > 0);
 

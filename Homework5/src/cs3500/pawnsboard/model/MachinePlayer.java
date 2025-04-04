@@ -6,22 +6,22 @@ import cs3500.pawnsboard.strategy.PawnsBoardStrategy;
  * Represents a machine player that computes its move using a strategy.
  */
 public class MachinePlayer implements PlayerActions {
-  private final String color;
+  private final Player player;
   private final PawnsBoardStrategy strategy;
 
-  public MachinePlayer(String color, PawnsBoardStrategy strategy) {
-    this.color = color;
+  public MachinePlayer(Player player, PawnsBoardStrategy strategy) {
+    this.player = player;
     this.strategy = strategy;
   }
 
   @Override
   public String getColor() {
-    return color;
+    return player.getColor();
   }
 
   @Override
   public Move getNextMove(ReadonlyPawnsBoardModelI model) {
     // Delegate move computation to the strategy.
-    return strategy.chooseMove((PawnsBoardModel) model, color);
+    return strategy.chooseMove((PawnsBoardModel) model, player);
   }
 }

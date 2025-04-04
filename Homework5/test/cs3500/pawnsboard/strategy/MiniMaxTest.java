@@ -99,7 +99,7 @@ public class MiniMaxTest {
     model.getTranscript().clear();
     List<Move> moves = model.getLegalMoves();
     assertTrue("There should be no legal moves when hand is empty", moves.isEmpty());
-    Move chosen = strategy.chooseMove(model, "Red");
+    Move chosen = strategy.chooseMove(model, "red");
     assertNull("Strategy should return null when no legal moves exist", chosen);
   }
 
@@ -113,7 +113,7 @@ public class MiniMaxTest {
     legalMoves.add(onlyMove);
 
     model.getTranscript().clear();
-    Move chosen = strategy.chooseMove(model, "Red");
+    Move chosen = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when one legal move exists", chosen);
     assertEquals("The chosen move should be the only legal move", onlyMove, chosen);
 
@@ -134,7 +134,7 @@ public class MiniMaxTest {
   @Test
   public void testChooseMoveSelectsMoveWithMaxEvaluation() {
     model.getTranscript().clear();
-    Move chosen = strategy.chooseMove(model, "Red");
+    Move chosen = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosen);
     assertEquals("Strategy should choose move with highest evaluation (row)", 1,
             chosen.getRow());
@@ -163,7 +163,7 @@ public class MiniMaxTest {
     legalMoves.add(move2);
 
     model.getTranscript().clear();
-    Move chosen = strategy.chooseMove(model, "Red");
+    Move chosen = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosen);
     // Since evaluations are equal, the last move in the list should be chosen.
     assertEquals("Tie-breaker should choose the first move when evaluations are equal",
@@ -180,7 +180,7 @@ public class MiniMaxTest {
   public void testEvaluationWithOpponentCells() {
     Board board = model.getBoard();
     Card blueCard = createTestCard("BlueCard", 1, 10);
-    board.getCell(0, 0).placeCard(blueCard, "Blue");
+    board.getCell(0, 0).placeCard(blueCard, "blue");
 
     legalMoves.clear();
     Move move1 = new Move(0, 0, 0);  // This move cannot change (0,0) because it
@@ -190,7 +190,7 @@ public class MiniMaxTest {
     legalMoves.add(move2);
 
     model.getTranscript().clear();
-    Move chosen = strategy.chooseMove(model, "Red");
+    Move chosen = strategy.chooseMove(model, "red");
     assertNotNull("Strategy should choose a move when legal moves exist", chosen);
     // Expect move2 since its evaluation will be higher.
     assertEquals("Strategy should choose the move that flips more cells", move2, chosen);
@@ -207,7 +207,7 @@ public class MiniMaxTest {
     String originalOwner = originalBoard.getCell(0, 4).getOwner();
 
     model.getTranscript().clear();
-    strategy.chooseMove(model, "Red");
+    strategy.chooseMove(model, "red");
 
     String newOwner = originalBoard.getCell(0, 4).getOwner();
     assertEquals("Original board should remain unchanged after simulation", originalOwner,
