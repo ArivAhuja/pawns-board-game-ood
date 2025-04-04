@@ -193,17 +193,12 @@ public class PawnsBoardModel implements PawnsBoardModelI {
   // ======================== Mutator Methods (from PawnsBoardModelI) =========================
 
   /**
-   *
-   */
-  public void startGame() {
-    //start game logic idk.
-  }
-
-  /**
    * Processes a pass move.
    */
   public void pass() {
-    setConsecutivePasses(consecutivePasses + 1);
+    System.out.println(consecutivePasses);
+    consecutivePasses++;
+    System.out.println(consecutivePasses);
     switchTurn();
   }
 

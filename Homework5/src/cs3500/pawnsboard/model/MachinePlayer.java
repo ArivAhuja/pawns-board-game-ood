@@ -24,4 +24,9 @@ public class MachinePlayer implements PlayerActions {
     // Delegate move computation to the strategy.
     return strategy.chooseMove((PawnsBoardModel) model, player);
   }
+
+  @Override
+  public String humanOrMachine() {
+    return "machine";
+  }
 }

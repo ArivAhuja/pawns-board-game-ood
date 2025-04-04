@@ -11,9 +11,4 @@ public interface PawnsBoardModelI extends ReadonlyPawnsBoardModelI {
   void pass();
 
 
-  /**
-   * Starts the Game.
-   */
-  void startGame();
-
 }

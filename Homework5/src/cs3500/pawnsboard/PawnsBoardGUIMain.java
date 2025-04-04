@@ -3,8 +3,15 @@ package cs3500.pawnsboard;
 import cs3500.pawnsboard.controller.PawnsBoardGUIController;
 import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.model.DeckFileParser;
+import cs3500.pawnsboard.model.HumanPlayer;
+import cs3500.pawnsboard.model.MachinePlayer;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.model.Player;
+import cs3500.pawnsboard.model.PlayerActions;
+import cs3500.pawnsboard.strategy.ControlBoardStrategy;
+import cs3500.pawnsboard.strategy.FillFirstStrategy;
+import cs3500.pawnsboard.strategy.MaximizeRowScoreStrategy;
+import cs3500.pawnsboard.strategy.MiniMaxStrategy;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 
 import java.io.IOException;
@@ -26,23 +33,25 @@ public class PawnsBoardGUIMain {
    *             args[1] - path to Blue's deck configuration file.
    *             args[2] - Red player type.
    *             args[3] - Blue player type.
-   *             Valid player types: (controlboard, fillfirst, maximizerowscore, minimax)
+   *             Valid player types: (human, controlboard, fillfirst, maximizerowscore, minimax)
    */
   public static void main(String[] args) {
+    // can format to accept lists for the args for chain strategys
     formatCheck(args);
-    List<List<Card>> decks = parseDecks(args);
-    List<Card> redDeck = decks.get(0);
-    List<Card> blueDeck = decks.get(1);
+    List<Card> redDeck = parseDeck(args[0]);
+    List<Card> blueDeck = parseDeck(args[1]);
     int totalDeckSize = redDeck.size() + blueDeck.size();
-    PawnsBoardModel model = new PawnsBoardModel(5, 5, totalDeckSize, 5);
-    Player redPlayer = createPlayer(args[2], "red", redDeck, model);
-    Player bluePlayer = createPlayer(args[3], "blue", blueDeck, model);
+    PawnsBoardModel model = new PawnsBoardModel(3, 5, totalDeckSize, 4);
+    Player redPlayer = new Player("red", redDeck, model);
+    Player bluePlayer = new Player("blue", blueDeck, model);
+    PlayerActions redPlayerActions = createPlayerActions(args[2], redPlayer);
+    PlayerActions bluePlayerActions = createPlayerActions(args[3], bluePlayer);
     PawnsBoardGUIView viewRedPlayer = new PawnsBoardGUIView(model, redPlayer);
     PawnsBoardGUIView viewBluePlayer = new PawnsBoardGUIView(model, bluePlayer);
     PawnsBoardGUIController redController =
-            new PawnsBoardGUIController(model, viewRedPlayer, redPlayer);
+            new PawnsBoardGUIController(model, viewRedPlayer, redPlayer, redPlayerActions);
     PawnsBoardGUIController blueController =
-            new PawnsBoardGUIController(model, viewBluePlayer, bluePlayer);
+            new PawnsBoardGUIController(model, viewBluePlayer, bluePlayer, bluePlayerActions);
     redController.runGame();
     blueController.runGame();
   }
@@ -84,40 +93,30 @@ public class PawnsBoardGUIMain {
     }
   }
 
-  private static List<List<Card>> parseDecks(String[] args) {
-    String redFilePath = args[0];
-    String blueFilePath = args[1];
+  private static List<Card> parseDeck(String deckFilePath) {
     try {
-      String redDeckContent = new String(Files.readAllBytes(Paths.get(redFilePath)));
-      String blueDeckContent = new String(Files.readAllBytes(Paths.get(blueFilePath)));
+      String deckContent = new String(Files.readAllBytes(Paths.get(deckFilePath)));
       DeckFileParser parser = new DeckFileParser();
-      List<Card> redDeck = parser.toDeck(redDeckContent);
-      List<Card> blueDeck = parser.toDeck(blueDeckContent);
-      Collections.shuffle(redDeck);
-      Collections.shuffle(blueDeck);
-      List<List<Card>> decks = new ArrayList<>();
-      decks.add(redDeck);
-      decks.add(blueDeck);
-      return decks;
+      List<Card> deck = parser.toDeck(deckContent);
+      Collections.shuffle(deck);
+      return deck;
     } catch (IOException e) {
       throw new RuntimeException("Error reading deck file: " + e.getMessage());
     }
   }
 
-  private static Player createPlayer(String playerType, String playerName,
-                                     List<Card> deck, PawnsBoardModel model) {
+  private static PlayerActions createPlayerActions(String playerType, Player player) {
     switch (playerType) {
       case "human":
-        return new Player(playerName, deck, model);
+        return new HumanPlayer(player);
       case "controlboard":
-        //placeholders below
-        return new Player(playerName, deck, model);
+        return new MachinePlayer(player, new ControlBoardStrategy());
       case "fillfirst":
-        return new Player(playerName, deck, model);
+        return new MachinePlayer(player, new FillFirstStrategy());
       case "maximizerowscore":
-        return new Player(playerName, deck, model);
+        return new MachinePlayer(player, new MaximizeRowScoreStrategy());
       case "minimax":
-        return new Player(playerName, deck, model);
+        return new MachinePlayer(player, new MiniMaxStrategy());
       default:
         throw new IllegalArgumentException("Invalid player type: " + playerType);
     }

@@ -3,8 +3,10 @@ package cs3500.pawnsboard.controller;
 import javax.swing.*;
 
 import cs3500.pawnsboard.model.ModelStatusListener;
+import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.model.Player;
+import cs3500.pawnsboard.model.PlayerActions;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.ViewFeatures;
 
@@ -21,6 +23,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   private final PawnsBoardModel model;
   private final PawnsBoardGUIView view;
   private final Player player;
+  private final PlayerActions playerActions;
 
   /**
    * Constructs the GUI controller and registers it with the view.
@@ -28,10 +31,12 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
    * @param model the game model
    * @param view  the GUI view
    */
-  public PawnsBoardGUIController(PawnsBoardModel model, PawnsBoardGUIView view, Player player) {
+  public PawnsBoardGUIController(PawnsBoardModel model, PawnsBoardGUIView view, Player player,
+                                 PlayerActions playerActions) {
     this.model = model;
     this.view = view;
     this.player = player;
+    this.playerActions = playerActions;
     this.view.addFeatureListener(this);
     // Register as a listener for model-status events:
     this.model.addModelStatusListener(this);
@@ -40,6 +45,28 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
   public void runGame() {
     this.view.display(true);
     updateGameState();
+  }
+
+  private void AIMove()  {
+    // can add delays and highlighting view to make it seem like really playing
+    Timer moveTimer = new Timer(1000, e -> {
+      // Get the AI's move
+      Move aiMove = playerActions.getNextMove(model);
+
+      if (aiMove != null) {
+        player.placeCard(aiMove.getRow(), aiMove.getCol(), aiMove.getCardIndex());
+      } else if (playerActions.humanOrMachine().equals("machine")) {
+        passTurn();
+      }
+
+      view.clearSelectedCard();
+      view.clearSelectedCell();
+      view.refresh();
+    });
+
+    // One-time execution
+    moveTimer.setRepeats(false);
+    moveTimer.start();
   }
 
   private void updateGameState() {
@@ -51,7 +78,10 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       this.view.display(true);
       player.drawCard();
       // checkAutoPass checks as well as triggers the pass if necessary
-      player.checkAutoPass();
+      boolean autoPass = player.checkAutoPass();
+      if (!autoPass) {
+        AIMove();
+      }
       view.clearSelectedCard();
       view.clearSelectedCell();
       view.refresh();
@@ -62,6 +92,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void passTurn() {
+    System.out.println(player.getColor() + " passes.");
     model.pass();
   }
 
@@ -99,11 +130,14 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void turnChanged() {
-    updateGameState();
+    if (model.getCurrentPlayerColor().equals(player.getColor())) {
+      updateGameState();
+    }
   }
 
   @Override
   public void gameOver(String result) {
+    // so will only print once
     if (model.getCurrentPlayerColor().equals(player.getColor())) {
       System.out.println("Game over: " + result);
       view.refresh();

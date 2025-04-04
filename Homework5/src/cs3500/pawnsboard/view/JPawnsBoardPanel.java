@@ -383,9 +383,9 @@ public class JPawnsBoardPanel extends JPanel {
 
     // Determine background color based on the winner.
     Color bgColor;
-    if (winnerMessage.contains("red")) {
+    if (winnerMessage.contains("Red")) {
       bgColor = Color.RED;
-    } else if (winnerMessage.contains("blue")) {
+    } else if (winnerMessage.contains("Blue")) {
       bgColor = Color.BLUE;
     } else {
       bgColor = Color.GRAY;
@@ -445,7 +445,6 @@ public class JPawnsBoardPanel extends JPanel {
     int blueScoreY = redScoreY + fmScore.getHeight() + 10;
     g2d.drawString(blueScoreStr, blueScoreX, blueScoreY);
   }
-
 
   /**
    * The panel's painting method.

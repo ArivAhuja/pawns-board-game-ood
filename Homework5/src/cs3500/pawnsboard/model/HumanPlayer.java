@@ -9,13 +9,17 @@ public class HumanPlayer implements PlayerActions {
   private final Player player;
 
   public HumanPlayer(Player player) {
-    super();
     this.player = player;
   }
 
   @Override
   public String getColor() {
     return player.getColor();
+  }
+
+  @Override
+  public String humanOrMachine() {
+    return "human";
   }
 
 }

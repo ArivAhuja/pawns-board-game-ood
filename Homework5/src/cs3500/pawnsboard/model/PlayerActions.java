@@ -22,4 +22,10 @@ public interface PlayerActions {
   default Move getNextMove(ReadonlyPawnsBoardModelI model) {
     return null;
   }
+
+  /**
+   * Returns if the player is a machine or player.
+   * @return a string "human" if human and "machine" if machine.
+   */
+  String humanOrMachine();
 }

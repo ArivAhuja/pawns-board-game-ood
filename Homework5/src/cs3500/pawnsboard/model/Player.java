@@ -39,7 +39,7 @@ public class Player implements PlayerI {
   }
 
   public List<Card> getHand() {
-    return new ArrayList<>(hand);
+    return hand;
   }
 
   public void removeCardFromHand(Card card) {
