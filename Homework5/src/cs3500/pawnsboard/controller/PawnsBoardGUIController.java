@@ -1,6 +1,7 @@
 package cs3500.pawnsboard.controller;
 
-import javax.swing.*;
+
+import javax.swing.JOptionPane;
 
 import cs3500.pawnsboard.model.ModelStatusListener;
 import cs3500.pawnsboard.model.Move;
