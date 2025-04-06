@@ -33,4 +33,14 @@ public interface PlayerI {
    */
   void drawCard();
 
+  /**
+   * Attempts to place a card from the current player's hand on the specified cell.
+   * @param row       The row of the target cell.
+   * @param col       The column of the target cell.
+   * @param cardIndex The index of the card in the player's hand.
+   * @return true if the move was successful, false otherwise.
+   */
+  boolean placeCard(int row, int col, int cardIndex);
+
+
 }

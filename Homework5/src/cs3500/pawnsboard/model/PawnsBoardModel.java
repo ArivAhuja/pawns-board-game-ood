@@ -196,9 +196,7 @@ public class PawnsBoardModel implements PawnsBoardModelI {
    * Processes a pass move.
    */
   public void pass() {
-    System.out.println(consecutivePasses);
     consecutivePasses++;
-    System.out.println(consecutivePasses);
     switchTurn();
   }
 
