@@ -19,7 +19,8 @@ import cs3500.pawnsboard.view.ViewFeatures;
  * ensure proper
  * communication with the model and view.
  */
-public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures, ModelStatusListener {
+public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures,
+        ModelStatusListener {
   private final PawnsBoardModel model;
   private final PawnsBoardGUIView view;
   private final Player player;
@@ -47,26 +48,14 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
     updateGameState();
   }
 
-  private void AIMove()  {
+  private void AIMove() {
     // can add delays and highlighting view to make it seem like really playing
-    Timer moveTimer = new Timer(1000, e -> {
-      // Get the AI's move
-      Move aiMove = playerActions.getNextMove(model);
-
-      if (aiMove != null) {
-        player.placeCard(aiMove.getRow(), aiMove.getCol(), aiMove.getCardIndex());
-      } else if (playerActions.humanOrMachine().equals("machine")) {
-        passTurn();
-      }
-
-      view.clearSelectedCard();
-      view.clearSelectedCell();
-      view.refresh();
-    });
-
-    // One-time execution
-    moveTimer.setRepeats(false);
-    moveTimer.start();
+    Move aiMove = playerActions.getNextMove(model);
+    if (aiMove != null) {
+      player.placeCard(aiMove.getRow(), aiMove.getCol(), aiMove.getCardIndex());
+    } else if (playerActions.humanOrMachine().equals("machine")) {
+      passTurn();
+    }
   }
 
   private void updateGameState() {
@@ -74,7 +63,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       view.refresh();
       return;
     }
-    if (model.getCurrentPlayerColor().equals(player.getColor())){
+    if (model.getCurrentPlayerColor().equals(player.getColor())) {
       this.view.display(true);
       player.drawCard();
       // checkAutoPass checks as well as triggers the pass if necessary

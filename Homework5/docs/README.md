@@ -107,7 +107,7 @@ XXXXX
 - Made autopass be handled internally by the model instead of the controller
 - Added drawing abilities
 - Some methods in the deeper-classes, like Player's getHand, into the model explicitly. Also added
-isLegalMove, 
+  isLegalMove,
 
 ### Strategies
 
@@ -122,7 +122,7 @@ All four strategies from the Homework are implemented in the `/scr/strategy` dir
 - **ChainedStrategy**: You can combine different strategies here, and the resulting move will (for now) is the one
   that provides the most cell ownership. *[not yet tested]*
 
-> *Transcripts for the first two strategies as per the HW specs can be found: ![FillFirstTranscript](assets/strategy-transcript-first.txt) and 
+> *Transcripts for the first two strategies as per the HW specs can be found: ![FillFirstTranscript](assets/strategy-transcript-first.txt) and
 > ![MaxRowTranscript](assets/strategy-transcript-score.txt).* ***It is important to note that these transcripts are based off the description in the homework
 > "choosing a move for the Red player on the starting board configuration of the 3 row by 5 column board using the cards you made". Thus, it is an empty 3x5 board
 > and the strategy chooses a initial move for red player.***
@@ -134,3 +134,36 @@ All four strategies from the Homework are implemented in the `/scr/strategy` dir
 - Click a different card or cell to change selection
 - Press "p" to pass turn
 - Press "c" to place card
+
+
+## PawnsBoard Game CLI Instructions
+
+### Basic Command
+
+```
+java -jar pawnsboard.jar <redDeckPath> <blueDeckPath> <redPlayerType> <bluePlayerType>
+```
+
+### Arguments
+
+* `redDeckPath`: Path to Red's deck file
+* `blueDeckPath`: Path to Blue's deck file
+* `redPlayerType`: Type of Red player
+* `bluePlayerType`: Type of Blue player
+
+### Player Types
+
+* `human`: Human player
+* `controlboard`: AI with Control Board strategy
+* `fillfirst`: AI with Fill First strategy
+* `maximizerowscore`: AI with Row Score strategy
+* `minimax`: AI with MiniMax strategy
+
+### Examples
+
+```
+java -jar pawnsboard.jar decks/red.txt decks/blue.txt human minimax
+java -jar pawnsboard.jar decks/red.txt decks/blue.txt controlboard fillfirst
+```
+
+Game uses 3 rows, 5 columns, and 4 cards per hand.
