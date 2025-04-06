@@ -120,9 +120,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void turnChanged() {
-    if (model.getCurrentPlayerColor().equals(player.getColor())) {
-      updateGameState();
-    }
+    updateGameState();
   }
 
   @Override
