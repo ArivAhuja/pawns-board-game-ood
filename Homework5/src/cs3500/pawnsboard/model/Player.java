@@ -10,7 +10,6 @@ public class Player implements PlayerI {
   private final String color;
   private List<Card> hand;
   private final List<Card> deck;
-  private int initialHandSize;
   private PawnsBoardModel model;
 
   /**
@@ -21,7 +20,7 @@ public class Player implements PlayerI {
    */
   public Player(String color, List<Card> deck, PawnsBoardModel model) {
     this.model = model;
-    this.initialHandSize = model.getHandSize();
+    int initialHandSize = model.getHandSize();
     if (initialHandSize > (deck.size() / 3)) {
       throw new IllegalArgumentException("Hand size cannot be greater than a third " +
               "of the deck size.");

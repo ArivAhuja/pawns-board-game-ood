@@ -83,6 +83,50 @@ public class PawnsBoardModel implements PawnsBoardModelI {
 
   // =================== Observation Methods (from ReadonlyPawnsBoardModelI) ===================
 
+
+  /**
+   * Returns the width of the board.
+   * @return the width of the board.
+   */
+  public int getWidth() {
+    return this.board.getColumns();
+  }
+
+  /**
+   * Returns the height of the board.
+   * @return the height of the board.
+   */
+  public int getHeight() {
+    return this.board.getRows();
+  }
+
+  /**
+   * Returns the cell at the specified row and column.
+   * @param row the row of the cell.
+   * @param col the column of the cell.
+   * @return the Cell object at the specified position.
+   */
+  public Cell getCell(int row, int col) {
+    if (row < 0 || row >= board.getRows() || col < 0 || col >= board.getColumns()) {
+      throw new IllegalArgumentException("Invalid cell position");
+    }
+    return this.board.getCell(row, col);
+  }
+
+  /**
+   * Returns the owner of the cell at the specified row and column.
+   * @param row the row of the cell.
+   * @param col the column of the cell.
+   * @return "red" if red owns the cell, "blue" if blue owns it, or null if it's empty.
+   */
+  public String getCellOwner(int row, int col) {
+    if (row < 0 || row >= board.getRows() || col < 0 || col >= board.getColumns()) {
+      throw new IllegalArgumentException("Invalid cell position");
+    }
+    Cell cell = this.board.getCell(row, col);
+    return cell.getOwner();
+  }
+
   /**
    * Returns the color of the current player.
    * @return "red" if it's red player's turn, otherwise "blue"
@@ -204,6 +248,11 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     this.consecutivePasses = consecutivePasses;
   }
 
+  /**
+   * Switches the turn to the other player.
+   * If the game is over, notifies listeners of the game over status.
+   * If not, notifies listeners of the turn change.
+   */
   public void switchTurn() {
     // after updating the game state, notify listeners:
     isRedTurn = !isRedTurn;

@@ -13,12 +13,15 @@
 //import java.util.ArrayList;
 //
 ///**
-// * StrategyTranscriptGenerator is a utility class that sets up a mock PawnsBoard game configuration,
+// * StrategyTranscriptGenerator is a utility class that sets up a mock PawnsBoard game
+// configuration,
 // * applies different strategies to choose moves, and generates a transcript of the moves. The
 // * transcript entries are then written to a file.
 // *
-// * <p>This class uses a mock model configured with a test deck and board, applies strategies such as
-// * {@link FillFirstStrategy} and {@link MaximizeRowScoreStrategy}, and records the transcript of the
+// * <p>This class uses a mock model configured with a test deck and board, applies strategies such
+// as
+// * {@link FillFirstStrategy} and {@link MaximizeRowScoreStrategy}, and records the transcript of
+// the
 // * moves chosen by these strategies. It is designed to help with testing and debugging strategy
 // * behavior.
 // * </p>

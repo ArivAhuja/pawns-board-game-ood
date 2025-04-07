@@ -1,12 +1,37 @@
 package cs3500.pawnsboard.model;
 
-import java.util.List;
-
 /**
  * An interface exposing only the observation methods for the PawnsBoard game.
  * Views should depend on this interface to prevent accidental mutations.
  */
 public interface ReadonlyPawnsBoardModelI {
+
+  /**
+   * Gets the width of the board.
+   * @return the width of the board
+   */
+  int getWidth();
+
+  /**
+   * Gets the height of the board.
+   * @return the height of the board
+   */
+  int getHeight();
+
+  /**
+   * Gets the contents of the cell.
+   * @return the cell object with contents
+   */
+  Cell getCell(int row, int col);
+
+  /**
+   * Return the owner of the cell at the given row and column.
+   * @param row the row
+   * @param col the column
+   * @return either "red" or "blue" if the cell is owned by a player,
+   */
+  String getCellOwner(int row, int col);
+
   /**
    * Returns the color of the current player.
    * @return A string representing the current player's color ("red" or "blue")

@@ -37,7 +37,7 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
 
   @Override
   public void display(boolean show) {
-      this.setVisible(show);
+    this.setVisible(show);
   }
 
   @Override

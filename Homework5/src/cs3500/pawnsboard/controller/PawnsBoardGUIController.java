@@ -49,7 +49,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
     updateGameState();
   }
 
-  private void AIMove() {
+  private void makeAIMove() {
     // can add delays and highlighting view to make it seem like really playing
     Move aiMove = playerActions.getNextMove(model);
     if (aiMove != null) {
@@ -70,7 +70,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       // checkAutoPass checks as well as triggers the pass if necessary
       boolean autoPass = player.checkAutoPass();
       if (!autoPass) {
-        AIMove();
+        makeAIMove();
       }
       view.clearSelectedCard();
       view.clearSelectedCell();

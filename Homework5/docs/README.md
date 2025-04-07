@@ -135,18 +135,28 @@ All four strategies from the Homework are implemented in the `/scr/strategy` dir
 - Press "p" to pass turn
 - Press "c" to place card
 
+## Changes from HW6 -> HW7
+
+- Move placeCard logic to the Player class
+- Set up Main to allow for CLI args
+- Set up dual controller controller which allows for two players to play against each other
+- Added AI (strategy) move functionality to controller
+- Added the needed observation methods to the ReadOnlyModel (getWidth, getHeight, getCell, getOwner)
+
 
 ## PawnsBoard Game CLI Instructions
 
 ### Basic Command
 
+Given the JAR included in the files, you can use the following command from the Homework5/ directory to run the game.
+
 ```
-java -jar pawnsboard.jar <redDeckPath> <blueDeckPath> <redPlayerType> <bluePlayerType>
+java -jar PawnsBoard.jar <redDeckPath> <blueDeckPath> <redPlayerType> <bluePlayerType>
 ```
 
 ### Arguments
 
-* `redDeckPath`: Path to Red's deck file
+* `redDeckPath`: Path to Red's deck file (from where you are running the command)
 * `blueDeckPath`: Path to Blue's deck file
 * `redPlayerType`: Type of Red player
 * `bluePlayerType`: Type of Blue player
@@ -162,8 +172,8 @@ java -jar pawnsboard.jar <redDeckPath> <blueDeckPath> <redPlayerType> <bluePlaye
 ### Examples
 
 ```
-java -jar pawnsboard.jar decks/red.txt decks/blue.txt human minimax
-java -jar pawnsboard.jar decks/red.txt decks/blue.txt controlboard fillfirst
+java -jar PawnsBoard.jar docs/red.config docs/blue.config human minimax
+java -jar PawnsBoard.jar docs/red.config docs/blue.config controlboard fillfirst
 ```
 
-Game uses 3 rows, 5 columns, and 4 cards per hand.
+Game uses 5 rows, 5 columns, and 5 cards per hand.

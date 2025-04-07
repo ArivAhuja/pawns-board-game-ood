@@ -11,7 +11,8 @@ public interface ModelStatusListener {
 
   /**
    * Called when the game is over.
-   * @param result a message indicating the outcome (e.g., "Red wins!", "Blue wins!", or "It's a tie!").
+   * @param result a message indicating the outcome (e.g., "Red wins!", "Blue wins!", or
+   *               "It's a tie!").
    */
   void gameOver(String result);
 }
