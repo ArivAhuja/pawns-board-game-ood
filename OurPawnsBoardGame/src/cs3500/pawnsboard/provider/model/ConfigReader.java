@@ -1,4 +1,4 @@
-package cs3500.pawnsworld.model;
+package cs3500.pawnsboard.provider.model;
 
 import java.io.File;
 import java.io.FileNotFoundException;

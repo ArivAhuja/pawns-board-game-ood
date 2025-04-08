@@ -1,4 +1,4 @@
-package cs3500.pawnsworld.model;
+package cs3500.pawnsboard.provider.model;
 
 /**
  * Interface to house all Strategy implementations. Has one method that all strategy objects

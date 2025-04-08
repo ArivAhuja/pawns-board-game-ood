@@ -1,13 +1,13 @@
-package cs3500.pawnsworld.view;
+package cs3500.pawnsboard.provider.view;
 
-import cs3500.pawnsworld.model.Player;
+import cs3500.pawnsboard.provider.model.Player;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.function.Consumer;
-import cs3500.pawnsworld.model.PawnsWorldReadOnly;
+import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
 
 /**
  * Represents the player's hand panel in the GUI.

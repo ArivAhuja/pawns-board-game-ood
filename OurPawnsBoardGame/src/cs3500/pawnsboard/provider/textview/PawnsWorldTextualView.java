@@ -1,4 +1,4 @@
-package cs3500.pawnsworld.textview;
+package cs3500.pawnsboard.provider.textview;
 
 /**
  * Represents a Textual View for PawnsWorld, representing the game in

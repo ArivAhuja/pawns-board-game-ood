@@ -1,4 +1,4 @@
-package cs3500.pawnsworld.model;
+package cs3500.pawnsboard.provider.model;
 
 /**
  * Enum representing a Player, Red, Blue and None(for Game Draw).

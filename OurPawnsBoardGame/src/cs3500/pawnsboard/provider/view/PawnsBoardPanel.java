@@ -1,7 +1,7 @@
-package cs3500.pawnsworld.view;
+package cs3500.pawnsboard.provider.view;
 
-import cs3500.pawnsworld.model.BoardElement;
-import cs3500.pawnsworld.model.Player;
+import cs3500.pawnsboard.provider.model.BoardElement;
+import cs3500.pawnsboard.provider.model.Player;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.function.BiConsumer;
 
-import cs3500.pawnsworld.model.PawnsWorldReadOnly;
+import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

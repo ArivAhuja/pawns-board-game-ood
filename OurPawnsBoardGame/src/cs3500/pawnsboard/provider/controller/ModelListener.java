@@ -1,7 +1,7 @@
-package cs3500.pawnsworld.controller;
+package cs3500.pawnsboard.provider.controller;
 
-import cs3500.pawnsworld.model.Player;
-import cs3500.pawnsworld.view.PawnsWorldGUIView;
+import cs3500.pawnsboard.provider.model.Player;
+import cs3500.pawnsboard.provider.view.PawnsWorldGUIView;
 
 
 /**

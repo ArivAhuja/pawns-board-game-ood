@@ -1,4 +1,4 @@
-package cs3500.pawnsworld.model;
+package cs3500.pawnsboard.provider.model;
 
 /**
  * Represents any object that can be placed on a board of Pawns World.

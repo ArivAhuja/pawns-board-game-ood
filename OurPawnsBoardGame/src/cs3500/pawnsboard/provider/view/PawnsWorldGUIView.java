@@ -1,10 +1,10 @@
-package cs3500.pawnsworld.view;
+package cs3500.pawnsboard.provider.view;
 
-import cs3500.pawnsworld.model.Player;
+import cs3500.pawnsboard.provider.model.Player;
 import java.io.IOException;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
-import cs3500.pawnsworld.model.PawnsWorldReadOnly;
+import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
 
 /**
  * The main GUI view for the Pawns game.

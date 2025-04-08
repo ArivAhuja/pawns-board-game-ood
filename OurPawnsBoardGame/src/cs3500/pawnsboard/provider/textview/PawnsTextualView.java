@@ -1,9 +1,9 @@
-package cs3500.pawnsworld.textview;
+package cs3500.pawnsboard.provider.textview;
 
 
 import cs3500.pawnsworld.model.CustomCard;
-import cs3500.pawnsworld.model.PawnsWorld;
-import cs3500.pawnsworld.model.Player;
+import cs3500.pawnsboard.provider.model.PawnsWorld;
+import cs3500.pawnsboard.provider.model.Player;
 
 /**
  * Textual view for PawnsGame, Representing Red as R and Blue as B.
