@@ -1,7 +1,7 @@
 package cs3500.pawnsboard.provider.textview;
 
 
-import cs3500.pawnsworld.model.CustomCard;
+import cs3500.pawnsboard.provider.model.CustomCard;
 import cs3500.pawnsboard.provider.model.PawnsWorld;
 import cs3500.pawnsboard.provider.model.Player;
 
