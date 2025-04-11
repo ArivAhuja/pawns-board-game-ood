@@ -3,8 +3,8 @@ package cs3500.pawnsboard.view;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Card;
+import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
-import cs3500.pawnsboard.provider.model.Player;
 import cs3500.pawnsboard.provider.model.BoardElement;
 import cs3500.pawnsboard.provider.model.CustomCard;
 
@@ -19,13 +19,13 @@ import java.util.List;
 public class ModelAdapter implements PawnsWorldReadOnly {
 
   private final PawnsBoardModel model;
-  private final List<Card> redHand;
-  private final List<Card> blueHand;
+  private final Player redPlayer;
+  private final Player bluePlayer;
 
-  public ModelAdapter(PawnsBoardModel model, List<Card> redHand, List<Card> blueHand) {
+  public ModelAdapter(PawnsBoardModel model, Player redPlayer, Player bluePlayer) {
     this.model = model;
-    this.redHand = redHand;
-    this.blueHand = blueHand;
+    this.redPlayer = redPlayer;
+    this.bluePlayer = bluePlayer;
   }
 
   // The provider interface requires startGame; our model is already initialized, so we do nothing.
@@ -46,8 +46,17 @@ public class ModelAdapter implements PawnsWorldReadOnly {
 
   // Our model’s getWinner() returns a String – provider expects that.
   @Override
-  public String getWinner() {
-    return model.getWinner();
+  public cs3500.pawnsboard.provider.model.Player getWinner() {
+    if (!model.isGameOver()) {
+      throw new IllegalStateException("Game is not over");
+    }
+    if (model.getWinner().equalsIgnoreCase("red")) {
+      return cs3500.pawnsboard.provider.model.Player.RED;
+    } else if (model.getWinner().equalsIgnoreCase("blue")) {
+      return cs3500.pawnsboard.provider.model.Player.BLUE;
+    } else {
+      return cs3500.pawnsboard.provider.model.Player.NONE;
+    }
   }
 
   @Override
@@ -63,7 +72,7 @@ public class ModelAdapter implements PawnsWorldReadOnly {
 
   // We convert our model’s current player color to the provider’s Player.
   @Override
-  public Player getTurn() {
+  public cs3500.pawnsboard.provider.model.Player getTurn() {
     String color = model.getCurrentPlayerColor();
     if (color.equalsIgnoreCase("red")) {
       return cs3500.pawnsboard.provider.model.Player.RED;
@@ -74,7 +83,7 @@ public class ModelAdapter implements PawnsWorldReadOnly {
   }
 
   @Override
-  public int getTotalScore(Player player) {
+  public int getTotalScore(cs3500.pawnsboard.provider.model.Player player) {
     int[] scores = model.computeScores();
     if (player == cs3500.pawnsboard.provider.model.Player.RED) {
       return scores[0];
@@ -87,19 +96,23 @@ public class ModelAdapter implements PawnsWorldReadOnly {
   // Convert our red hand (List<Card>) into a list of provider cards.
   @Override
   public List<CustomCard> getRedHand() {
+    List<Card> redHand = redPlayer.getHand();
     List<CustomCard> adapted = new ArrayList<>();
     for (Card card : redHand) {
-      adapted.add(new CardAdapter(card));
+      adapted.add(new CardAdapter(card, cs3500.pawnsboard.provider.model.Player.RED));
     }
+
     return adapted;
   }
 
   @Override
   public List<CustomCard> getBlueHand() {
+    List<Card> blueHand = bluePlayer.getHand();
     List<CustomCard> adapted = new ArrayList<>();
     for (Card card : blueHand) {
-      adapted.add(new CardAdapter(card));
+      adapted.add(new CardAdapter(card, cs3500.pawnsboard.provider.model.Player.BLUE));
     }
+
     return adapted;
   }
 
@@ -117,7 +130,7 @@ public class ModelAdapter implements PawnsWorldReadOnly {
   }
 
   @Override
-  public int calculateScore(int row, Player player) {
+  public int calculateScore(int row,  cs3500.pawnsboard.provider.model.Player player) {
     int[][] rowScores = model.computeRowScores();
     if (player == cs3500.pawnsboard.provider.model.Player.RED) {
       return rowScores[row][0];

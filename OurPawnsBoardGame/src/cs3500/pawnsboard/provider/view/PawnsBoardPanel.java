@@ -11,6 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
 import javax.swing.BorderFactory;
@@ -27,8 +28,8 @@ public class PawnsBoardPanel extends JPanel {
   private final int rows;
   private final int cols;
   private JPanel[][] cellPanels;
-  private int selectedRow = -1;
-  private int selectedCol = -1;
+  private int selectedRow = -1, selectedCol = -1;
+  private final Player owner;
 
   /**
    * Constructs the board panel.
@@ -40,6 +41,7 @@ public class PawnsBoardPanel extends JPanel {
     this.rows = model.getHeight();
     this.cols = model.getWidth();
     this.cellPanels = new JPanel[rows][cols];
+    this.owner = owner;
 
     this.setLayout(new GridLayout(rows, cols + 2));
     this.setBackground(Color.DARK_GRAY);
@@ -83,8 +85,7 @@ public class PawnsBoardPanel extends JPanel {
           }
         }
 
-        int row = r;
-        int col = c;
+        int row = r, col = c;
         cellPanel.addMouseListener(new MouseAdapter() {
           @Override
           public void mouseClicked(MouseEvent e) {

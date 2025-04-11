@@ -1,6 +1,8 @@
 package cs3500.pawnsboard.controller;
 
 
+import java.awt.Component;
+
 import javax.swing.JOptionPane;
 
 import cs3500.pawnsboard.model.ModelStatusListener;
@@ -9,6 +11,7 @@ import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.PlayerActions;
 import cs3500.pawnsboard.view.PawnsBoardGUIView;
+import cs3500.pawnsboard.view.PawnsBoardGUIViewI;
 import cs3500.pawnsboard.view.ViewFeatures;
 
 /**
@@ -23,7 +26,7 @@ import cs3500.pawnsboard.view.ViewFeatures;
 public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFeatures,
         ModelStatusListener {
   private final PawnsBoardModel model;
-  private final PawnsBoardGUIView view;
+  private final PawnsBoardGUIViewI view;
   private final Player player;
   private final PlayerActions playerActions;
 
@@ -33,7 +36,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
    * @param model the game model
    * @param view  the GUI view
    */
-  public PawnsBoardGUIController(PawnsBoardModel model, PawnsBoardGUIView view, Player player,
+  public PawnsBoardGUIController(PawnsBoardModel model, PawnsBoardGUIViewI view, Player player,
                                  PlayerActions playerActions) {
     this.model = model;
     this.view = view;
@@ -110,7 +113,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       player.placeCard(row, col, cardIndex);
     } catch (IllegalStateException | IllegalArgumentException e) {
       JOptionPane.showMessageDialog(
-              view,
+              (PawnsBoardGUIView) view,
               e.getMessage(),
               "Invalid Move",
               JOptionPane.WARNING_MESSAGE

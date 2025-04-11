@@ -1,11 +1,9 @@
 package cs3500.pawnsboard.provider.view;
 
 import cs3500.pawnsboard.provider.model.Player;
-import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.GridLayout;
-import java.awt.Color;
-import java.awt.Component;
+import java.util.function.BiConsumer;
+import javax.swing.*;
+import java.awt.*;
 import java.util.function.Consumer;
 import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
 
@@ -36,6 +34,8 @@ public class PlayerHandPanel extends JPanel {
     initializeHand();
   }
 
+
+
   /**
    * Sets a listener for card selection events.
    * @param listener A consumer that accepts the selected card index.
@@ -53,8 +53,7 @@ public class PlayerHandPanel extends JPanel {
     cardButtons = new JButton[handSize];
     for (int i = 0; i < handSize; i++) {
       String cardName;
-      int cardCost;
-      int cardValue;
+      int cardCost, cardValue;
       Color cardColor;
       String influenceGrid;
       if (owner == Player.BLUE) {
