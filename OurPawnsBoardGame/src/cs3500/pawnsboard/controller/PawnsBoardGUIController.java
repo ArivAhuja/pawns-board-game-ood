@@ -128,7 +128,6 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
 
   @Override
   public void gameOver(String result) {
-    // so will only print once
     if (model.getCurrentPlayerColor().equals(player.getColor())) {
       System.out.println("Game over: " + result);
       view.refresh();

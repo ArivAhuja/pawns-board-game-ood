@@ -46,7 +46,9 @@ public class Player implements PlayerI {
   }
 
   public void drawCard() {
-    hand.add(deck.remove(0));
+    if (!deck.isEmpty()) {
+      hand.add(deck.remove(0));
+    }
   }
 
   /**
