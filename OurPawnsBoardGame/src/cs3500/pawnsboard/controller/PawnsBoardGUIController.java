@@ -69,7 +69,6 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
     }
     if (model.getCurrentPlayerColor().equals(player.getColor())) {
       player.drawCard();
-      System.out.println(player.getHand());
       this.view.display(true);
       // checkAutoPass checks as well as triggers the pass if necessary
       boolean autoPass = player.checkAutoPass();
