@@ -40,7 +40,7 @@ public class PawnsBoardGUIMain {
     List<Card> redDeck = parseDeck(args[0]);
     List<Card> blueDeck = parseDeck(args[1]);
     int totalDeckSize = redDeck.size() + blueDeck.size();
-    PawnsBoardModel model = new PawnsBoardModel(2, 3, totalDeckSize, 4);
+    PawnsBoardModel model = new PawnsBoardModel(5, 5, totalDeckSize, 4);
     Player redPlayer = new Player("red", redDeck, model);
     Player bluePlayer = new Player("blue", blueDeck, model);
     PlayerActions redPlayerActions = createPlayerActions(args[2], redPlayer);
