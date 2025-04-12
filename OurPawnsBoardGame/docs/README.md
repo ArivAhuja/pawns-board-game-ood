@@ -143,7 +143,6 @@ All four strategies from the Homework are implemented in the `/scr/strategy` dir
 - Added AI (strategy) move functionality to controller
 - Added the needed observation methods to the ReadOnlyModel (getWidth, getHeight, getCell, getOwner)
 
-
 ## PawnsBoard Game CLI Instructions
 
 ### Basic Command
@@ -177,3 +176,5 @@ java -jar PawnsBoard.jar docs/red.config docs/blue.config controlboard fillfirst
 ```
 
 Game uses 5 rows, 5 columns, and 5 cards per hand.
+
+## HW8

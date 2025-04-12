@@ -1,5 +1,7 @@
 package cs3500.pawnsboard.view;
 
+import java.awt.Component;
+
 /**
  * Interface for a GUI view for the PawnsBoard game.
  */
@@ -28,4 +30,11 @@ public interface PawnsBoardGUIViewI {
    * Clears the current selected cell.
    */
   void clearSelectedCell();
+
+  /**
+   * Returns the underlying Component that can be used as a parent for dialogs.
+   * @return The Component that represents this view
+   */
+  Component getDialogParent();
+
 }

@@ -68,8 +68,9 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       return;
     }
     if (model.getCurrentPlayerColor().equals(player.getColor())) {
-      this.view.display(true);
       player.drawCard();
+      System.out.println(player.getHand());
+      this.view.display(true);
       // checkAutoPass checks as well as triggers the pass if necessary
       boolean autoPass = player.checkAutoPass();
       if (!autoPass) {
@@ -113,7 +114,7 @@ public class PawnsBoardGUIController implements PawnsBoardGUIControllerI, ViewFe
       player.placeCard(row, col, cardIndex);
     } catch (IllegalStateException | IllegalArgumentException e) {
       JOptionPane.showMessageDialog(
-              (PawnsBoardGUIView) view,
+              view.getDialogParent(),
               e.getMessage(),
               "Invalid Move",
               JOptionPane.WARNING_MESSAGE

@@ -40,8 +40,6 @@ public interface ModelListener {
    */
   PawnsWorldGUIView getView();
 
-
-
 }
 
 

@@ -1,6 +1,8 @@
 package cs3500.pawnsboard.view;
 
 
+import java.awt.Component;
+
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
 
@@ -53,5 +55,10 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
 
   public void clearSelectedCell() {
     this.panel.clearSelectedCell();
+  }
+
+  @Override
+  public Component getDialogParent() {
+    return this;
   }
 }
