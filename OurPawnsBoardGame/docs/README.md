@@ -178,3 +178,5 @@ java -jar PawnsBoard.jar docs/red.config docs/blue.config controlboard fillfirst
 Game uses 5 rows, 5 columns, and 5 cards per hand.
 
 ## HW8
+
+We were able to implement all features of the provider's view. Note that the dialouge boxes are part of the controller so those look different. Note we also don't have a dialouge box for game over like the provider did for thier controller as we orignally had a game over screen drawn by the view, but there is still a system output.
