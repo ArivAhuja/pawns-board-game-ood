@@ -51,8 +51,6 @@ public class PawnsBoardGUIMain {
       if (args[4].equalsIgnoreCase("provider")) {
         ModelAdapter adaptedModel = new ModelAdapter(model, redPlayer, bluePlayer);
         try {
-          viewRedPlayer = new ProviderViewAdapter(adaptedModel,
-                  cs3500.pawnsboard.provider.model.Player.RED);
           viewBluePlayer = new ProviderViewAdapter(adaptedModel,
                   cs3500.pawnsboard.provider.model.Player.BLUE);
         } catch (IOException e) {
