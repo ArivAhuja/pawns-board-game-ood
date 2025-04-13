@@ -21,7 +21,8 @@ public interface DeckFileParserI {
    * Assumes the deck file contains a multiple of 6 non-empty lines.
    *
    * @param deckString the entire deck file as a string.
+   * @param mirror mirrors the influence grid if true.
    * @return a list of Card objects parsed from the file.
    */
-  List<Card> toDeck(String deckString);
+  List<Card> toDeck(String deckString, boolean mirror);
 }

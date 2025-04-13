@@ -140,11 +140,7 @@ public class JPawnsBoardPanel extends JPanel {
         // Determine the cell's fill color based on its character.
         Color cellColor;
         char ch;
-        if (player.getColor().equalsIgnoreCase("blue")) {
-          ch = grid[i][4 - j];
-        } else {
-          ch = grid[i][j];
-        }
+        ch = grid[i][j];
         if (ch == 'c' || ch == 'C') {
           cellColor = Color.ORANGE;
         } else if (ch == 'I') {

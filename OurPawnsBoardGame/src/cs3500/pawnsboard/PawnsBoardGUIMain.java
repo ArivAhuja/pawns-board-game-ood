@@ -37,8 +37,8 @@ import java.util.List;
 public class PawnsBoardGUIMain {
   public static void main(String[] args) {
     formatCheck(args);
-    List<Card> redDeck = parseDeck(args[0]);
-    List<Card> blueDeck = parseDeck(args[1]);
+    List<Card> redDeck = parseDeck(args[0], false);
+    List<Card> blueDeck = parseDeck(args[1], true);
     int totalDeckSize = redDeck.size() + blueDeck.size();
     PawnsBoardModel model = new PawnsBoardModel(5, 5, totalDeckSize, 4);
     Player redPlayer = new Player("red", redDeck, model);
@@ -103,11 +103,11 @@ public class PawnsBoardGUIMain {
     }
   }
 
-  private static List<Card> parseDeck(String deckFilePath) {
+  private static List<Card> parseDeck(String deckFilePath, boolean mirror) {
     try {
       String deckContent = new String(Files.readAllBytes(Paths.get(deckFilePath)));
       DeckFileParser parser = new DeckFileParser();
-      List<Card> deck = parser.toDeck(deckContent);
+      List<Card> deck = parser.toDeck(deckContent, mirror);
       Collections.shuffle(deck);
       return deck;
     } catch (IOException e) {

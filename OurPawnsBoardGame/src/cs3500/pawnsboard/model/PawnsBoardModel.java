@@ -288,8 +288,7 @@ public class PawnsBoardModel implements PawnsBoardModelI {
         if (grid[i][j] != 'I') {
           continue;
         }
-        // For Blue, mirror the column.
-        int effectiveJ = playerColor.equals("blue") ? 4 - j : j;
+        int effectiveJ = j;
         // Compute offset from the center (2,2).
         int dr = i - 2;
         int dc = effectiveJ - 2;

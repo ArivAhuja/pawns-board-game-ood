@@ -11,6 +11,7 @@ public class DeckFileParser implements DeckFileParserI {
 
   /**
    * Converts a block of text into a card.
+   *
    * @param cardBlock a block of text for one card.
    * @return a card object.
    */
@@ -54,7 +55,7 @@ public class DeckFileParser implements DeckFileParserI {
    * @param deckString the entire deck file as a string.
    * @return a list of Card objects parsed from the file.
    */
-  public List<Card> toDeck(String deckString) {
+  public List<Card> toDeck(String deckString, boolean mirror) {
     List<Card> deck = new ArrayList<>();
     Scanner scanner = new Scanner(deckString);
     List<String> lines = new ArrayList<>();
@@ -71,16 +72,41 @@ public class DeckFileParser implements DeckFileParserI {
     if (lines.size() % 6 != 0) {
       throw new IllegalArgumentException("Deck file does not have a multiple of 6 lines.");
     }
-    for (int i = 0; i < lines.size(); i += 6) {
-      StringBuilder cardBlockBuilder = new StringBuilder();
-      for (int j = 0; j < 6; j++) {
-        cardBlockBuilder.append(lines.get(i + j)).append("\n");
+    if (mirror) {
+      for (int i = 0; i < lines.size(); i += 6) {
+        StringBuilder cardBlockBuilder = new StringBuilder();
+        for (int j = 0; j < 6; j++) {
+          cardBlockBuilder.append(lines.get(i + j)).append("\n");
+        }
+        Card card = toCard(cardBlockBuilder.toString());
+
+        // Mirror the card's influence grid
+        char[][] originalGrid = card.getInfluenceGrid();
+        char[][] mirroredGrid = new char[5][5];
+
+        // Create a horizontally mirrored version of the grid
+        for (int row = 0; row < 5; row++) {
+          for (int col = 0; col < 5; col++) {
+            mirroredGrid[row][col] = originalGrid[row][4 - col];
+          }
+        }
+
+        // Create a new card with the mirrored grid
+        Card mirroredCard = new Card(card.getName(), card.getCost(), card.getValue(), mirroredGrid);
+        deck.add(mirroredCard);
       }
-      Card card = toCard(cardBlockBuilder.toString());
-      deck.add(card);
+    } else {
+      // Original code for non-mirrored cards
+      for (int i = 0; i < lines.size(); i += 6) {
+        StringBuilder cardBlockBuilder = new StringBuilder();
+        for (int j = 0; j < 6; j++) {
+          cardBlockBuilder.append(lines.get(i + j)).append("\n");
+        }
+        Card card = toCard(cardBlockBuilder.toString());
+        deck.add(card);
+      }
     }
     return deck;
   }
 }
-
 
