@@ -2,7 +2,12 @@ package cs3500.pawnsboard.view;
 
 import cs3500.pawnsboard.provider.view.PawnsWorldGUIView;
 import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
-import javax.swing.*;
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.JComponent;
+import javax.swing.JRootPane;
+import javax.swing.KeyStroke;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -27,7 +32,8 @@ public class ProviderViewAdapter implements PawnsBoardGUIViewI {
    * @param owner the provider's Player (e.g. Player.BLUE).
    * @throws IOException if the provider view cannot be initialized.
    */
-  public ProviderViewAdapter(PawnsWorldReadOnly model, cs3500.pawnsboard.provider.model.Player owner) throws IOException {
+  public ProviderViewAdapter(PawnsWorldReadOnly model,
+                             cs3500.pawnsboard.provider.model.Player owner) throws IOException {
     this.providerView = new PawnsWorldGUIView(model, owner);
     setUpKeyBinds();
   }

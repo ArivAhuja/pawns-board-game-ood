@@ -153,12 +153,20 @@ Given the JAR included in the files, you can use the following command from the 
 java -jar PawnsBoard.jar <redDeckPath> <blueDeckPath> <redPlayerType> <bluePlayerType>
 ```
 
+Additionally, there is an optional argument at the end of the above command 'provider' which
+uses the provider's view for Player 2. As seen below:
+
+```
+java -jar PawnsBoard.jar <redDeckPath> <blueDeckPath> <redPlayerType> <bluePlayerType> provider
+```
+
 ### Arguments
 
 * `redDeckPath`: Path to Red's deck file (from where you are running the command)
 * `blueDeckPath`: Path to Blue's deck file
 * `redPlayerType`: Type of Red player
 * `bluePlayerType`: Type of Blue player
+* `provider`: Optional argument to use the provider's view for Player 2
 
 ### Player Types
 
@@ -177,6 +185,10 @@ java -jar PawnsBoard.jar docs/red.config docs/blue.config controlboard fillfirst
 
 Game uses 5 rows, 5 columns, and 5 cards per hand.
 
-## HW8
+## HW8 Notes
 
 We were able to implement all features of the provider's view. Note that the dialouge boxes are part of the controller so those look different. Note we also don't have a dialouge box for game over like the provider did for thier controller as we orignally had a game over screen drawn by the view, but there is still a system output.
+
+We didn't delete tests, but the provider's /docs/ folder so that we can upload the ZIP. We have their
+docs downloaded locally so we can refer to that. We also lowered the amount of screenshots of
+our view from around 15 to the 4 required to save file space.

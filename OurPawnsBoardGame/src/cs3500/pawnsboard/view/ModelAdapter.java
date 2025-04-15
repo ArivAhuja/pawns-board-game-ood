@@ -22,6 +22,12 @@ public class ModelAdapter implements PawnsWorldReadOnly {
   private final Player redPlayer;
   private final Player bluePlayer;
 
+  /**
+   * Constructs the adapter using our model and the players.
+   * @param model the model to adapt
+   * @param redPlayer the red player
+   * @param bluePlayer the blue player
+   */
   public ModelAdapter(PawnsBoardModel model, Player redPlayer, Player bluePlayer) {
     this.model = model;
     this.redPlayer = redPlayer;
@@ -30,7 +36,8 @@ public class ModelAdapter implements PawnsWorldReadOnly {
 
   // The provider interface requires startGame; our model is already initialized, so we do nothing.
   @Override
-  public void startGame(List<CustomCard> deckRed, List<CustomCard> deckBlue, int handSize, boolean shuffle) {
+  public void startGame(List<CustomCard> deckRed, List<CustomCard> deckBlue, int handSize,
+                        boolean shuffle) {
     // No operation: our model is already started.
   }
 

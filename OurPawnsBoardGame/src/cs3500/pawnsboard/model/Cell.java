@@ -8,6 +8,8 @@ public class Cell implements CellI {
   private int pawnCount;
   private String owner; // "red" or "blue" - empty string if no owner
   private Card card;    // a card placed in the cell, if any (null if no card)
+  // new feild: net influence modifier
+  private int influenceModifier;
 
   /**
    * Initializes a Cell with 0 pawns, no owner, and no card placed.
@@ -16,6 +18,7 @@ public class Cell implements CellI {
     this.pawnCount = 0;
     this.owner = "";
     this.card = null;
+    this.influenceModifier = 0;
   }
 
   /**
@@ -26,6 +29,7 @@ public class Cell implements CellI {
     this.pawnCount = other.pawnCount;
     this.owner = other.owner;
     this.card = (other.card != null) ? new Card(other.card) : null; // Uses Card copy constructor
+    this.influenceModifier = other.influenceModifier;
   }
 
   /**
@@ -109,5 +113,18 @@ public class Cell implements CellI {
     if (pawnCount < 3) {
       pawnCount++;
     }
+  }
+
+  // new getter and modifier methods:
+  public int getInfluenceModifier() {
+    return influenceModifier;
+  }
+
+  public void addInfluence(int delta) {
+    this.influenceModifier += delta;
+  }
+
+  public void resetInfluence() {
+    this.influenceModifier = 0;
   }
 }

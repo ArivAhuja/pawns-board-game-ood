@@ -45,6 +45,10 @@ public class Player implements PlayerI {
     hand.remove(card);
   }
 
+  /**
+   * Draws a card from the deck and adds it to the player's hand.
+   * If the deck is empty, no action is taken.
+   */
   public void drawCard() {
     if (!deck.isEmpty()) {
       hand.add(deck.remove(0));

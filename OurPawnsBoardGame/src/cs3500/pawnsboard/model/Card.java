@@ -41,8 +41,7 @@ public class Card implements CardI {
     // Validate grid: center cell and allowed characters.
     for (int i = 0; i < 5; i++) {
       if (influenceGrid[i].length != 5) {
-        throw new IllegalArgumentException("Each row in the influence grid must have exactly " +
-                "5 characters");
+        throw new IllegalArgumentException("Each row in the influence grid must have exactly 5 characters");
       }
       for (int j = 0; j < 5; j++) {
         char ch = influenceGrid[i][j];
@@ -51,10 +50,8 @@ public class Card implements CardI {
             throw new IllegalArgumentException("Center cell must be 'C'");
           }
         } else {
-          if (ch == 'C') {
-            throw new IllegalArgumentException("Only the center cell can be 'C'");
-          }
-          if (ch != 'X' && ch != 'I') {
+          // Allow X, I, U, and D in non-center positions.
+          if (ch != 'X' && ch != 'I' && ch != 'U' && ch != 'D') {
             throw new IllegalArgumentException("Invalid character in grid: " + ch);
           }
         }

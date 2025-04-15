@@ -3,9 +3,11 @@ package cs3500.pawnsboard.provider.view;
 import cs3500.pawnsboard.provider.model.Player;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.GridLayout;
+
 import java.awt.Color;
+import java.awt.GridLayout;
 import java.awt.Component;
+
 import java.util.function.Consumer;
 import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
 
@@ -51,11 +53,12 @@ public class PlayerHandPanel extends JPanel {
    */
   private void initializeHand() {
     this.removeAll();
-    int handSize = (owner == Player.BLUE) ? model.getBlueHand().size() : model.getRedHand().size();
+    int handSize = model.getBlueHand().size();
     cardButtons = new JButton[handSize];
     for (int i = 0; i < handSize; i++) {
       String cardName;
-      int cardCost, cardValue;
+      int cardCost;
+      int cardValue;
       Color cardColor;
       String influenceGrid;
       if (owner == Player.BLUE) {
@@ -124,10 +127,11 @@ public class PlayerHandPanel extends JPanel {
    * @param index The index of the card in the hand.
    */
   private void resetCardColor(int index) {
-    if (owner == Player.RED) {
-      cardButtons[index].setBackground(Color.RED);
-    } else {
+    Player currentPlayer = owner;
+    if (currentPlayer == Player.BLUE) {
       cardButtons[index].setBackground(Color.BLUE);
+    } else {
+      cardButtons[index].setBackground(Color.RED);
     }
     cardButtons[index].setForeground(Color.WHITE);
   }

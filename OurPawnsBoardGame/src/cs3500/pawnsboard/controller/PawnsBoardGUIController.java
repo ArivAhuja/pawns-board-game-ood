@@ -1,7 +1,6 @@
 package cs3500.pawnsboard.controller;
 
 
-import java.awt.Component;
 
 import javax.swing.JOptionPane;
 
@@ -10,7 +9,6 @@ import cs3500.pawnsboard.model.Move;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.PlayerActions;
-import cs3500.pawnsboard.view.PawnsBoardGUIView;
 import cs3500.pawnsboard.view.PawnsBoardGUIViewI;
 import cs3500.pawnsboard.view.ViewFeatures;
 

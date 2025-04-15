@@ -4,6 +4,10 @@ import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.provider.model.BoardElement;
 import cs3500.pawnsboard.provider.model.Player;
 
+/**
+ * An adapter class that implements the BoardElement interface and wraps a Cell object.
+ * This class provides a way to adapt the Cell object to the BoardElement interface.
+ */
 public class BoardElementAdapter implements BoardElement {
   private final Cell cell;
 

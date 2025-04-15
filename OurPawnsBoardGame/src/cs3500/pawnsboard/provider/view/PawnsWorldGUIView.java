@@ -3,8 +3,8 @@ package cs3500.pawnsboard.provider.view;
 import cs3500.pawnsboard.provider.model.PawnsWorldReadOnly;
 import cs3500.pawnsboard.provider.model.Player;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.BorderLayout;
 import java.io.IOException;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -18,7 +18,6 @@ public class PawnsWorldGUIView extends JFrame implements PawnsView, Features {
 
   private final PawnsBoardPanel boardPanel;
   private final PlayerHandPanel handPanel;
-  private final Player owner;
 
   /**
    * Constructs the main GUI view window for the game.
@@ -29,7 +28,6 @@ public class PawnsWorldGUIView extends JFrame implements PawnsView, Features {
    */
   public PawnsWorldGUIView(PawnsWorldReadOnly model, Player owner) throws IOException {
     super("Pawns Board Game");
-    this.owner = owner;
 
     this.setLayout(new BorderLayout());
 
