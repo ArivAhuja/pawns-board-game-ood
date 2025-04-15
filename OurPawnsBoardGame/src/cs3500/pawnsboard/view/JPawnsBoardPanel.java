@@ -30,6 +30,7 @@ public class JPawnsBoardPanel extends JPanel {
   private int selectedCardIndex;
   private int selectedCellRow;
   private int selectedCellCol;
+  private ColorScheme colorScheme;
 
 
   /**
@@ -44,6 +45,7 @@ public class JPawnsBoardPanel extends JPanel {
     this.selectedCardIndex = -1;
     this.selectedCellRow = -1;
     this.selectedCellCol = -1;
+    this.colorScheme = new DefaultColorScheme();
 
     setFocusable(true);
     requestFocusInWindow();
@@ -54,6 +56,16 @@ public class JPawnsBoardPanel extends JPanel {
     KeyPressListener keyListener = new KeyPressListener();
     this.addKeyListener(keyListener);
 
+  }
+
+  /**
+   * Sets the color scheme to use for rendering.
+   *
+   * @param scheme the color scheme to use
+   */
+  public void setColorScheme(ColorScheme scheme) {
+    this.colorScheme = scheme;
+    repaint();  // Repaint with the new color scheme
   }
 
   /**
@@ -89,19 +101,7 @@ public class JPawnsBoardPanel extends JPanel {
   private void drawCard(Card card, Graphics2D g2d, int x, int y, int cardWidth, int cardHeight,
                         boolean selected) {
     // Choose fill color based on selection state.
-    Color fillColor;
-    if (selected) {
-      fillColor = Color.GREEN;
-    } else {
-      String pColor = player.getColor();
-      if (pColor.equalsIgnoreCase("red")) {
-        fillColor = Color.RED;
-      } else if (pColor.equalsIgnoreCase("blue")) {
-        fillColor = Color.BLUE;
-      } else {
-        fillColor = Color.GRAY; // Fallback if player's color isn't recognized.
-      }
-    }
+    Color fillColor = colorScheme.getCardFillColor(player.getColor(), selected);
 
     // Fill the card's background.
     g2d.setColor(fillColor);
@@ -110,6 +110,8 @@ public class JPawnsBoardPanel extends JPanel {
     // Draw the card border.
     g2d.setColor(Color.BLACK);
     g2d.drawRect(x, y, cardWidth, cardHeight);
+
+    g2d.setColor(colorScheme.getCardForeground(fillColor));
 
     // Draw card details (name, cost, value).
     int fontOffset = 5;
@@ -137,23 +139,14 @@ public class JPawnsBoardPanel extends JPanel {
         int cellX = gridStartX + j * gridCellSize;
         int cellY = gridStartY + i * gridCellSize;
 
-        // Determine the cell's fill color based on its character.
-        Color cellColor;
-        char ch;
-        ch = grid[i][j];
-        if (ch == 'c' || ch == 'C') {
-          cellColor = Color.ORANGE;
-        } else if (ch == 'I') {
-          cellColor = Color.CYAN;
-        } else if (ch == 'X') {
-          cellColor = Color.DARK_GRAY;
-        } else {
-          cellColor = Color.WHITE;
-        }
+        // Get the cell color from the color scheme
+        char cellType = grid[i][j];
+        Color cellColor = colorScheme.getInfluenceGridCellColor(cellType);
 
         // Fill the cell with the determined color.
         g2d.setColor(cellColor);
         g2d.fillRect(cellX, cellY, gridCellSize, gridCellSize);
+
 
         // Draw the cell border.
         g2d.setColor(Color.BLACK);
@@ -195,11 +188,7 @@ public class JPawnsBoardPanel extends JPanel {
     int cardY = y + (height - cardHeight) / 2; // vertical centering
     for (int i = 0; i < cards.size(); i++) {
       Card card = cards.get(i);
-      if (selectedCardIndex == i) {
-        drawCard(card, g2d, currentX, cardY, cardWidth, cardHeight, true);
-      } else {
-        drawCard(card, g2d, currentX, cardY, cardWidth, cardHeight, false);
-      }
+      drawCard(card, g2d, currentX, cardY, cardWidth, cardHeight, selectedCardIndex == i);
       currentX += cardWidth + spacing;
     }
   }
@@ -219,29 +208,25 @@ public class JPawnsBoardPanel extends JPanel {
    */
   private void drawCell(Cell cell, Graphics2D g2d, int x, int y, int cellWidth, int cellHeight,
                         boolean selected) {
+    Color backgroundColor;
     if (selected) {
-      g2d.setColor(Color.GREEN);
-      g2d.fillRect(x, y, cellWidth, cellHeight);
+      backgroundColor = colorScheme.getSelectedCellBackground();
     } else if (cell.getCard() != null) {
-      // Otherwise, if a card is present, fill based on ownership.
-      String owner = cell.getOwner();
-      if ("red".equals(owner)) {
-        g2d.setColor(new Color(255, 200, 200));  // light red
-      } else if ("blue".equals(owner)) {
-        g2d.setColor(new Color(200, 200, 255));  // light blue
-      } else {
-        g2d.setColor(Color.WHITE);
-      }
-      g2d.fillRect(x, y, cellWidth, cellHeight);
+      backgroundColor = colorScheme.getPlayerCellBackground(cell.getOwner());
     } else {
-      // For unselected cells without a card, you might want to fill with a default color.
-      g2d.setColor(Color.WHITE);
-      g2d.fillRect(x, y, cellWidth, cellHeight);
+      backgroundColor = colorScheme.getCellBackground();
     }
 
+    // Fill the cell with the background color
+    g2d.setColor(backgroundColor);
+    g2d.fillRect(x, y, cellWidth, cellHeight);
+
     // Always draw the cell border in black.
-    g2d.setColor(Color.BLACK);
+    g2d.setColor(colorScheme.getBorderCellColor());
     g2d.drawRect(x, y, cellWidth, cellHeight);
+
+    // Set foreground color based on background
+    g2d.setColor(colorScheme.getCellForeground(backgroundColor));
 
     // Draw cell content: if a card is placed, show its value; if not, draw pawn circles.
     if (cell.getCard() != null) {
@@ -258,15 +243,8 @@ public class JPawnsBoardPanel extends JPanel {
       // Use a smaller diameter for pawn circles.
       int diameter = Math.min(cellWidth, cellHeight) / 4;
 
-      // Set pawn color based on owner.
-      String owner = cell.getOwner();
-      if ("red".equals(owner)) {
-        g2d.setColor(Color.RED);
-      } else if ("blue".equals(owner)) {
-        g2d.setColor(Color.BLUE);
-      } else {
-        g2d.setColor(Color.BLACK);
-      }
+      // Set pawn color based on owner using the color scheme
+      g2d.setColor(colorScheme.getPawnColor(cell.getOwner()));
 
       if (pawnCount == 1) {
         // Center a single circle.
