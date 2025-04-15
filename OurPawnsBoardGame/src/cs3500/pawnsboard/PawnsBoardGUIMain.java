@@ -1,13 +1,14 @@
 package cs3500.pawnsboard;
 
+import cs3500.pawnsboard.model.PawnsBoardVariantModel;
 import cs3500.pawnsboard.view.ModelAdapter;
+
 import cs3500.pawnsboard.controller.PawnsBoardGUIController;
 import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.model.DeckFileParser;
 import cs3500.pawnsboard.model.HumanPlayer;
 import cs3500.pawnsboard.model.MachinePlayer;
 import cs3500.pawnsboard.model.PawnsBoardModel;
-import cs3500.pawnsboard.model.PawnsBoardVariantModel;
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.PlayerActions;
 import cs3500.pawnsboard.strategy.ControlBoardStrategy;
@@ -26,83 +27,57 @@ import java.util.List;
 
 /**
  * Main class for the game.
+ *
  * Command-line arguments:
  *   args[0] - path to Red's deck configuration file.
  *   args[1] - path to Blue's deck configuration file.
  *   args[2] - Red player type (e.g. human, controlboard, fillfirst, maximizerowscore, minimax).
  *   args[3] - Blue player type (same valid types as above).
- *   args[4] (optional) - if present, must be either "provider" or "variant".
- *      "provider" enables the provider view.
- *      "variant" uses the variant model with U and D influences.
+ *   args[4] (optional) - if present and equals "provider", then uses the provider view.
  */
 public class PawnsBoardGUIMain {
-
-  /**
-   * Main method to start the game.
-   * @param args command-line arguments.
-   */
   public static void main(String[] args) {
     formatCheck(args);
     List<Card> redDeck = parseDeck(args[0], false);
     List<Card> blueDeck = parseDeck(args[1], true);
     int totalDeckSize = redDeck.size() + blueDeck.size();
-
-    PawnsBoardModel model;
-    boolean useProvider = false;
-
-    // If a 5th argument is provided, it must be either "provider" or "variant".
-    if (args.length == 5) {
-      if (args[4].equalsIgnoreCase("variant")) {
-        model = new PawnsBoardVariantModel(5, 5, totalDeckSize, 4);
-        System.out.println("Using variant model with U and D influences.");
-      } else if (args[4].equalsIgnoreCase("provider")) {
-        model = new PawnsBoardModel(5, 5, totalDeckSize, 4);
-        useProvider = true;
-      } else {
-        // This should be unreachable because of formatCheck.
-        throw new IllegalArgumentException("5th argument must be either 'provider' or 'variant'.");
-      }
-    } else {
-      model = new PawnsBoardModel(5, 5, totalDeckSize, 4);
-    }
-
+    PawnsBoardVariantModel model = new PawnsBoardVariantModel(5, 5, totalDeckSize, 4);
     Player redPlayer = new Player("red", redDeck, model);
     Player bluePlayer = new Player("blue", blueDeck, model);
     PlayerActions redPlayerActions = createPlayerActions(args[2], redPlayer);
     PlayerActions bluePlayerActions = createPlayerActions(args[3], bluePlayer);
-
     PawnsBoardGUIViewI viewRedPlayer = new PawnsBoardGUIView(model, redPlayer);
     PawnsBoardGUIViewI viewBluePlayer = new PawnsBoardGUIView(model, bluePlayer);
-
-    if (useProvider) {
-      ModelAdapter adaptedModel = new ModelAdapter(model, redPlayer, bluePlayer);
-      try {
-        viewBluePlayer = new ProviderViewAdapter(adaptedModel,
-                cs3500.pawnsboard.provider.model.Player.BLUE);
-      } catch (IOException e) {
-        e.printStackTrace();
+    if (args.length == 5) {
+      if (args[4].equalsIgnoreCase("provider")) {
+        ModelAdapter adaptedModel = new ModelAdapter(model, redPlayer, bluePlayer);
+        try {
+          viewBluePlayer = new ProviderViewAdapter(adaptedModel,
+                  cs3500.pawnsboard.provider.model.Player.BLUE);
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
     }
-
     PawnsBoardGUIController redController =
             new PawnsBoardGUIController(model, viewRedPlayer, redPlayer, redPlayerActions);
     PawnsBoardGUIController blueController =
             new PawnsBoardGUIController(model, viewBluePlayer, bluePlayer, bluePlayerActions);
-
     redController.runGame();
     blueController.runGame();
   }
 
   private static void formatCheck(String[] args) {
-    // Require at least 4 arguments.
+    // Check if there are at least 4 arguments.
     if (args.length < 4) {
       throw new IllegalArgumentException(
-              "Expected at least 4 arguments: redDeckPath, blueDeckPath, redPlayerType, bluePlayerType");
+              "Expected at least 4 arguments: redDeckPath, blueDeckPath, " +
+                      "redPlayerType, bluePlayerType");
     }
-    // Maximum of 5 arguments allowed.
     if (args.length > 5) {
       throw new IllegalArgumentException(
-              "Expected at most 5 arguments: redDeckPath, blueDeckPath, redPlayerType, bluePlayerType, and optionally 'provider' or 'variant'");
+              "Expected at max 5 arguments: redDeckPath, blueDeckPath, redPlayerType, " +
+                      "bluePlayerType, 'provider'");
     }
     // Check if deck files exist.
     if (!Files.exists(Paths.get(args[0]))) {
@@ -122,10 +97,9 @@ public class PawnsBoardGUIMain {
       throw new IllegalArgumentException("Invalid blue player type: " + args[3] +
               ". Valid types are: " + String.join(", ", validTypes));
     }
-    // If a 5th argument is provided, it must be "provider" or "variant".
     if (args.length == 5) {
-      if (!(args[4].equalsIgnoreCase("provider") || args[4].equalsIgnoreCase("variant"))) {
-        throw new IllegalArgumentException("5th argument must be either 'provider' or 'variant'.");
+      if (!"provider".equals(args[4])) {
+        throw new IllegalArgumentException("5th argument must be 'provider'.");
       }
     }
   }

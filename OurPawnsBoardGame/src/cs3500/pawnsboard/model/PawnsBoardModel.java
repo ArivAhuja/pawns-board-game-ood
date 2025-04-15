@@ -234,6 +234,11 @@ public class PawnsBoardModel implements PawnsBoardModelI {
     }
   }
 
+  @Override
+  public int getCellInfluenceValue(Cell cell) {
+    return 0;
+  }
+
   // ======================== Mutator Methods (from PawnsBoardModelI) =========================
 
   /**

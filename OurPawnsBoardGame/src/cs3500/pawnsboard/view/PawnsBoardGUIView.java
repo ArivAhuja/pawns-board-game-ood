@@ -2,14 +2,12 @@ package cs3500.pawnsboard.view;
 
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import cs3500.pawnsboard.model.Player;
-import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
+import cs3500.pawnsboard.model.ReadOnlyPawnsBoardModelI;
+import cs3500.pawnsboard.model.ReadOnlyPawnsBoardModelVariantI;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -22,7 +20,7 @@ import javax.swing.JRadioButtonMenuItem;
  */
 public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
 
-  private final JPawnsBoardPanel panel;
+  final JPawnsBoardPanelVariant panel;
   private ColorScheme colorScheme;
 
 
@@ -31,10 +29,10 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
    *
    * @param model    The read-only model.
    */
-  public PawnsBoardGUIView(ReadonlyPawnsBoardModelI model, Player player) {
+  public PawnsBoardGUIView(ReadOnlyPawnsBoardModelVariantI model, Player player) {
     super("Pawns Board Game");
     this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    this.panel = new JPawnsBoardPanel(model, player);
+    this.panel = new JPawnsBoardPanelVariant(model, player);
     this.add(panel);
     this.pack();
     this.colorScheme = new DefaultColorScheme();

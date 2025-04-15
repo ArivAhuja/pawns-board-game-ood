@@ -4,7 +4,7 @@ package cs3500.pawnsboard.model;
  * An interface exposing only the observation methods for the PawnsBoard game.
  * Views should depend on this interface to prevent accidental mutations.
  */
-public interface ReadonlyPawnsBoardModelI {
+public interface ReadOnlyPawnsBoardModelI {
 
   /**
    * Gets the width of the board.

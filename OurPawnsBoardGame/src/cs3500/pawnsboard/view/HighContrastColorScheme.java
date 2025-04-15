@@ -77,13 +77,16 @@ public class HighContrastColorScheme implements ColorScheme {
 
   @Override
   public Color getInfluenceGridCellColor(char cellType) {
-    // Keep the original influence grid colors for consistency
     if (cellType == 'c' || cellType == 'C') {
       return Color.ORANGE;
     } else if (cellType == 'I') {
       return Color.CYAN;
     } else if (cellType == 'X') {
       return Color.DARK_GRAY;
+    } else if (cellType == 'D') {
+      return Color.MAGENTA;
+    } else if (cellType == 'U') {
+      return Color.GREEN;
     } else {
       return Color.WHITE;
     }

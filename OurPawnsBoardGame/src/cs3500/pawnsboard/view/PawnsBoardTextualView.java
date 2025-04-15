@@ -2,20 +2,20 @@ package cs3500.pawnsboard.view;
 
 import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Cell;
-import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
+import cs3500.pawnsboard.model.ReadOnlyPawnsBoardModelI;
 
 
 /**
  * Provides a textual view of the PawnsBoard game.
  */
 public class PawnsBoardTextualView implements PawnsBoardTextualViewI {
-  private final ReadonlyPawnsBoardModelI model;
+  private final ReadOnlyPawnsBoardModelI model;
 
   /**
    * Constructs a TextualView of the game based on the inputted model.
    * @param model is the game.
    */
-  public PawnsBoardTextualView(ReadonlyPawnsBoardModelI model) {
+  public PawnsBoardTextualView(ReadOnlyPawnsBoardModelI model) {
     if (model == null) {
       throw new IllegalArgumentException("Model cannot be null");
     }

@@ -97,6 +97,11 @@ public class ProviderViewAdapter implements PawnsBoardGUIViewI {
     return providerView;
   }
 
+  @Override
+  public void setColorScheme(ColorScheme colorScheme) {
+
+  }
+
   private void setUpKeyBinds() {
     // Add key bindings to the provider view's root pane
     JRootPane rootPane = providerView.getRootPane();

@@ -73,6 +73,10 @@ public class DefaultColorScheme implements ColorScheme {
       return Color.CYAN;
     } else if (cellType == 'X') {
       return Color.DARK_GRAY;
+    } else if (cellType == 'D') {
+      return Color.MAGENTA;
+    } else if (cellType == 'U') {
+      return Color.GREEN;
     } else {
       return Color.WHITE;
     }

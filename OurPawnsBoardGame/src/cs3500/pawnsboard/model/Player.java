@@ -10,7 +10,7 @@ public class Player implements PlayerI {
   private final String color;
   private List<Card> hand;
   private final List<Card> deck;
-  private PawnsBoardModel model;
+  private PawnsBoardModelI model;
 
   /**
    * Constructs a new Player.
@@ -18,7 +18,7 @@ public class Player implements PlayerI {
    * @param deck The list of cards to use (deck configuration).
    * @param model The model for the game.
    */
-  public Player(String color, List<Card> deck, PawnsBoardModel model) {
+  public Player(String color, List<Card> deck, PawnsBoardModelI model) {
     this.model = model;
     int initialHandSize = model.getHandSize();
     if (initialHandSize > (deck.size() / 3)) {

@@ -16,7 +16,8 @@ import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Card;
 import cs3500.pawnsboard.model.Player;
-import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
+import cs3500.pawnsboard.model.ReadOnlyPawnsBoardModelI;
+
 import javax.swing.JPanel;
 
 /**
@@ -24,21 +25,23 @@ import javax.swing.JPanel;
  */
 public class JPawnsBoardPanel extends JPanel {
 
-  private final ReadonlyPawnsBoardModelI model;
-  private final Player player;
-  private final List<ViewFeatures> featuresListeners;
-  private int selectedCardIndex;
-  private int selectedCellRow;
-  private int selectedCellCol;
-  private ColorScheme colorScheme;
+  protected final ReadOnlyPawnsBoardModelI model;
+  protected final Player player;
+  protected final List<ViewFeatures> featuresListeners;
+  protected int selectedCardIndex;
+  protected int selectedCellRow;
+  protected int selectedCellCol;
+  protected ColorScheme colorScheme;
 
 
   /**
    * Constructs a JBoardPanel to display the board from the given model.
    *
-   * @param model the read-only model
+   * @param model the read-only model.
+   * @param player the view for the player.
+   *
    */
-  public JPawnsBoardPanel(ReadonlyPawnsBoardModelI model, Player player) {
+  public JPawnsBoardPanel(ReadOnlyPawnsBoardModelI model, Player player) {
     this.model = model;
     this.player = player;
     this.featuresListeners = new ArrayList<>();
@@ -206,7 +209,7 @@ public class JPawnsBoardPanel extends JPanel {
    * @param cellWidth  the width of the cell
    * @param cellHeight the height of the cell
    */
-  private void drawCell(Cell cell, Graphics2D g2d, int x, int y, int cellWidth, int cellHeight,
+  protected void drawCell(Cell cell, Graphics2D g2d, int x, int y, int cellWidth, int cellHeight,
                         boolean selected) {
     Color backgroundColor;
     if (selected) {

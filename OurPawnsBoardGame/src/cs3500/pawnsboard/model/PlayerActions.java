@@ -19,7 +19,7 @@ public interface PlayerActions {
    * @param model the current read-only model.
    * @return the computed Move, or null if not applicable.
    */
-  default Move getNextMove(ReadonlyPawnsBoardModelI model) {
+  default Move getNextMove(ReadOnlyPawnsBoardModelI model) {
     return null;
   }
 

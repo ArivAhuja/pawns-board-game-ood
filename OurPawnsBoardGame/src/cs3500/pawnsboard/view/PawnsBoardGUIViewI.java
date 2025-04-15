@@ -37,4 +37,10 @@ public interface PawnsBoardGUIViewI {
    */
   Component getDialogParent();
 
+  /**
+   * Sets the color scheme for the panel.
+   * @param colorScheme the colorScheme desired.
+   */
+  void setColorScheme(ColorScheme colorScheme);
+
 }

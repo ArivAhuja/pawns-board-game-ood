@@ -20,7 +20,7 @@ public class MachinePlayer implements PlayerActions {
   }
 
   @Override
-  public Move getNextMove(ReadonlyPawnsBoardModelI model) {
+  public Move getNextMove(ReadOnlyPawnsBoardModelI model) {
     // Delegate move computation to the strategy.
     return strategy.chooseMove((PawnsBoardModel) model, player);
   }
