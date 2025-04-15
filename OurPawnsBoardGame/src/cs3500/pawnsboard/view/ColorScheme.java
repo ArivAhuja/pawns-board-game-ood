@@ -64,7 +64,7 @@ public interface ColorScheme {
 
   /**
    * Gets the color for the border of Cells.
-   * @return
+   * @return the border cell color.
    */
   public Color getBorderCellColor();
 }

@@ -8,10 +8,13 @@ import java.awt.event.ActionListener;
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.ReadonlyPawnsBoardModelI;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JRadioButtonMenuItem;
 
 /**
  * A Swing-based GUI view for the PawnsBoard game.
@@ -48,20 +51,36 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
     JMenuBar menuBar = new JMenuBar();
 
     // Create Accessibility menu
-    JMenu accessibilityMenu = new JMenu("Accessibility");
+    JMenu accessibilityMenu = new JMenu("Menu");
 
-    // Create High Contrast toggle item
-    JCheckBoxMenuItem highContrastItem = new JCheckBoxMenuItem("High Contrast Mode");
-    highContrastItem.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        setColorScheme(new HighContrastColorScheme());
-      }
-    });
+    // Use radio button menu items instead of checkbox items for mutually exclusive options
+    JRadioButtonMenuItem defaultItem = new JRadioButtonMenuItem("Default View");
+    JRadioButtonMenuItem highContrastItem = new JRadioButtonMenuItem("High Contrast View");
 
+    // Create a button group to ensure only one view can be selected at a time
+    ButtonGroup viewGroup = new ButtonGroup();
+    viewGroup.add(defaultItem);
+    viewGroup.add(highContrastItem);
+
+    defaultItem.setSelected(true);
+
+    // Add action listeners
+    defaultItem.addActionListener(e -> setColorScheme(new DefaultColorScheme()));
+    highContrastItem.addActionListener(e -> setColorScheme(new HighContrastColorScheme()));
+
+    // Add a separator before the view options for better organization
+    accessibilityMenu.addSeparator();
+    accessibilityMenu.add(new JLabel("View Options:"));
+    accessibilityMenu.addSeparator();
+
+    // Add the menu items
+    accessibilityMenu.add(defaultItem);
     accessibilityMenu.add(highContrastItem);
+
+    // Add the accessibility menu to the menu bar
     menuBar.add(accessibilityMenu);
 
+    // Set the menu bar
     this.setJMenuBar(menuBar);
   }
 
