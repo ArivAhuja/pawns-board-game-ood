@@ -192,3 +192,10 @@ We were able to implement all features of the provider's view. Note that the dia
 We didn't delete tests, but the provider's /docs/ folder so that we can upload the ZIP. We have their
 docs downloaded locally so we can refer to that. We also lowered the amount of screenshots of
 our view from around 15 to the 4 required to save file space.
+
+
+## HW9 Notes
+
+- The new influence value are small numbers below the cell score.
+- In the hand, the magenta in the influence grid is downgrade and green is upgrade.
+- You can use the decks blueVariantDeck.config and redVariantDeck.config in docs/ to use decks with the new influence capabilities.
