@@ -4,7 +4,7 @@ package cs3500.pawnsboard.model;
  * Represents the main model of the pawns board game, but with additional features as per the extra
  * credit homework - specifically, the ability to upgrade and devalue influences.
  */
-public class PawnsBoardVariantModel  extends PawnsBoardModel implements PawnsBoardModelI {
+public class PawnsBoardVariantModel extends PawnsBoardModel implements PawnsBoardModelI {
 
   /**
    * Constructs a new variant model that supports upgrading and devaluing influences.
