@@ -90,7 +90,7 @@ public class PawnsBoardVariantModel  extends PawnsBoardModel implements PawnsBoa
       System.out.println("Card " + card.getName() + " is devalued (effective value " + effectiveValue +
               ") on cell. Removing card and placing " + card.getCost() + " pawn(s).");
       // Remove the card.
-      cell.placeCard(null, "");
+      cell.placeCard(null, cell.getOwner());
       // Place pawns equal to the card's cost.
       cell.setPawnCount(card.getCost());
       // Reset the cell's influence for future plays.
