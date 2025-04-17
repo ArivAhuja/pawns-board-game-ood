@@ -44,7 +44,7 @@ public class PawnsBoardGUIMain {
 
     // parse optional flags
     boolean useProvider = false;
-    boolean useVariant  = false;
+    boolean useVariant = false;
     for (int i = 4; i < args.length; i++) {
       String flag = args[i].toLowerCase();
       switch (flag) {
@@ -67,8 +67,12 @@ public class PawnsBoardGUIMain {
     }
 
     // Load decks
-    List<Card> redDeck  = parseDeck(args[0], /*mirror=*/false);
+    List<Card> redDeck = parseDeck(args[0], /*mirror=*/false);
     List<Card> blueDeck = parseDeck(args[1], /*mirror=*/true);
+    if (isVariantDeck(redDeck) || isVariantDeck(blueDeck)){
+      useVariant = true;
+    }
+
     int totalDeckSize = redDeck.size() + blueDeck.size();
 
     // Instantiate either the base model or the variant model
@@ -80,15 +84,15 @@ public class PawnsBoardGUIMain {
     }
 
     // Wrap players around the model
-    Player redPlayer  = new Player("red",  redDeck,  model);
+    Player redPlayer = new Player("red", redDeck, model);
     Player bluePlayer = new Player("blue", blueDeck, model);
 
     // Create the corresponding PlayerActions
-    PlayerActions redActions  = createPlayerActions(args[2], redPlayer);
+    PlayerActions redActions = createPlayerActions(args[2], redPlayer);
     PlayerActions blueActions = createPlayerActions(args[3], bluePlayer);
 
     // Create both GUI views
-    PawnsBoardGUIViewI viewRed  = new PawnsBoardGUIView(model, redPlayer);
+    PawnsBoardGUIViewI viewRed = new PawnsBoardGUIView(model, redPlayer);
     PawnsBoardGUIViewI viewBlue = new PawnsBoardGUIView(model, bluePlayer);
 
     // If requested, swap out the Blue‐view for the provider adapter
@@ -106,8 +110,8 @@ public class PawnsBoardGUIMain {
     }
 
     // start both controllers
-    PawnsBoardGUIController redCtrl  =
-            new PawnsBoardGUIController(model, viewRed,  redPlayer,  redActions);
+    PawnsBoardGUIController redCtrl =
+            new PawnsBoardGUIController(model, viewRed, redPlayer, redActions);
     PawnsBoardGUIController blueCtrl =
             new PawnsBoardGUIController(model, viewBlue, bluePlayer, blueActions);
 
@@ -132,7 +136,7 @@ public class PawnsBoardGUIMain {
 
     // Check deck-file existence
     if (!Files.exists(Paths.get(args[0]))) {
-      throw new IllegalArgumentException("Red deck file not found: "  + args[0]);
+      throw new IllegalArgumentException("Red deck file not found: " + args[0]);
     }
     if (!Files.exists(Paths.get(args[1]))) {
       throw new IllegalArgumentException("Blue deck file not found: " + args[1]);
@@ -197,5 +201,28 @@ public class PawnsBoardGUIMain {
         // formatCheck should have caught this already
         throw new IllegalArgumentException("Invalid player type: " + playerType);
     }
+  }
+
+  private static boolean isVariantDeck(List<Card> deck) {
+    boolean variantDeck = false;
+    for (Card card : deck) {
+      char[][] grid = card.getInfluenceGrid();
+      // Iterate through the 2D array to check for 'U' or 'D'
+      for (int i = 0; i < grid.length; i++) {
+        for (int j = 0; j < grid[i].length; j++) {
+          if (grid[i][j] == 'U' || grid[i][j] == 'D') {
+            variantDeck = true;
+            break;
+          }
+        }
+        if (variantDeck) {
+          break; // Exit the outer loop if we found a variant character
+        }
+      }
+      if (variantDeck) {
+        break; // No need to check further cards once we find a variant card
+      }
+    }
+    return variantDeck;
   }
 }
