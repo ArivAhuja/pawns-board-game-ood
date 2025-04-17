@@ -42,11 +42,11 @@ public class PawnsBoardVariantModelTest {
   public void upgradingInfluenceIncrementsModifier() {
     // Create a card with 'U' at relative positions
     char[][] grid = {
-            {'X', 'X', 'X', 'X', 'X'},
-            {'X', 'U', 'X', 'U', 'X'},
-            {'X', 'X', 'C', 'X', 'X'},
-            {'X', 'U', 'X', 'U', 'X'},
-            {'X', 'X', 'X', 'X', 'X'}
+            {'U', 'U', 'U', 'U', 'U'},
+            {'U', 'U', 'U', 'U', 'U'},
+            {'U', 'U', 'C', 'U', 'U'},
+            {'U', 'U', 'U', 'U', 'U'},
+            {'U', 'U', 'U', 'U', 'U'}
     };
 
     Card upgradeCard = new Card("UCard", 1, 1, grid);
@@ -56,7 +56,7 @@ public class PawnsBoardVariantModelTest {
 
     // The cell at (2,2) should have received one U influence from (3,1)
     Cell c = model.getBoard().getCell(2, 2);
-    Assert.assertEquals("Upgrading influence did not accumulate correctly",
+    Assert.assertEquals("Upgrading influence",
             1, c.getInfluenceModifier());
   }
 
@@ -76,9 +76,9 @@ public class PawnsBoardVariantModelTest {
 
     Cell top = model.getBoard().getCell(0, 1);
     Cell bottom = model.getBoard().getCell(2, 1);
-    Assert.assertEquals("Devaluing influence at top cell was not applied",
+    Assert.assertEquals("Devaluing influence at top cell",
             -1, top.getInfluenceModifier());
-    Assert.assertEquals("Devaluing influence at bottom cell was not applied",
+    Assert.assertEquals("Devaluing influence at bottom cell",
             -1, bottom.getInfluenceModifier());
   }
 
@@ -103,8 +103,8 @@ public class PawnsBoardVariantModelTest {
     };
 
     // Place the first card with value 1 at position (1,1)
-    Cell targetCell = model.getBoard().getCell(1, 1);
-    Card targetCard = new Card("LowValueCard", 2, 1, cardGrid);
+    Cell targetCell = model.getBoard().getCell(1, 0);
+    Card targetCard = new Card("LowValueCard", 1, 1, cardGrid);
     targetCell.placeCard(targetCard, "red");
 
     // Place the devaluing card at (2,2) - adjacent with D influence
@@ -114,10 +114,11 @@ public class PawnsBoardVariantModelTest {
     model.applyInfluence(2, 2, devalueCard, "blue");
 
     // The target card should be removed by the devaluing influence
-    Assert.assertNull("Card should be removed when effective value <= 0", targetCell.getCard());
+    Assert.assertNull("Card should be removed when effective value <= 0",
+            targetCell.getCard());
     Assert.assertEquals("Pawn count should match card cost after removal",
-            2, targetCell.getPawnCount());
-    Assert.assertEquals("Influence should be reset after removal",
+            1, targetCell.getPawnCount());
+    Assert.assertEquals("Influence should be 0 because 1 original than -1",
             0, targetCell.getInfluenceModifier());
   }
 
