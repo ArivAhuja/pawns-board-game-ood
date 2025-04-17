@@ -1,5 +1,6 @@
 package cs3500.pawnsboard.model;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,6 +16,9 @@ import static org.junit.Assert.assertTrue;
  * with a color and hand of cards, and properly manages the player's hand.
  */
 public class PlayerTest {
+
+  private MockPawnsBoardModel mockModel;
+  private List<Card> testDeck;
 
   /**
    * Helper method to create a test card with given parameters.
@@ -43,57 +47,46 @@ public class PlayerTest {
     return deck;
   }
 
-  @Test
-  public void testConstructor_BasicInitialization() {
-    List<Card> deck = createTestDeck(10);
-    Player player = new Player("red", deck, 5);
-
-    assertEquals("red", player.getColor());
-    assertNotNull(player.getHand());
-    assertEquals(5, player.getHand().size());
+  @Before
+  public void setUp() {
+    testDeck = createTestDeck(30); // Create a large test deck
+    mockModel = new MockPawnsBoardModel(5, 5, testDeck, 5);
   }
 
   @Test
-  public void testConstructor_HandSizeLargerThanDeck() {
-    List<Card> deck = createTestDeck(3);
-    Player player = new Player("blue", deck, 5);
+  public void testConstructor_BasicInitialization() {
+    List<Card> deckCopy = new ArrayList<>(testDeck);
+    Player player = new Player("red", deckCopy, mockModel);
 
-    // Hand should only have 3 cards since the deck only has 3
-    assertEquals(3, player.getHand().size());
+    assertEquals("red", player.getColor());
+    assertNotNull(player.getHand());
+    assertEquals(5, player.getHand().size()); // Should match model's handSize
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testConstructor_HandSizeTooLarge() {
+    // Create a model with a hand size that's too large (> deck.size()/3)
+    MockPawnsBoardModel largeHandModel = new MockPawnsBoardModel(5, 5, testDeck, 15);
+    List<Card> deckCopy = new ArrayList<>(testDeck);
+
+    // This should throw an exception since handSize > deck.size()/3
+    Player player = new Player("red", deckCopy, largeHandModel);
   }
 
   @Test
   public void testConstructor_EmptyDeck() {
-    List<Card> deck = new ArrayList<>();
-    Player player = new Player("red", deck, 5);
+    List<Card> emptyDeck = new ArrayList<>();
+    MockPawnsBoardModel emptyDeckModel = new MockPawnsBoardModel(5, 5, testDeck, 0);
 
+    Player player = new Player("red", emptyDeck, emptyDeckModel);
     assertTrue(player.getHand().isEmpty());
-  }
-
-  @Test
-  public void testConstructor_ZeroHandSize() {
-    List<Card> deck = createTestDeck(5);
-    Player player = new Player("blue", deck, 0);
-
-    assertTrue(player.getHand().isEmpty());
-  }
-
-  @Test
-  public void testConstructor_DeckNotModified() {
-    List<Card> originalDeck = createTestDeck(10);
-    List<Card> deckCopy = new ArrayList<>(originalDeck);
-
-    Player player = new Player("red", originalDeck, 5);
-
-    // Original deck should not be modified
-    assertEquals(10, originalDeck.size());
-    assertEquals(deckCopy, originalDeck);
   }
 
   @Test
   public void testGetColor() {
-    Player redPlayer = new Player("red", createTestDeck(5), 3);
-    Player bluePlayer = new Player("blue", createTestDeck(5), 3);
+    List<Card> deckCopy = new ArrayList<>(testDeck);
+    Player redPlayer = new Player("red", deckCopy, mockModel);
+    Player bluePlayer = new Player("blue", deckCopy, mockModel);
 
     assertEquals("red", redPlayer.getColor());
     assertEquals("blue", bluePlayer.getColor());
@@ -101,23 +94,27 @@ public class PlayerTest {
 
   @Test
   public void testGetHand() {
-    List<Card> deck = createTestDeck(10);
-    Player player = new Player("red", deck, 5);
+    List<Card> deckCopy = new ArrayList<>(testDeck);
+    List<Card> originalDeckCopy = new ArrayList<>(deckCopy);
+    Player player = new Player("red", deckCopy, mockModel);
 
     List<Card> hand = player.getHand();
     assertNotNull(hand);
     assertEquals(5, hand.size());
 
-    // Verify the first 5 cards from the deck are in the hand
+    // Verify that the first 5 cards from the deck were used
     for (int i = 0; i < 5; i++) {
-      assertEquals(deck.get(i).getName(), hand.get(i).getName());
+      assertEquals(originalDeckCopy.get(i).getName(), hand.get(i).getName());
     }
+
+    // Verify the deck was modified (cards were removed)
+    assertEquals(originalDeckCopy.size() - 5, deckCopy.size());
   }
 
   @Test
   public void testRemoveCardFromHand() {
-    List<Card> deck = createTestDeck(5);
-    Player player = new Player("red", deck, 5);
+    List<Card> deckCopy = new ArrayList<>(testDeck);
+    Player player = new Player("red", deckCopy, mockModel);
 
     Card cardToRemove = player.getHand().get(2);
     player.removeCardFromHand(cardToRemove);
@@ -131,8 +128,8 @@ public class PlayerTest {
 
   @Test
   public void testRemoveCardFromHand_CardNotInHand() {
-    List<Card> deck = createTestDeck(5);
-    Player player = new Player("red", deck, 3);
+    List<Card> deckCopy = new ArrayList<>(testDeck);
+    Player player = new Player("red", deckCopy, mockModel);
 
     // Create a card that's not in the player's hand
     Card notInHand = createTestCard("NotInHand", 1, 10);
@@ -148,31 +145,51 @@ public class PlayerTest {
   }
 
   @Test
-  public void testHandIndependenceFromDeck() {
-    List<Card> deck = createTestDeck(10);
-    Player player = new Player("red", deck, 5);
+  public void testDrawCard() {
+    List<Card> deckCopy = new ArrayList<>(testDeck);
+    Player player = new Player("red", deckCopy, mockModel);
+    int initialHandSize = player.getHand().size();
+    int initialDeckSize = deckCopy.size();
 
-    // Modify the original deck
-    deck.remove(0);
-    deck.add(createTestCard("NewCard", 2, 20));
+    // Draw a card
+    player.drawCard();
 
-    // Player's hand should remain unchanged
-    assertEquals(5, player.getHand().size());
-    assertEquals("Card0", player.getHand().get(0).getName());
+    // Hand should have one more card
+    assertEquals(initialHandSize + 1, player.getHand().size());
+
+    // Deck should have one less card
+    assertEquals(initialDeckSize - 1, deckCopy.size());
   }
 
   @Test
-  public void testHandMutability() {
-    List<Card> deck = createTestDeck(5);
-    Player player = new Player("red", deck, 5);
+  public void testDrawCard_EmptyDeck() {
+    List<Card> emptyDeck = new ArrayList<>();
+    MockPawnsBoardModel emptyDeckModel = new MockPawnsBoardModel(5, 5, testDeck, 0);
 
-    List<Card> hand = player.getHand();
-    int initialSize = hand.size();
+    Player player = new Player("red", emptyDeck, emptyDeckModel);
+    int initialHandSize = player.getHand().size();
 
-    // Try to modify the hand directly
-    hand.remove(0);
+    // Try to draw from empty deck
+    player.drawCard();
 
-    // Check if the player's hand was actually modified
-    assertEquals(initialSize - 1, player.getHand().size());
+    // Hand size should not change
+    assertEquals(initialHandSize, player.getHand().size());
+  }
+
+  /**
+   * A mock model class specifically for testing the Player class.
+   */
+  private class MockPawnsBoardModel extends PawnsBoardModel {
+    private final int handSize;
+
+    public MockPawnsBoardModel(int rows, int columns, List<Card> deck, int handSize) {
+      super(rows, columns, deck.size(), handSize);
+      this.handSize = handSize;
+    }
+
+    @Override
+    public int getHandSize() {
+      return handSize;
+    }
   }
 }

@@ -338,7 +338,7 @@ public class PawnsBoardControllerTest {
     String input = "place 0 0 1\nplace 0 0 0\npass\npass\n";
     System.setIn(new ByteArrayInputStream(input.getBytes()));
 
-    PawnsBoardController controller = new PawnsBoardController(model, view);
+    PawnsBoardControllerI controller = new PawnsBoardController(model, view);
     controller.startGame();
 
     String output = outContent.toString();

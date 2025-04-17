@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Card;
+import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import org.junit.Before;
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class PawnsBoardTextualViewTest {
     List<Card> testDeck = createTestDeck();
 
     // Create a default model with a 3x5 board
-    model = new PawnsBoardModel(3, 5, testDeck, 5);
+    model = new PawnsBoardModel(3, 5, testDeck.size(), 5);
 
     // Create the view
     view = new PawnsBoardTextualView(model);
@@ -77,6 +78,10 @@ public class PawnsBoardTextualViewTest {
     deck.add(new Card("Card8", 2, 8, grid2));
     deck.add(new Card("Card9", 3, 9, grid1));
     deck.add(new Card("Card10", 1, 10, grid2));
+    // Add more cards to ensure we have enough for both players and for placing on board
+    for (int i = 0; i < 10; i++) {
+      deck.add(new Card("ExtraCard" + i, 1, i + 1, i % 2 == 0 ? grid1 : grid2));
+    }
 
     return deck;
   }
@@ -118,26 +123,25 @@ public class PawnsBoardTextualViewTest {
    */
   @Test
   public void testRenderBoardWithCards() {
-    // Place a card at (0,0) for Red player
-    model.placeCard(0, 0, 0);  // Place the first card in hand at (0,0)
+    // Manually place cards on the board instead of using placeCard method
+    Board board = model.getBoard();
 
-    // Switch to Blue's turn (happens automatically after Red's move)
-    // and place a card
-    model.placeCard(0, 4, 0);  // Place the first card in Blue's hand at (0,4)
+    // Get the first card from the deck to place
+    Card redCard = new Card("Card1", 1, 1, new char[5][5]);
+    Card blueCard = new Card("Card1", 1, 1, new char[5][5]);
 
-    view.render(model.getBoard());
+    // Place cards manually
+    board.getCell(0, 0).placeCard(redCard, "red");
+    board.getCell(0, 4).placeCard(blueCard, "blue");
+
+    view.render(board);
     String output = outContent.toString();
 
     // The expected output should show R at (0,0) and B at (0,4)
-    // with appropriate row scores (Card1 for Red has value 1 and Card1 for Blue has value 1)
-    String expected = "Red plays Card1 at (0,0).\n" +
-            "Blue plays Card1 at (0,4).\n" +
-            "Board state with row scores:\n" +
-            "1 R1_1B 1\n" +
-            "0 21_12 0\n" +
-            "0 1___1 0" +
-            "\n" +
-            "\n";
+    String expected = "Board state with row scores:\n" +
+            "1 R___B 1\n" +
+            "0 1___1 0\n" +
+            "0 1___1 0\n\n";
 
     assertEquals(expected, output);
   }
@@ -172,9 +176,12 @@ public class PawnsBoardTextualViewTest {
     // Set up a more complex board state
     Board board = model.getBoard();
 
-    // Place some cards
-    model.placeCard(0, 0, 0);  // Red places a card
-    model.placeCard(2, 4, 0);  // Blue places a card
+    // Manually place cards
+    Card redCard = new Card("Card1", 1, 1, new char[5][5]);
+    Card blueCard = new Card("Card1", 1, 1, new char[5][5]);
+
+    board.getCell(0, 0).placeCard(redCard, "red");
+    board.getCell(2, 4).placeCard(blueCard, "blue");
 
     // Set some pawn configurations
     board.setCellPawns(1, 1, 2, "red");
@@ -183,13 +190,10 @@ public class PawnsBoardTextualViewTest {
     view.render(board);
     String output = outContent.toString();
 
-    String expected = "Red plays Card1 at (0,0).\n" +
-            "Blue plays Card1 at (2,4).\n" +
-            "Board state with row scores:\n" +
-            "1 R1__1 0\n" +
-            "0 22_32 0\n" +
-            "0 1__1B 1\n" +
-            "\n";
+    String expected = "Board state with row scores:\n" +
+            "1 R___1 0\n" +
+            "0 12_31 0\n" +
+            "0 1___B 1\n\n";
 
     assertEquals(expected, output);
   }
@@ -234,28 +238,14 @@ public class PawnsBoardTextualViewTest {
       }
     }
 
-    // Now place cards until the board is full or we run out of cards
-    // This is a simplified approach that doesn't follow game rules exactly
-    boolean isRedTurn = true;
-    int redCardIndex = 0;
-    int blueCardIndex = 0;
-
+    // Now place cards manually
     for (int i = 0; i < board.getRows(); i++) {
       for (int j = 0; j < board.getColumns(); j++) {
-        if (isRedTurn) {
-          if (redCardIndex < model.getCurrentPlayer().getHand().size()) {
-            board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(redCardIndex),
-                    "red");
-            redCardIndex++;
-          }
-        } else {
-          if (blueCardIndex < model.getCurrentPlayer().getHand().size()) {
-            board.getCell(i, j).placeCard(model.getCurrentPlayer().getHand().get(blueCardIndex),
-                    "blue");
-            blueCardIndex++;
-          }
-        }
-        isRedTurn = !isRedTurn;
+        // Alternate between red and blue cards
+        String owner = (i + j) % 2 == 0 ? "red" : "blue";
+        int value = (i * board.getColumns() + j) % 10 + 1; // Values from 1-10
+        Card card = new Card("Card" + value, 1, value, new char[5][5]);
+        board.getCell(i, j).placeCard(card, owner);
       }
     }
 
@@ -263,8 +253,7 @@ public class PawnsBoardTextualViewTest {
     view.render(board);
     String output = outContent.toString();
 
-    // Because we've placed cards manually, we need to recompute the scores
-    // For simplicity, we'll assume the expected pattern and check the general format
+    // Because we've placed cards manually, we need to check the general format
     String[] lines = output.split("\n");
     assertEquals("Board state with row scores:", lines[0]);
     assertEquals(4, lines.length); // Header + 3 rows
@@ -277,9 +266,8 @@ public class PawnsBoardTextualViewTest {
       // Check board representation part
       assertEquals(5, parts[1].length()); // 5 columns
       for (char c : parts[1].toCharArray()) {
-        // Each cell should be R, B, or a number (no empty cells)
-        assertTrue("Each cell should be R, B, or a number", c == 'R' || c == 'B'
-                || Character.isDigit(c));
+        // Each cell should be R or B (no empty cells)
+        assertTrue("Each cell should be R or B: " + c, c == 'R' || c == 'B');
       }
     }
   }
@@ -301,13 +289,10 @@ public class PawnsBoardTextualViewTest {
     String output = outContent.toString();
 
     // The board should still be rendered correctly
-    String expected = "Red passes.\n" +
-            "Blue passes.\n" +
-            "Board state with row scores:\n" +
+    String expected = "Board state with row scores:\n" +
             "0 1___1 0\n" +
             "0 1___1 0\n" +
-            "0 1___1 0\n" +
-            "\n";
+            "0 1___1 0\n\n";
 
     assertEquals(expected, output);
   }

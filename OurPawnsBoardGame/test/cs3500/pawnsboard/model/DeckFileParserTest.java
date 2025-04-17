@@ -111,7 +111,7 @@ public class DeckFileParserTest {
 
   @Test
   public void testParsingValidDeck() {
-    List<Card> deck = parser.toDeck(testDeckString);
+    List<Card> deck = parser.toDeck(testDeckString, false);
 
     // Check deck size
     assertEquals(3, deck.size());
@@ -149,14 +149,14 @@ public class DeckFileParserTest {
             "XXXXX\n" +
             "XXCXX\n" +
             "XIIIX\n";
-    parser.toDeck(invalidDeckString);
+    parser.toDeck(invalidDeckString, false);
   }
 
   @Test
   public void testParsingDeckWithEmptyLines() {
     // Add extra empty lines that should be ignored
     String deckWithEmptyLines = "\n\n" + testDeckString + "\n\n";
-    List<Card> deck = parser.toDeck(deckWithEmptyLines);
+    List<Card> deck = parser.toDeck(deckWithEmptyLines, false);
 
     // Should still parse correctly
     assertEquals(3, deck.size());
@@ -177,7 +177,7 @@ public class DeckFileParserTest {
             "XXCXX\n" +
             "XIIIX\n" +
             "XIIIX\n";
-    parser.toDeck(deckWithInvalidCard);
+    parser.toDeck(deckWithInvalidCard, false);
   }
 
   @Test(expected = NumberFormatException.class)
