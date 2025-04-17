@@ -43,35 +43,30 @@ public class PawnsBoardVariantModel extends PawnsBoardModel implements PawnsBoar
         switch (influenceChar) {
           case 'I': // Regular influence: add a pawn or adjust ownership.
             if (targetCell.getCard() != null) {
-              // If a card is already placed, simply change the owner if necessary.
-              if (!targetCell.getOwner().equals(playerColor)) {
-                targetCell.setOwner(playerColor);
-              }
+              continue;
+            }
+            // If the cell is empty, add one pawn.
+            if (!targetCell.hasPawns()) {
+              targetCell.setPawnCount(1);
+              targetCell.setOwner(playerColor);
             } else {
-              if (!targetCell.hasPawns()) {
-                targetCell.setPawnCount(1);
-                targetCell.setOwner(playerColor);
+              // If the cell has pawns:
+              if (targetCell.getOwner().equals(playerColor)) {
+                // Increase pawn count by one (up to 3).
+                int newCount = Math.min(targetCell.getPawnCount() + 1, 3);
+                targetCell.setPawnCount(newCount);
               } else {
-                if (targetCell.getOwner().equals(playerColor)) {
-                  int newCount = Math.min(targetCell.getPawnCount() + 1, 3);
-                  targetCell.setPawnCount(newCount);
-                } else {
-                  targetCell.setOwner(playerColor);
-                }
+                // Otherwise, switch ownership to the current player.
+                targetCell.setOwner(playerColor);
               }
             }
             break;
           case 'U': // Upgrading influence: increase the net modifier by +1.
             targetCell.addInfluence(+1);
-            if (targetCell.getCard() != null) {
-              updateCardEffectiveValue(targetCell);
-            }
             break;
           case 'D': // Devaluing influence: decrease the net modifier by 1.
             targetCell.addInfluence(-1);
-            if (targetCell.getCard() != null) {
-              updateCardEffectiveValue(targetCell);
-            }
+            targetCell.setCorrectInfluence();
             break;
           default:
             // For any other symbol, do nothing.
@@ -79,31 +74,9 @@ public class PawnsBoardVariantModel extends PawnsBoardModel implements PawnsBoar
         }
       }
     }
+    getCell(cardRow, cardCol).setCorrectInfluence();
   }
 
-  /**
-   * Helper method that recomputes the card's effective value based on the cell’s influence.
-   * If the value falls to 0 or below, the card is removed and replaced with its pawn cost.
-   */
-  private void updateCardEffectiveValue(Cell cell) {
-    Card card = cell.getCard();
-    if (card == null) {
-      return;
-    }
-
-    int effectiveValue = card.getValue() + cell.getInfluenceModifier();
-    if (effectiveValue <= 0) {
-      System.out.println("Card " + card.getName() + " is devalued (effective value " +
-              effectiveValue +
-              ") on cell. Removing card and placing " + card.getCost() + " pawn(s).");
-      // Remove the card.
-      cell.placeCard(null, cell.getOwner());
-      // Place pawns equal to the card's cost.
-      cell.setPawnCount(card.getCost());
-      // Reset the cell's influence for future plays.
-      cell.resetInfluence();
-    }
-  }
 
   @Override
   public int[][] computeRowScores() {

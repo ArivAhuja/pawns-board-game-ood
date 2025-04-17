@@ -124,6 +124,17 @@ public class Cell implements CellI {
     this.influenceModifier += delta;
   }
 
+  public void setCorrectInfluence() {
+    if (this.card != null) {
+      if (this.influenceModifier + this.card.getValue() <= 0) {
+        this.influenceModifier += this.card.getValue();
+        setPawnCount(card.getCost());
+        this.card = null;
+      }
+    }
+  }
+
+
   public void resetInfluence() {
     this.influenceModifier = 0;
   }
