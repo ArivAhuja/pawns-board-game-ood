@@ -11,7 +11,7 @@ public class PawnsBoardVariantModel extends PawnsBoardModel implements PawnsBoar
    */
   public PawnsBoardVariantModel(int rows, int columns, int deckSize, int handSize) {
     super(rows, columns, deckSize, handSize);
-    // Variant-specific initialization (if needed)
+    // no specific initialization needed for the variant model
   }
 
   /**
@@ -24,13 +24,17 @@ public class PawnsBoardVariantModel extends PawnsBoardModel implements PawnsBoar
     for (int i = 0; i < 5; i++) {
       for (int j = 0; j < 5; j++) {
         // Skip center cell.
-        if (i == 2 && j == 2) continue;
+        if (i == 2 && j == 2) {
+          continue;
+        }
 
         int dr = i - 2;
         int dc = j - 2;
         int targetRow = cardRow + dr;
         int targetCol = cardCol + dc;
-        if (!getBoard().isValidPosition(targetRow, targetCol)) continue;
+        if (!getBoard().isValidPosition(targetRow, targetCol)) {
+          continue;
+        }
 
         Cell targetCell = getBoard().getCell(targetRow, targetCol);
         char influenceChar = grid[i][j];
@@ -83,11 +87,14 @@ public class PawnsBoardVariantModel extends PawnsBoardModel implements PawnsBoar
    */
   private void updateCardEffectiveValue(Cell cell) {
     Card card = cell.getCard();
-    if (card == null) return;
+    if (card == null) {
+      return;
+    }
 
     int effectiveValue = card.getValue() + cell.getInfluenceModifier();
     if (effectiveValue <= 0) {
-      System.out.println("Card " + card.getName() + " is devalued (effective value " + effectiveValue +
+      System.out.println("Card " + card.getName() + " is devalued (effective value " +
+              effectiveValue +
               ") on cell. Removing card and placing " + card.getCost() + " pawn(s).");
       // Remove the card.
       cell.placeCard(null, cell.getOwner());

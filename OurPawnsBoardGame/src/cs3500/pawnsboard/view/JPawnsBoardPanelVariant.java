@@ -8,6 +8,9 @@ import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.Player;
 import cs3500.pawnsboard.model.ReadOnlyPawnsBoardModelVariantI;
 
+/**
+ * A class representing the graphical panel for the variant version of the PawnsBoard game.
+ */
 public class JPawnsBoardPanelVariant extends JPawnsBoardPanel {
 
   /**

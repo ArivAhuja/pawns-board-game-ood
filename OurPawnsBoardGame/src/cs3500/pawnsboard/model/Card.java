@@ -41,7 +41,8 @@ public class Card implements CardI {
     // Validate grid: center cell and allowed characters.
     for (int i = 0; i < 5; i++) {
       if (influenceGrid[i].length != 5) {
-        throw new IllegalArgumentException("Each row in the influence grid must have exactly 5 characters");
+        throw new IllegalArgumentException("Each row in the influence grid must have exactly 5 " +
+                "characters");
       }
       for (int j = 0; j < 5; j++) {
         char ch = influenceGrid[i][j];

@@ -4,7 +4,6 @@ package cs3500.pawnsboard.view;
 import java.awt.Component;
 
 import cs3500.pawnsboard.model.Player;
-import cs3500.pawnsboard.model.ReadOnlyPawnsBoardModelI;
 import cs3500.pawnsboard.model.ReadOnlyPawnsBoardModelVariantI;
 
 import javax.swing.ButtonGroup;
@@ -21,7 +20,6 @@ import javax.swing.JRadioButtonMenuItem;
 public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
 
   final JPawnsBoardPanelVariant panel;
-  private ColorScheme colorScheme;
 
 
   /**
@@ -35,7 +33,7 @@ public class PawnsBoardGUIView extends JFrame implements PawnsBoardGUIViewI {
     this.panel = new JPawnsBoardPanelVariant(model, player);
     this.add(panel);
     this.pack();
-    this.colorScheme = new DefaultColorScheme();
+    ColorScheme colorScheme = new DefaultColorScheme();
     setupMenuBar();
 
     // Additional setup (listeners, overlays, etc.) can be added later.

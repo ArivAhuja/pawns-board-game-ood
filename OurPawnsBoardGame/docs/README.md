@@ -199,3 +199,4 @@ our view from around 15 to the 4 required to save file space.
 - The new influence value are small numbers below the cell score.
 - In the hand, the magenta in the influence grid is downgrade and green is upgrade.
 - You can use the decks blueVariantDeck.config and redVariantDeck.config in docs/ to use decks with the new influence capabilities.
+- If the deck given has varient influence cards, the game will use the new influence system automatically.

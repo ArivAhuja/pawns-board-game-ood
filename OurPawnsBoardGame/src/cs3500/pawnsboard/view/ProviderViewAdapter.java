@@ -99,7 +99,7 @@ public class ProviderViewAdapter implements PawnsBoardGUIViewI {
 
   @Override
   public void setColorScheme(ColorScheme colorScheme) {
-
+    // do not need to set colors on the provider view
   }
 
   private void setUpKeyBinds() {

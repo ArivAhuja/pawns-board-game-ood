@@ -72,7 +72,8 @@ public class PawnsBoardVariantTextualViewTest {
 
     // Add cards to the deck
     for (int i = 0; i < 10; i++) {
-      deck.add(new Card("Card" + (i + 1), i % 3 + 1, i % 5 + 1, i % 2 == 0 ? grid1 : grid2));
+      deck.add(new Card("Card" + (i + 1), i % 3 + 1, i % 5 + 1, i % 2 == 0 ?
+              grid1 : grid2));
     }
 
     return deck;
@@ -107,8 +108,10 @@ public class PawnsBoardVariantTextualViewTest {
             output.contains("[\"P\", 1, 0]") || output.contains("[\"_\", \"_\", \"_\"]"));
 
     // Check that player scores are displayed
-    Assert.assertTrue("Output should contain Red player scores", output.contains("Red Player Scores:"));
-    Assert.assertTrue("Output should contain Blue player scores", output.contains("Blue Player Scores:"));
+    Assert.assertTrue("Output should contain Red player scores", output.contains("Red " +
+            "Player Scores:"));
+    Assert.assertTrue("Output should contain Blue player scores", output.contains("Blue " +
+            "Player Scores:"));
   }
 
   /**
@@ -128,7 +131,8 @@ public class PawnsBoardVariantTextualViewTest {
 
     // Count occurrences of empty cell format
     int emptyCount = countOccurrences(output, "[\"_\", \"_\", \"_\"]");
-    Assert.assertEquals("Should have 4 empty cells in a 2x2 board", 6, emptyCount);
+    Assert.assertEquals("Should have 4 empty cells in a 2x2 board", 6,
+            emptyCount);
   }
 
   /**
@@ -323,7 +327,8 @@ public class PawnsBoardVariantTextualViewTest {
     board.getCell(0, 2).setOwner("blue");
     board.getCell(0, 2).addInfluence(-1);
 
-    // Middle row: pawn with no influence, card with negative influence, pawn with positive influence
+    // Middle row: pawn with no influence, card with negative influence, pawn with positive
+    // influence
     board.getCell(1, 0).setPawnCount(1);
     board.getCell(1, 0).setOwner("red");
 

@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import cs3500.pawnsboard.model.Board;
 import cs3500.pawnsboard.model.Card;
-import cs3500.pawnsboard.model.Cell;
 import cs3500.pawnsboard.model.PawnsBoardModel;
 import org.junit.Before;
 import org.junit.Test;

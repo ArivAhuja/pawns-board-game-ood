@@ -38,6 +38,10 @@ import java.util.List;
  */
 public class PawnsBoardGUIMain {
 
+  /**
+   * Main method to start the game.
+   * @param args command-line arguments
+   */
   public static void main(String[] args) {
     // enforce correct argument count and validate flags
     formatCheck(args);
@@ -69,7 +73,7 @@ public class PawnsBoardGUIMain {
     // Load decks
     List<Card> redDeck = parseDeck(args[0], /*mirror=*/false);
     List<Card> blueDeck = parseDeck(args[1], /*mirror=*/true);
-    if (isVariantDeck(redDeck) || isVariantDeck(blueDeck)){
+    if (isVariantDeck(redDeck) || isVariantDeck(blueDeck)) {
       useVariant = true;
     }
 
@@ -130,7 +134,8 @@ public class PawnsBoardGUIMain {
     if (args.length > 6) {
       throw new IllegalArgumentException(
               "Expected at most 6 arguments:\n" +
-                      "  redDeckPath, blueDeckPath, redPlayerType, bluePlayerType, [provider], [variant]"
+                      "  redDeckPath, blueDeckPath, redPlayerType, bluePlayerType, [provider], " +
+                      "[variant]"
       );
     }
 

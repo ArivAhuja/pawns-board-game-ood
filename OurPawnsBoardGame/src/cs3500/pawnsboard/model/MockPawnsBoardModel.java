@@ -11,7 +11,6 @@ import java.util.List;
 public class MockPawnsBoardModel extends PawnsBoardModel {
   private final List<String> transcript;
   private boolean recordTranscript;
-  private final List<Card> deck;
 
   /**
    * Constructs a MockPawnsBoardModel using the same parameters as the real model.
@@ -25,7 +24,7 @@ public class MockPawnsBoardModel extends PawnsBoardModel {
     super(rows, columns, deck.size(), handSize);
     this.transcript = new ArrayList<>();
     this.recordTranscript = false;
-    this.deck = new ArrayList<>(deck);
+    List<Card> deck1 = new ArrayList<>(deck);
   }
 
   /**
